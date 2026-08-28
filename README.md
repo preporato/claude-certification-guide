@@ -58,7 +58,7 @@ flowchart TD
 
 ## How the program works
 
-- **Registration** runs through the Anthropic Partner Academy (Anthropic's Skilljar-based learning platform). Access requires membership in the Claude Partner Network, free to join at [claude.com/partners](https://claude.com/partners). The official preparation courses there are also free.
+- **Registration** runs through the Anthropic Partner Academy (Anthropic's Skilljar-based learning platform). Access requires membership in the Claude Partner Network, free to join at [claude.com/partners](https://claude.com/partners). The official preparation courses there are also free. Membership is organizational rather than individual, so independent engineers without a qualifying company typically register through an existing partner firm's roster ([how that route works](https://youraidept.com/network/claude-certification)).
 - **Delivery** is proctored by Pearson VUE, at a test center or online from home. Both require identity verification and deliver the identical exam.
 - **Scoring** is scaled (100 to 1000, pass at 720). Scaled scoring adjusts for difficulty differences between exam forms, so 720 represents a consistent standard rather than a fixed percentage. Your score report includes a percent-correct breakdown per domain.
 - **Credentials** arrive as Credly badges that employers can verify.
