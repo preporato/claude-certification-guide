@@ -4,57 +4,125 @@
   "name": "Claude Certified Associate - Foundations",
   "cert_page": "https://preporato.com/certificates/claude-certified-associate-foundations",
   "exam": {
-    "questions": 60,
+    "questions": 70,
+    "scored": 60,
     "minutes": 120
   },
-  "minutes": 60,
+  "minutes": 51,
   "domains": [
     {
       "id": "d1",
-      "name": "Output Evaluation and Validation",
-      "weight": 21
+      "name": "Task Definition and Prompting",
+      "weight": 15
     },
     {
       "id": "d2",
-      "name": "Workflow Integration and Solution Design",
-      "weight": 16
+      "name": "Output Evaluation and Quality Control",
+      "weight": 20
     },
     {
       "id": "d3",
-      "name": "Governance, Risk, and Responsible Use",
+      "name": "Capability, Model, and Context Selection",
       "weight": 15
     },
     {
       "id": "d4",
-      "name": "Prompting and Task Execution",
-      "weight": 14
+      "name": "Workflow Design and Integration",
+      "weight": 18
     },
     {
       "id": "d5",
-      "name": "Product and Model Selection",
-      "weight": 12
+      "name": "Configuration and Knowledge Management",
+      "weight": 15
     },
     {
       "id": "d6",
-      "name": "Configuration and Knowledge Management",
-      "weight": 12
-    },
-    {
-      "id": "d7",
-      "name": "Troubleshooting and Optimization",
-      "weight": 10
+      "name": "Responsible Use, Data Protection, and Governance",
+      "weight": 17
     }
   ],
   "scenarios": [],
   "questions": [
     {
       "domain": "d1",
+      "stem": "Your prompt 'Write an email about the new expense tool' produced something generic. Which TWO additions would improve it most? (Select TWO)",
+      "options": {
+        "a": "Who the email is for and what it should get them to do",
+        "b": "The tool's key facts, pasted in: launch date, how to get access, where to get help",
+        "c": "An instruction to 'make it amazing' and to be as creative and engaging as it can",
+        "d": "A request for ten versions so that you can pick the best one of them",
+        "e": "A switch to the most capable model at the highest effort level"
+      },
+      "answer": [
+        "a",
+        "b"
+      ],
+      "explanation": "Generic output comes from missing context, and the audience and goal ({a}) and the source material ({b}) are two of the five parts of a complete business prompt. Enthusiasm ({c}) adds no information. More versions ({d}) of an underspecified email are more generic emails. A stronger model ({e}) still can't know facts you didn't give it."
+    },
+    {
+      "domain": "d1",
+      "stem": "You need a 20-page market analysis with competitor profiles, a pricing comparison and recommendations. One big prompt produced a shallow result. What is the best approach?",
+      "options": {
+        "a": "Break it into steps: agree on an outline, draft each section from its sources, then do a final pass",
+        "b": "Ask for 'much more detail' in every section of the same single prompt",
+        "c": "Rewrite the single prompt with every requirement in capitals, so that Claude can't skip any of them",
+        "d": "Regenerate the same prompt until a deeper version of the analysis appears"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "Multi-part deliverables work better as a sequence of smaller steps you can check ({a}). {b} and {c} keep the one-giant-prompt problem. {d} is regenerate-and-hope."
+    },
+    {
+      "domain": "d1",
+      "stem": "Claude's first draft of a customer apology is too long and too formal. Which follow-up works best?",
+      "options": {
+        "a": "'Cut this to about 120 words, warmer and more direct; keep the refund details and open with the apology.'",
+        "b": "'Please improve this draft and make it much better than the first one you wrote.'",
+        "c": "Regenerate the response and pick whichever of the versions reads better",
+        "d": "Start a new chat and paste in the same prompt you used the first time"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "Specific feedback gives Claude concrete changes to make ({a}). {b} gives it nothing to act on, and {c} and {d} roll the dice again on an unchanged request."
+    },
+    {
+      "domain": "d1",
+      "stem": "You want campaign ideas for a product launch. Which prompting strategy fits brainstorming?",
+      "options": {
+        "a": "Ask for many varied ideas first (say, 20), then narrow them with your criteria in a follow-up",
+        "b": "Ask for the single best idea, so you don't have to sort through a long list of them",
+        "c": "Ask for a short list of ideas with final budgets and timelines already attached to each one of them",
+        "d": "Give no context at all, so Claude is unconstrained and free to surprise you"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "Brainstorming works best as volume and variety first, then judgment ({a}). Asking for one best idea ({b}) skips the exploration. Budgets ({c}) belong to a later planning step. With no context ({d}), the ideas won't fit your product or audience."
+    },
+    {
+      "domain": "d1",
+      "stem": "You asked for 'a table comparing vendors,' and each time the columns come out different. What is the most effective fix?",
+      "options": {
+        "a": "Show the exact structure: list the columns in order or paste a sample row to follow",
+        "b": "Regenerate until the columns happen to come out the way you want them",
+        "c": "Switch to Opus, which keeps its formatting far more consistent from one run to the next",
+        "d": "Ask for 'a better, more professional table' with clearer columns"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "A wrong format every time means the format was described vaguely, and a concrete example fixes that ({a}). {b} is regenerate-and-hope, {c} changes the model without clarifying the request, and {d} is still vague."
+    },
+    {
+      "domain": "d2",
       "stem": "Claude summarized a 30-page vendor contract you attached and wrote: 'The contract auto-renews for 24 months unless cancelled 90 days before expiry.' This line is going into an email to your director. What is the most efficient way to check it?",
       "options": {
-        "a": "Ask Claude to quote the exact clause and give its section number, then read that clause in the contract yourself",
-        "b": "Ask Claude whether it's sure",
-        "c": "Regenerate the summary and see whether the line comes back the same",
-        "d": "Send it as is, because the contract was attached"
+        "a": "Ask Claude to quote the exact clause with its section number, then read that clause yourself",
+        "b": "Ask Claude whether it's sure, and send the summary if it confirms the line",
+        "c": "Regenerate the summary and check whether the same line comes back a second time",
+        "d": "Send it as is, because the contract was attached, so Claude worked from the actual contract text"
       },
       "answer": [
         "a"
@@ -62,13 +130,13 @@
       "explanation": "A grounded claim can point to its evidence, so asking for the clause and reading it yourself is fast and conclusive ({a}). Asking for reassurance ({b}) gets a fluent answer either way. Consistency across regenerations ({c}) doesn't prove accuracy. An attached source ({d}) lowers the risk of errors without removing it, and this line describes a contract commitment."
     },
     {
-      "domain": "d1",
+      "domain": "d2",
       "stem": "Claude drafted a job ad for a software engineer that uses phrases like 'young, energetic team' and 'digital native.' What is the issue, and what should you do?",
       "options": {
-        "a": "The wording signals an age preference, which can discourage qualified applicants and create legal risk; ask for inclusive wording and check it against your hiring policy",
-        "b": "The tone is too casual for a job ad; ask for a formal rewrite",
-        "c": "The ad is too long; ask for a shorter version",
-        "d": "Nothing; these phrases are standard in job ads"
+        "a": "It signals an age preference, which can deter qualified applicants and create legal risk; ask for inclusive wording",
+        "b": "The tone is too casual for a technical role; ask for a formal rewrite that sounds more professional",
+        "c": "The ad is too long for job boards; ask for a shorter version that keeps the key requirements",
+        "d": "Nothing; phrases like these are standard in technology job ads and help the company attract a good cultural fit"
       },
       "answer": [
         "a"
@@ -76,27 +144,27 @@
       "explanation": "Evaluating output covers bias as well as factual errors, and age-coded language in a job ad is a real fairness and compliance problem ({a}). {b} and {c} change the style and keep the biased phrases. {d} confuses a common phrase with an acceptable one."
     },
     {
-      "domain": "d1",
+      "domain": "d2",
       "stem": "Claude built a pricing comparison table with totals calculated from 40 line items you pasted in. The table is going into a client proposal. What validation is needed?",
       "options": {
-        "a": "Recompute the totals independently, for example in a spreadsheet, before the proposal goes out",
-        "b": "Ask Claude to double-check its math in the same chat",
-        "c": "Nothing, because you supplied the numbers",
-        "d": "Round the totals so small differences don't matter"
+        "a": "Recompute the totals independently, for example in a spreadsheet, before it goes out",
+        "b": "Ask Claude to double-check its own math in the same chat, and fix anything it finds",
+        "c": "Nothing, because you supplied the numbers and Claude only added them up",
+        "d": "Round the totals so that any small differences in the arithmetic won't matter to the client"
       },
       "answer": [
         "a"
       ],
-      "explanation": "Precise arithmetic over many figures is a weak fit to accept unchecked, and a client-facing proposal makes the numbers consequential, so they get verified independently ({a}). The same process checking itself ({b}) isn't an independent check. Correct inputs ({c}) don't guarantee correct sums. Rounding ({d}) hides errors."
+      "explanation": "Precise arithmetic over many figures is a weak fit to accept unchecked, and a client-facing proposal makes the numbers consequential, so they get verified independently ({a}). Next time, have Claude compute totals with code execution on the line items rather than in prose. The same process checking itself ({b}) isn't an independent check. Correct inputs ({c}) don't guarantee correct sums. Rounding ({d}) hides errors."
     },
     {
-      "domain": "d1",
+      "domain": "d2",
       "stem": "Claude wrote a market summary with no sources attached. Which TWO details are hallucination red flags? (Select TWO)",
       "options": {
-        "a": "'According to a 2025 McKinsey survey, 73% of retailers plan to...' with no link or attached source",
+        "a": "'According to a 2025 McKinsey survey, 73% of retailers...' with no source attached",
         "b": "A precise figure for next quarter's market size, stated as fact",
-        "c": "A general explanation of what market share means",
-        "d": "A suggestion to verify the figures before publishing",
+        "c": "A general explanation of what market share means and how analysts measure it",
+        "d": "A suggestion to verify the figures with the original sources before publishing",
         "e": "A note that Claude can't see your internal sales data"
       },
       "answer": [
@@ -106,13 +174,13 @@
       "explanation": "A named study with a precise statistic and no source ({a}), and a confident, specific figure about the future ({b}), fit the red-flag profile: precision and authority without grounding. A general definition ({c}) is low risk, and {d} and {e} are signs of honest, calibrated output."
     },
     {
-      "domain": "d1",
+      "domain": "d2",
       "stem": "Claude summarized a customer interview and wrote: 'The customer is frustrated with onboarding and plans to cancel.' The transcript mentions onboarding friction but says nothing about cancelling. What is the problem?",
       "options": {
-        "a": "An unsupported inference is presented as fact; edit the line to what the transcript supports, or label it clearly as an interpretation",
-        "b": "Nothing; it's a reasonable reading of the frustration",
-        "c": "The summary is too short",
-        "d": "The summary needs a more formal tone"
+        "a": "It presents an inference as fact; edit it to what the transcript supports, or label it as interpretation",
+        "b": "Nothing; it's a reasonable reading of the frustration that the customer described at length in the interview",
+        "c": "The summary is too short to capture everything the customer said about onboarding",
+        "d": "The summary needs a more formal, neutral tone before it is shared with the product team"
       },
       "answer": [
         "a"
@@ -120,13 +188,13 @@
       "explanation": "Details beyond the source are a hallucination red flag, and a cancellation claim could trigger real business decisions, so the output has to match its evidence ({a}). A plausible reading ({b}) still isn't supported by the transcript. {c} and {d} are style issues."
     },
     {
-      "domain": "d1",
+      "domain": "d2",
       "stem": "Research mode returns a summary of a new data regulation with eight cited sources. Your compliance team will base a plan on it. Which TWO steps are needed before anyone uses it? (Select TWO)",
       "options": {
-        "a": "Open the cited sources and confirm that each key claim matches what the source says, and that the sources are current and authoritative",
+        "a": "Open the cited sources and confirm each key claim matches them, and that they're current and authoritative",
         "b": "Have the compliance owner review the conclusions before the plan is built on them",
-        "c": "Nothing; the citations prove the summary is accurate",
-        "d": "Run research mode again and keep the claims that appear twice",
+        "c": "Nothing; eight citations from different sources prove that the summary is accurate",
+        "d": "Run research mode again and keep only the claims that appear in both of the summaries",
         "e": "Ask Claude to rate the reliability of each source"
       },
       "answer": [
@@ -136,13 +204,71 @@
       "explanation": "Citations make claims checkable, which helps only if someone checks them ({a}), and regulatory content goes through a qualified reviewer ({b}). Citations alone ({c}) don't prove the summary represents its sources correctly. Repeated claims ({d}) show consistency, which isn't accuracy. Claude grading its own sources ({e}) is no independent check."
     },
     {
-      "domain": "d2",
+      "domain": "d3",
+      "stem": "Every month you turn a 9,000-row sales export into a two-page summary for regional managers, with exact totals by region and a short commentary. Which setup fits?",
+      "options": {
+        "a": "Code execution on the uploaded export for exact totals, with the summary as an Artifact you can revise",
+        "b": "Paste all 9,000 rows into a chat and ask Claude to add up each region and then write the short commentary",
+        "c": "Research mode, so that every figure in the summary comes with a citation you can check",
+        "d": "The most capable model at the highest effort, so the arithmetic in the prose is accurate every month"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "Exact figures from a data file are the code-execution trigger, and a document you will revise and share is the Artifact trigger ({a}). Totals written out in prose ({b}) are estimates. Research ({c}) searches outside sources and has nothing to do with your export. A stronger setting ({d}) still produces arithmetic in prose; computation that must be exact belongs in code."
+    },
+    {
+      "domain": "d3",
+      "stem": "Which TWO tasks justify Opus over Sonnet? (Select TWO)",
+      "options": {
+        "a": "A strategy recommendation synthesizing six long reports, where an error would be expensive",
+        "b": "Working out how obligations interact across five related contracts before a negotiation",
+        "c": "Reformatting a list of 30 names and email addresses into a sortable table",
+        "d": "Writing a two-line reply to a colleague who asked whether the quarterly report will be ready on time",
+        "e": "Summarizing the notes from a short weekly team meeting"
+      },
+      "answer": [
+        "a",
+        "b"
+      ],
+      "explanation": "Opus is for complex, high-stakes reasoning across a lot of material ({a}, {b}). Sonnet is the everyday default, and quick, simple tasks like {c}, {d} and {e} suit Sonnet or Haiku."
+    },
+    {
+      "domain": "d3",
+      "stem": "You need to sort 400 short customer comments into five well-defined themes today. Speed matters more than nuance. Which approach fits?",
+      "options": {
+        "a": "Haiku with the five themes clearly defined, then a spot-check of a sample",
+        "b": "Opus at the highest effort, for maximum quality on every one of the comments",
+        "c": "Research mode, so each theme is backed by sources from outside the company",
+        "d": "One comment per chat, so each of the 400 comments gets Claude's full attention"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "Quick, well-defined tasks at volume are Haiku's case, and a sample check keeps the quality honest ({a}). Opus ({b}) spends time and cost on a task that doesn't need deep reasoning. Research mode ({c}) searches for current sources, which this task doesn't need. {d} wastes hours."
+    },
+    {
+      "domain": "d3",
+      "stem": "A long chat about a proposal has become slow, and Claude has started mixing up details from early drafts with the current version. What is the best move?",
+      "options": {
+        "a": "Start fresh with a summary of current decisions and the latest draft, and keep references in Project knowledge",
+        "b": "Keep going in the same chat and correct each mistake as soon as it appears in a draft",
+        "c": "Paste the entire chat history into a new chat, so that nothing from any of the earlier drafts is lost along the way",
+        "d": "Switch to Haiku for speed, since the slowdown is the main problem with the long chat"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "Restart, summarize and persist is the fix for an overloaded chat: a fresh context with only what matters ({a}). {b} keeps the overload, {c} moves it to a new chat, and {d} changes speed without fixing the mix-ups."
+    },
+    {
+      "domain": "d4",
       "stem": "Your manager wants to roll Claude out to all 200 employees next week for every kind of task. What do you recommend?",
       "options": {
-        "a": "Pilot one or two well-defined workflows with a small group, measure before and after (time spent, error rate), then expand",
-        "b": "Roll it out to everyone at once to build momentum",
-        "c": "Wait until AI tools stop making mistakes",
-        "d": "Let each employee figure it out without guidance"
+        "a": "Pilot one or two well-defined workflows with a small group, measure time and errors before and after, then expand",
+        "b": "Roll it out to all 200 employees at once next week, to build momentum and show that leadership supports it",
+        "c": "Wait until AI tools stop making mistakes, so no one has to check the outputs they produce",
+        "d": "Let each employee figure out their own uses without guidance, since everyone's work is different"
       },
       "answer": [
         "a"
@@ -150,7 +276,7 @@
       "explanation": "A measured pilot shows the real value and the limits on a small scale before the whole company depends on it ({a}). A big-bang rollout ({b}) spreads untested habits everywhere at once. {c} waits for something that won't happen. {d} produces uneven quality and no evidence."
     },
     {
-      "domain": "d2",
+      "domain": "d4",
       "stem": "Which TWO tasks are strong fits for Claude in a marketing team's workflow? (Select TWO)",
       "options": {
         "a": "Drafting five subject-line variants for an A/B test",
@@ -166,13 +292,13 @@
       "explanation": "Drafting variants ({a}) and repurposing content across channels ({b}) are classic strong fits, with a person reviewing the output. A spending decision ({c}) needs human accountability, precise reconciliation at volume ({d}) belongs in a spreadsheet or finance system, and yesterday's news ({e}) is beyond the model's knowledge unless research mode grounds it."
     },
     {
-      "domain": "d2",
+      "domain": "d4",
       "stem": "You're presenting a Claude pilot to leadership. Which framing is most appropriate?",
       "options": {
-        "a": "'Meeting summaries now take 10 minutes instead of 45. The meeting owner still reviews each one, because outputs can contain errors.'",
-        "b": "'Claude eliminates errors from our summaries.'",
-        "c": "'Claude will replace the operations team.'",
-        "d": "'The benefits can't really be measured.'"
+        "a": "'Summaries take 10 minutes instead of 45; the owner still reviews each one, since outputs can contain errors.'",
+        "b": "'Claude eliminates errors from our summaries, so they no longer need anyone to review them.'",
+        "c": "'Claude will replace the operations team by next year, which will save the company its entire annual salary budget.'",
+        "d": "'The benefits are real, but they can't really be measured in time or in quality.'"
       },
       "answer": [
         "a"
@@ -180,13 +306,13 @@
       "explanation": "Good stakeholder communication pairs a concrete, measured benefit with an honest limitation ({a}). {b} promises something no probabilistic system delivers. {c} overstates the role and invites resistance. {d} gives leadership nothing to decide with."
     },
     {
-      "domain": "d2",
+      "domain": "d4",
       "stem": "A colleague opens Claude and types 'help me with the Q3 board deck.' The results are unfocused. What should be defined before prompting?",
       "options": {
-        "a": "The deliverable, the audience, the source material and what a good result looks like",
-        "b": "Which model to use",
-        "c": "Nothing; Claude should infer it",
-        "d": "The slide color scheme"
+        "a": "The deliverable, its audience, the source material, and what a good result looks like",
+        "b": "Which model to use, and whether to turn on extended thinking for it",
+        "c": "Nothing; Claude should infer it from the name of the deck and the quarter",
+        "d": "The slide color scheme, the fonts, the template, and how many slides the deck should have"
       },
       "answer": [
         "a"
@@ -194,41 +320,111 @@
       "explanation": "Solution design starts from the task: what you need, for whom, from which sources, and how you'll judge it ({a}). Model choice ({b}) comes later and won't rescue an undefined task. Claude can't infer goals nobody has stated ({c}). Colors ({d}) are a detail of the deliverable."
     },
     {
-      "domain": "d2",
+      "domain": "d4",
       "stem": "A legal team handles NDAs in five steps: intake, first-pass review against the team's playbook, negotiation, approval and signature. Where does Claude add the most value with the right safeguards?",
       "options": {
-        "a": "First-pass review: compare each NDA to the playbook and flag deviations for a lawyer to decide on",
-        "b": "Final approval",
-        "c": "Signing on the company's behalf",
-        "d": "Negotiating directly with the other party, unsupervised"
+        "a": "First-pass review: compare each NDA with the playbook and flag deviations for a lawyer",
+        "b": "Final approval, since Claude can check the whole NDA faster than a lawyer can",
+        "c": "Signing on the company's behalf once the NDA has been reviewed and approved",
+        "d": "Negotiating directly with the other party, unsupervised, so that each deal closes faster"
       },
       "answer": [
         "a"
       ],
-      "explanation": "Claude fits the draft-and-analyze stage, with a qualified person keeping the decision ({a}). Approval ({b}), signature ({c}) and unsupervised negotiation ({d}) would put legal accountability on a tool."
+      "explanation": "First-pass review is a good human-reviewed step: Claude compares and flags, and a lawyer decides on each deviation ({a}). Approval ({b}), signature ({c}) and negotiation with the other party ({d}) are human-retained steps that carry legal accountability, and handing them to Claude is over-delegation."
     },
     {
-      "domain": "d3",
+      "domain": "d5",
+      "stem": "In a team Project, where should each of these go: (1) 'Always write in British English and use our headline format'; (2) the 40-page brand guidelines PDF; (3) the team's seven-step procedure for turning a brief into a campaign one-pager in the standard template; (4) the brief for this week's campaign?",
+      "options": {
+        "a": "(1) Project instructions, (2) Project knowledge, (3) a Skill, (4) the chat prompt",
+        "b": "(1) Project knowledge, (2) Project instructions, (3) the chat prompt, (4) a Skill",
+        "c": "(1) The chat prompt, (2) the chat prompt, (3) Project knowledge, (4) Project instructions",
+        "d": "(1) Project instructions, (2) a Skill, (3) Project instructions, (4) Project knowledge"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "Standing rules go in instructions, reference documents in knowledge, a repeatable procedure with a template in a Skill, and details for one task in the chat ({a}). {b} swaps rules and documents, retypes the procedure every time and makes a one-week brief permanent. {c} retypes standing rules in every chat and stores a temporary brief as a permanent rule. {d} packages a reference PDF as a procedure and stores the temporary brief permanently."
+    },
+    {
+      "domain": "d5",
+      "stem": "Your weekly report draws on a Google Doc of sales notes that the team updates daily. You've been uploading a copy every Monday, and sometimes it's out of date. What is the better setup?",
+      "options": {
+        "a": "Connect Google Drive so Claude reads the current version of the document",
+        "b": "Upload a fresh copy twice a week instead of once, on Mondays and Thursdays",
+        "c": "Paste the notes in from memory at the start of each week's report",
+        "d": "Copy the notes into the Project instructions, which Claude reads in every chat"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "Connectors suit material that lives in another tool and changes often, so Claude reads the current version ({a}). More frequent uploads ({b}) shrink the gap without closing it. Memory ({c}) adds errors. Instructions ({d}) hold standing rules, and pasted notes there go stale just as fast."
+    },
+    {
+      "domain": "d5",
+      "stem": "A Project keeps quoting last year's prices. Both the 2025 and the 2026 price sheets are in Project knowledge. What fixes this?",
+      "options": {
+        "a": "Remove or replace the outdated sheet; if both must stay, say in the instructions which one is current",
+        "b": "Correct Claude in every chat whenever it quotes one of last year's prices",
+        "c": "Switch to Opus, which is better at telling which of two documents is newer",
+        "d": "Use research mode for prices, so that Claude searches the web for the current figures each time it needs one"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "Stale knowledge produces confidently outdated answers, so the fix is maintaining the knowledge itself ({a}). Correcting every chat ({b}) never ends. A stronger model ({c}) still reads both sheets. Your prices are internal, so searching for them ({d}) won't find the right ones."
+    },
+    {
+      "domain": "d5",
+      "stem": "A consultant runs all client work in one Project with memory on. This week, a draft for Client A mentioned the internal codename of Client B's project. The instructions and knowledge files haven't changed. What is the right fix?",
+      "options": {
+        "a": "Delete the memories about Client B, and give each client its own Project so memory stays scoped to one client",
+        "b": "Add an instruction telling Claude never to mention other clients' names, codenames, or projects in any of its drafts",
+        "c": "Switch to a more capable model that keeps different clients' details apart more reliably",
+        "d": "Remove Client B's files from Project knowledge, so that Claude can no longer read them"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "Details from another work stream are the signature of memory accumulated across clients, so the fix is to clean that memory and separate the work streams ({a}). An instruction ({b}) papers over context that shouldn't be shared at all. A stronger model ({c}) doesn't change what Claude remembers. The knowledge files ({d}) haven't changed, so they can't explain the new behavior."
+    },
+    {
+      "domain": "d5",
+      "stem": "On Monday you changed a Project's instructions, switched the model and uploaded new knowledge files. Since then, the outputs are worse. What should you do?",
+      "options": {
+        "a": "Roll back, then reapply one change at a time, comparing results on the same test inputs",
+        "b": "Change everything again until the outputs are as good as they were before Monday",
+        "c": "Ask Claude what went wrong, since it can see its own instructions and knowledge",
+        "d": "Delete the Project and start over with a fresh setup built from scratch this week"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "With three changes at once, you can't tell which one hurt quality, so change one variable at a time against the same inputs ({a}). {b} adds more confusion, {c} asks Claude to explain configuration changes it can't observe, and {d} throws away a setup that worked before Monday."
+    },
+    {
+      "domain": "d6",
       "stem": "You want Claude to summarize an internal incident report that contains customers' names and email addresses. Your company's AI policy allows internal documents and prohibits customer personal data. What do you do?",
       "options": {
-        "a": "Remove or anonymize the customer details first (the summary doesn't need them), then summarize",
-        "b": "Paste it in, because it's an internal document",
-        "c": "Use the most capable model so the data stays safe",
+        "a": "De-identify the customer details first, since the summary doesn't need them, then summarize",
+        "b": "Paste it in, because the policy allows internal documents and this report is an internal one",
+        "c": "Paste it into an incognito chat, since incognito chats aren't saved to history or memory",
         "d": "Paste it in and ask Claude to ignore the names"
       },
       "answer": [
         "a"
       ],
-      "explanation": "Check the policy before pasting: the report is allowed, the customer data isn't, and the task works without it ({a}). Being internal ({b}) doesn't change the personal-data rule. Model choice ({c}) has nothing to do with data handling. Asking Claude to ignore data ({d}) comes after you've already shared it."
+      "explanation": "Check the policy before pasting: the report is allowed, the customer data isn't, and the task works without it ({a}). Being internal ({b}) doesn't change the personal-data rule. Incognito ({c}) controls what is kept afterwards, but the data has still been shared. Asking Claude to ignore data ({d}) comes after you've already shared it."
     },
     {
-      "domain": "d3",
+      "domain": "d6",
       "stem": "A sales rep wants to upload a prospect's RFP, marked confidential, so Claude can help draft the response. Your AI policy says nothing about third-party confidential documents. What is the best action?",
       "options": {
-        "a": "Ask the policy owner or legal before uploading, and treat the document as sensitive until there's an answer",
-        "b": "Upload it, since the policy doesn't forbid it",
-        "c": "Upload only the pages that look less sensitive",
-        "d": "Rewrite the RFP from memory and upload that"
+        "a": "Ask the policy owner or legal before uploading, and treat the RFP as sensitive until they answer",
+        "b": "Upload it, since the policy doesn't forbid it and the prospect wants a fast response",
+        "c": "Upload only the pages that look less sensitive, and keep the pricing pages out of it",
+        "d": "Rewrite the RFP from memory in your own words and upload that version instead of the file"
       },
       "answer": [
         "a"
@@ -236,13 +432,13 @@
       "explanation": "When the policy doesn't cover a case, escalate to the policy owner and stay on the cautious side in the meantime ({a}). Silence in the policy ({b}) doesn't amount to approval. Partial uploads ({c}) and paraphrasing from memory ({d}) still share confidential content, and the rewrite adds errors."
     },
     {
-      "domain": "d3",
+      "domain": "d6",
       "stem": "Your organization requires disclosure when AI helps produce external content. You drafted a customer newsletter with Claude and then edited it heavily. What applies?",
       "options": {
-        "a": "Follow the disclosure rule as written, because your edits don't change how the draft was produced",
-        "b": "Skip disclosure, because your edits make it your own work",
-        "c": "Disclose only if a customer asks",
-        "d": "Describe the newsletter as written and fact-checked without AI"
+        "a": "Follow the disclosure rule as written, since your edits don't change how the draft was produced",
+        "b": "Skip disclosure, because your heavy edits have made the newsletter substantially your own original work",
+        "c": "Disclose AI involvement only if a customer asks how the newsletter was written",
+        "d": "Describe the newsletter as written and fact-checked by the team without help from AI"
       },
       "answer": [
         "a"
@@ -250,7 +446,7 @@
       "explanation": "Transparency rules apply as written ({a}). Editing ({b}) doesn't remove the requirement, disclosure on request ({c}) isn't what the policy says, and {d} misrepresents how the work was made."
     },
     {
-      "domain": "d3",
+      "domain": "d6",
       "stem": "Which TWO uses make Claude the decision-maker in a situation where a qualified person must own the call? (Select TWO)",
       "options": {
         "a": "Using Claude's ranking alone to decide which employees are laid off",
@@ -266,218 +462,18 @@
       "explanation": "Decisions that affect people's livelihoods ({a}) or legal standing ({b}) need a qualified human to own them, however good the draft looks. {c}, {d} and {e} are drafting and organizing work where a person still chooses what to use."
     },
     {
-      "domain": "d3",
-      "stem": "A financial advisory firm uses Claude to draft client emails that explain investment options. Which control is essential?",
-      "options": {
-        "a": "Compliance review of client-facing investment content before it's sent, including a check of every figure",
-        "b": "Using the most capable model",
-        "c": "A disclaimer at the bottom of every email, with no review",
-        "d": "Sending the drafts faster to improve service"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "Investment explanations are regulated advice, so qualified review comes before sending ({a}). A stronger model ({b}) doesn't change who is accountable. A disclaimer ({c}) can't replace the review that regulation requires. Speed ({d}) is beside the point."
-    },
-    {
-      "domain": "d4",
-      "stem": "Your prompt 'Write an email about the new expense tool' produced something generic. Which TWO additions would improve it most? (Select TWO)",
-      "options": {
-        "a": "Who the email is for and what it should get them to do",
-        "b": "The tool's key facts, attached or pasted in: launch date, how to get access, where to get help",
-        "c": "'Make it amazing'",
-        "d": "A request for ten versions",
-        "e": "A switch to the most capable model"
-      },
-      "answer": [
-        "a",
-        "b"
-      ],
-      "explanation": "Generic output comes from missing context, and the audience and goal ({a}) and the source material ({b}) are two of the five parts of a complete business prompt. Enthusiasm ({c}) adds no information. More versions ({d}) of an underspecified email are more generic emails. A stronger model ({e}) still can't know facts you didn't give it."
-    },
-    {
-      "domain": "d4",
-      "stem": "You need a 20-page market analysis with competitor profiles, a pricing comparison and recommendations. One big prompt produced a shallow result. What is the best approach?",
-      "options": {
-        "a": "Break it into steps: agree on an outline, draft each section from its sources, then do a final pass for consistency and tone",
-        "b": "Ask for 'much more detail'",
-        "c": "Rewrite the single prompt with every requirement in capitals",
-        "d": "Regenerate until a deeper version appears"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "Multi-part deliverables work better as a sequence of smaller steps you can check ({a}). {b} and {c} keep the one-giant-prompt problem. {d} is regenerate-and-hope."
-    },
-    {
-      "domain": "d4",
-      "stem": "Claude's first draft of a customer apology is too long and too formal. Which follow-up works best?",
-      "options": {
-        "a": "'Cut this to about 120 words, make the tone warmer and more direct, keep the refund details, and apologize in the first sentence.'",
-        "b": "'Make it better.'",
-        "c": "Regenerate the response",
-        "d": "Start a new chat with the same prompt"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "Specific feedback gives Claude concrete changes to make ({a}). {b} gives it nothing to act on, and {c} and {d} roll the dice again on an unchanged request."
-    },
-    {
-      "domain": "d4",
-      "stem": "You want campaign ideas for a product launch. Which prompting strategy fits brainstorming?",
-      "options": {
-        "a": "Ask for many varied ideas first (say, 20 across different angles), then evaluate and narrow them with your criteria in a follow-up",
-        "b": "Ask for the single best idea",
-        "c": "Ask for ideas with final budgets attached",
-        "d": "Give no context, so Claude is unconstrained"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "Brainstorming works best as volume and variety first, then judgment ({a}). Asking for one best idea ({b}) skips the exploration. Budgets ({c}) belong to a later planning step. With no context ({d}), the ideas won't fit your product or audience."
-    },
-    {
-      "domain": "d5",
-      "stem": "You need a project timeline that you'll revise with Claude over several rounds and then share with your team. Which output format fits?",
-      "options": {
-        "a": "An Artifact: a standalone deliverable in its own panel that you can refine and share",
-        "b": "A plain chat reply you copy out each time",
-        "c": "Research mode",
-        "d": "A screenshot of the chat"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "Artifacts are made for standalone deliverables you'll iterate on and share ({a}). Chat replies ({b}) suit quick answers. Research mode ({c}) finds current sources. A screenshot ({d}) can't be edited."
-    },
-    {
-      "domain": "d5",
-      "stem": "Which TWO tasks justify Opus over Sonnet? (Select TWO)",
-      "options": {
-        "a": "A strategy recommendation that synthesizes six long reports, where an error would be expensive",
-        "b": "Working out how obligations interact across five related contracts before a high-stakes negotiation",
-        "c": "Reformatting a list of 30 names into a table",
-        "d": "Writing a two-line reply to a colleague",
-        "e": "Summarizing a short meeting"
-      },
-      "answer": [
-        "a",
-        "b"
-      ],
-      "explanation": "Opus is for complex, high-stakes reasoning across a lot of material ({a}, {b}). Sonnet is the everyday default, and quick, simple tasks like {c}, {d} and {e} suit Sonnet or Haiku."
-    },
-    {
-      "domain": "d5",
-      "stem": "You need to sort 400 short customer comments into five well-defined themes today. Speed matters more than nuance. Which approach fits?",
-      "options": {
-        "a": "Haiku with the five themes clearly defined, followed by a spot-check of a sample",
-        "b": "Opus for maximum quality on every comment",
-        "c": "Research mode",
-        "d": "One comment per chat, so each gets full attention"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "Quick, well-defined tasks at volume are Haiku's case, and a sample check keeps the quality honest ({a}). Opus ({b}) spends time and cost on a task that doesn't need deep reasoning. Research mode ({c}) searches for current sources, which this task doesn't need. {d} wastes hours."
-    },
-    {
-      "domain": "d5",
-      "stem": "A long chat about a proposal has become slow, and Claude has started mixing up details from early drafts with the current version. What is the best move?",
-      "options": {
-        "a": "Start a new chat with a short summary of the current decisions and the latest draft, and keep reference documents in Project knowledge",
-        "b": "Keep going and correct each mistake as it appears",
-        "c": "Paste the entire chat history into a new chat",
-        "d": "Switch to Haiku for speed"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "Restart, summarize and persist is the fix for an overloaded chat: a fresh context with only what matters ({a}). {b} keeps the overload, {c} moves it to a new chat, and {d} changes speed without fixing the mix-ups."
-    },
-    {
       "domain": "d6",
-      "stem": "In a team Project, where should each of these go: (1) 'Always write in British English and use our headline format'; (2) the 40-page brand guidelines PDF; (3) the brief for this week's campaign?",
+      "stem": "A colleague found a free third-party Skill online that promises to summarize any contract, and wants to add it to the legal team's Project, which has the Google Drive connector enabled. What should happen first?",
       "options": {
-        "a": "(1) Project instructions, (2) Project knowledge, (3) the chat prompt",
-        "b": "(1) Project knowledge, (2) Project instructions, (3) Project instructions",
-        "c": "(1) The chat prompt, (2) the chat prompt, (3) Project knowledge",
-        "d": "(1) Project instructions, (2) the chat prompt, (3) Project knowledge"
+        "a": "Vet it like any software touching company data: publisher, what it does with files, policy; then get approval",
+        "b": "Install it, since Skills only change how Claude formats output and can't reach the connected files",
+        "c": "Install it, but turn off the Google Drive connector while the team is testing it on a few contracts",
+        "d": "Install it if its reviews are good and other legal teams have used it without any problems"
       },
       "answer": [
         "a"
       ],
-      "explanation": "Standing rules go in instructions, reference documents go in knowledge, and details for one task go in the chat ({a}). {b} swaps rules and documents and makes a one-week brief permanent. {c} retypes standing rules every time. {d} re-uploads the guidelines in every chat and stores a temporary brief permanently."
-    },
-    {
-      "domain": "d6",
-      "stem": "Your weekly report draws on a Google Doc of sales notes that the team updates daily. You've been uploading a copy every Monday, and sometimes it's out of date. What is the better setup?",
-      "options": {
-        "a": "Connect Google Drive so Claude reads the current version of the document",
-        "b": "Upload a copy twice a week",
-        "c": "Paste the notes from memory",
-        "d": "Copy the notes into the Project instructions"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "Connectors suit material that lives in another tool and changes often, so Claude reads the current version ({a}). More frequent uploads ({b}) shrink the gap without closing it. Memory ({c}) adds errors. Instructions ({d}) hold standing rules, and pasted notes there go stale just as fast."
-    },
-    {
-      "domain": "d6",
-      "stem": "A Project keeps quoting last year's prices. Both the 2025 and the 2026 price sheets are in Project knowledge. What fixes this?",
-      "options": {
-        "a": "Remove or replace the outdated price sheet, and if both must stay, state in the instructions which one is current",
-        "b": "Correct Claude in every chat",
-        "c": "Switch to Opus",
-        "d": "Use research mode for prices"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "Stale knowledge produces confidently outdated answers, so the fix is maintaining the knowledge itself ({a}). Correcting every chat ({b}) never ends. A stronger model ({c}) still reads both sheets. Your prices are internal, so searching for them ({d}) won't find the right ones."
-    },
-    {
-      "domain": "d7",
-      "stem": "You asked for 'a table comparing vendors,' and each time the columns come out different. What is the most effective fix?",
-      "options": {
-        "a": "Show the exact structure: list the columns in order, or paste a sample row, and ask Claude to follow it",
-        "b": "Regenerate until the columns match",
-        "c": "Switch to Opus",
-        "d": "Ask for 'a better table'"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "A wrong format every time means the format was described vaguely, and a concrete example fixes that ({a}). {b} is regenerate-and-hope, {c} changes the model without clarifying the request, and {d} is still vague."
-    },
-    {
-      "domain": "d7",
-      "stem": "Claude answered a question about your company's travel reimbursement limits using general industry norms. The real policy is a PDF on the shared drive. What is the best fix?",
-      "options": {
-        "a": "Attach the policy (or add it to Project knowledge) and ask Claude to answer from it, quoting the relevant section",
-        "b": "Ask the same question again with more emphasis",
-        "c": "Switch to Opus",
-        "d": "Tell Claude its answer is wrong and ask it to try again"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "Confident but wrong claims about your own business come from missing source material, so give Claude the policy and ask for the quote ({a}). Emphasis ({b}) and a stronger model ({c}) can't produce a policy Claude hasn't seen. Telling Claude it's wrong ({d}) without the policy gets you a different guess."
-    },
-    {
-      "domain": "d7",
-      "stem": "On Monday you changed a Project's instructions, switched the model and uploaded new knowledge files. Since then, the outputs are worse. What should you do?",
-      "options": {
-        "a": "Roll back, then reapply one change at a time and compare the results on the same test inputs",
-        "b": "Change everything again",
-        "c": "Ask Claude what went wrong",
-        "d": "Delete the Project and start over"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "With three changes at once, you can't tell which one hurt quality, so change one variable at a time against the same inputs ({a}). {b} adds more confusion, {c} asks Claude to explain configuration changes it can't observe, and {d} throws away a setup that worked before Monday."
+      "explanation": "Trust in third-party Skills and connectors is part of judging whether a use is appropriate, so it gets vetted and approved before it touches legal files ({a}). Skills can carry instructions and code, so they do more than format output ({b}). Turning the connector off for a test ({c}) skips the question of what happens when it is on. Reviews ({d}) say nothing about your organization's policy or data."
     }
   ]
 }

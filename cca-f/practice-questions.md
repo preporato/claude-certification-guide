@@ -1,12 +1,12 @@
 # CCA-F practice questions
 
-30 practice questions for **Claude Certified Architect - Foundations** (CCA-F), written for this repo and spread across the exam's five domains by their official weights. 7 of them ask for more than one answer, as about a quarter of the real exam's questions do; those count only when every choice is right.
+30 practice questions for **Claude Certified Architect - Foundations** (CCA-F), written for this repo and spread across the exam's five domains by their official weights. 7 of them ask for more than one answer, as some of the real exam's questions do (each item says how many to pick); those count only when every choice is right.
 
-The first 8 questions are attached to production scenarios, the way the real exam groups its questions (each sitting draws four of six scenarios).
+The first 8 questions are grouped under two practice scenarios written for this repo, the way the real exam groups its questions; the exam itself presents four of the six scenarios in its official guide, picked at random.
 
 Choose your answer before you open the explanation.
 
-**Prefer a timed run?** The [practice test](https://preporato.github.io/claude-certification-guide/#cca-f) has the same questions, scores every domain, and runs in your browser.
+**Want a timed run?** The [CCA-F page on Preporato](https://preporato.com/certificates/claude-certified-architect) has free sample questions and full-length timed practice tests in the exam's format, with a score for every domain.
 
 | Domain | Exam weight | Questions here |
 |---|---|---|
@@ -18,7 +18,7 @@ Choose your answer before you open the explanation.
 
 ---
 
-## Scenario 1: Customer Support Escalation System
+## Scenario 1: Retail support coordinator
 
 > A retailer's support system uses a coordinator agent that receives each customer conversation and delegates to three subagents: an order-lookup agent with read-only order tools, a refund agent that can issue refunds, and a policy agent that searches the returns-policy knowledge base. Company policy: refunds above \$250 need a human's approval, and customers can come back to an open conversation within 7 days.
 
@@ -28,10 +28,10 @@ Choose your answer before you open the explanation.
 
 The refund agent needs the order total, the purchase date and the customer's stated reason to decide eligibility. What should the coordinator include when it delegates the task?
 
-- **A.** An instruction for the refund agent to ask the customer to repeat the details
-- **B.** The full raw transcript plus every prior tool output, so the refund agent misses nothing
-- **C.** The specific facts the refund agent needs, written into the delegation prompt: order id, total, purchase date and the customer's stated reason
-- **D.** Nothing extra, because subagents can read the coordinator's conversation history
+- **A.** An instruction for the refund agent to ask the customer to repeat the details of the order
+- **B.** The full raw transcript plus every earlier tool output, so that the refund agent misses nothing at all in its decision
+- **C.** The specific facts it needs, written into the delegation prompt: order id, total, purchase date, stated reason
+- **D.** Nothing extra, because subagents can read the coordinator's conversation history directly
 
 <details>
 <summary>Answer</summary>
@@ -65,10 +65,10 @@ Which TWO events should trigger a handoff to a human agent? (Select TWO)
 
 The policy agent's knowledge-base search sometimes fails because the search service times out, and sometimes finds nothing because no policy covers the case. Both situations currently return an empty list. How should the tool respond instead?
 
-- **A.** Keep returning an empty list in both cases and let the agent retry
-- **B.** Return a structured error for the timeout (error type, retryable: true, what was attempted) and a successful empty result for the no-match case
-- **C.** Return the closest-matching policy in both cases so the agent always has something to cite
-- **D.** Raise an exception in both cases so the coordinator ends the conversation
+- **A.** Keep returning an empty list in both cases, and let the agent keep retrying the search until a result finally comes back
+- **B.** A structured error for the timeout (type, retryable: true, what was tried), and a successful empty result for no match
+- **C.** Return the closest-matching policy in both cases, so that the agent always has something it can cite
+- **D.** Raise an exception in both cases, so that the coordinator ends the conversation and a person follows up
 
 <details>
 <summary>Answer</summary>
@@ -83,10 +83,10 @@ The policy agent's knowledge-base search sometimes fails because the search serv
 
 A customer returns four days later to continue a conversation about a pending refund. Separately, a supervisor wants to test a different resolution on a copy of that conversation without changing what the customer sees. Which pairing fits?
 
-- **A.** Start fresh sessions for both and paste the last assistant message into each system prompt
-- **B.** Fork the session for the customer and resume it for the supervisor
-- **C.** Resume the same session for both
-- **D.** Resume the customer's session so the full history is restored, and fork a separate copy for the supervisor
+- **A.** Start fresh sessions for both, and paste the last assistant message into each one's system prompt to carry the context
+- **B.** Fork the session for the customer, and resume the original session for the supervisor's experiment
+- **C.** Resume the same session for both, so that the customer and the supervisor see the same history
+- **D.** Resume the customer's session to restore the full history, and fork a separate copy for the supervisor
 
 <details>
 <summary>Answer</summary>
@@ -95,7 +95,7 @@ A customer returns four days later to continue a conversation about a pending re
 
 </details>
 
-## Scenario 2: Multi-Repository Security Audit
+## Scenario 2: Nightly multi-repository audit
 
 > A security team runs a nightly audit across 40 repositories. A coordinator spawns one scanner subagent per repository. Each scanner has `Read`, `Grep` and `Glob` plus a dependency-check tool. The coordinator merges the findings into one report for the morning stand-up and opens tickets for new critical issues.
 
@@ -105,8 +105,8 @@ A customer returns four days later to continue a conversation about a pending re
 
 Which execution pattern fits the scanning stage and the report stage?
 
-- **A.** Fan out the 40 scans in parallel, because they are independent, then run one merge step that builds the report from normalized results
-- **B.** Run several report writers in parallel and concatenate their outputs
+- **A.** Fan out the 40 independent scans in parallel, then one merge step builds the report from normalized results
+- **B.** Run the scans in parallel, then several report writers in parallel, and concatenate their outputs
 - **C.** Use one agent that scans all 40 repositories in a single context so it can spot cross-repository patterns
 - **D.** Scan sequentially so each scanner can learn from the previous one's findings, then write the report in parallel sections
 
@@ -123,11 +123,11 @@ Which execution pattern fits the scanning stage and the report stage?
 
 Last night the audit crashed at repository 27. The rerun started again from repository 1 and opened duplicate tickets for findings already reported. Which TWO changes fix this? (Select TWO)
 
-- **A.** Checkpoint progress to a manifest file (completed repositories, pending repositories, results so far) and resume from it after a crash
-- **B.** Give the scanners larger context windows so they remember the previous run
+- **A.** Checkpoint progress to a manifest (repositories done, pending, results so far) and resume from it after a crash
+- **B.** Give the scanners larger context windows, so that they remember everything that happened in the previous night's run
 - **C.** Run the audit weekly instead of nightly
-- **D.** Make ticket creation idempotent, for example keyed by repository and finding id, so a replay can't create duplicates
-- **E.** Ask the coordinator at startup which repositories it already finished
+- **D.** Make ticket creation idempotent, keyed by repository and finding id, so a replay can't create duplicates
+- **E.** Ask the coordinator at startup which repositories it had already finished before the crash last night
 
 <details>
 <summary>Answer</summary>
@@ -143,9 +143,9 @@ Last night the audit crashed at repository 27. The rerun started again from repo
 An engineer proposes giving every scanner the full tool set, including `Write`, `Bash` and the ticketing tool, 'in case they need it.' What is the best response?
 
 - **A.** Replace the scanner tools with Bash alone, since Bash can do everything the other tools do
-- **B.** Give the scanners every tool and add a system-prompt rule forbidding writes
-- **C.** Keep each scanner on the read-only tools its job needs, and let only the coordinator open tickets from the merged findings
-- **D.** Accept the proposal, because more tools make the scanners more capable
+- **B.** Give the scanners every tool, and add a system-prompt rule that forbids them from writing anything
+- **C.** Keep each scanner on the read-only tools its job needs, and let only the coordinator open tickets
+- **D.** Accept the proposal, because more tools make the scanners more capable of handling unusual repositories
 
 <details>
 <summary>Answer</summary>
@@ -160,10 +160,10 @@ An engineer proposes giving every scanner the full tool set, including `Write`, 
 
 The morning report said 'No critical issues found across all repositories.' The team later learns that six scanners hit their token budgets and skipped their largest files. What should the report format have required?
 
-- **A.** Nothing; the scanners needed a more capable model
-- **B.** A longer narrative summary from each scanner
-- **C.** A confidence score from each scanner
-- **D.** A coverage annotation from every scanner (files reviewed, files skipped with reasons, coverage counts) carried into the merged report
+- **A.** Nothing in the report; the scanners needed a more capable model to finish within their budgets
+- **B.** A longer narrative summary from each scanner, describing in detail what it looked at and what it concluded
+- **C.** A confidence score from each scanner, shown next to its findings in the merged report
+- **D.** A coverage annotation from every scanner (files reviewed, files skipped and why) carried into the report
 
 <details>
 <summary>Answer</summary>
@@ -193,10 +193,10 @@ if response.stop_reason == "tool_use":
     }]})
 ```
 
-- **A.** The loop should set `tool_choice` to `any` after the first call
-- **B.** The assistant turn containing the `tool_use` block is never appended, so the `tool_result` refers to a call the next request doesn't contain
-- **C.** `tool_result` blocks belong in the system prompt
-- **D.** `max_tokens` is too low for a tool loop
+- **A.** The loop should set `tool_choice` to `any` after the first call, so the model keeps using tools
+- **B.** The assistant turn with the `tool_use` block is never appended, so the `tool_result` has no matching call
+- **C.** `tool_result` blocks belong in the system prompt, where the model reads them before it reads any of the messages
+- **D.** `max_tokens` is too low for a tool loop, so the second request runs out of room for its result
 
 <details>
 <summary>Answer</summary>
@@ -211,10 +211,10 @@ if response.stop_reason == "tool_use":
 
 Your research agent uses the server-side web search tool. Some responses come back with `stop_reason` `pause_turn`, and the loop treats them as finished, returning half-done research. What is the correct handling?
 
-- **A.** Send a follow-up request with the paused assistant response appended as-is, so Claude can continue the server-side work
-- **B.** Raise `max_tokens` and send the original request again
-- **C.** Treat `pause_turn` the same as `end_turn`
-- **D.** Run the web search locally and return a `tool_result` for it
+- **A.** Send a follow-up request with the paused response appended as-is, so Claude continues the server-side work
+- **B.** Raise `max_tokens` and send the original request again, so the search finishes in one response
+- **C.** Treat `pause_turn` the same as `end_turn`, since the paused response already contains the search results it found
+- **D.** Run the web search locally and return a `tool_result` for it, so the loop can move to the next step
 
 <details>
 <summary>Answer</summary>
@@ -229,10 +229,10 @@ Your research agent uses the server-side web search tool. Some responses come ba
 
 A team answers one-line FAQ questions from a two-page policy with a six-subagent pipeline: retriever, reader, drafter, tone checker, fact checker and formatter. Answers take 25 seconds and cost far more than expected. What is the best change?
 
-- **A.** Collapse it to a single model call with the policy in context, plus a lightweight validation step if needed
-- **B.** Move every subagent to the most capable model to cut retries
-- **C.** Run the six subagents in parallel under a coordinator
-- **D.** Cache each subagent's output
+- **A.** Collapse it to one model call with the policy in context, plus a light validation step if needed
+- **B.** Move every subagent to the most capable model, to cut the retries that slow the pipeline down
+- **C.** Run the six subagents in parallel under a coordinator, so that the steps no longer wait on each other
+- **D.** Cache each subagent's output, so that repeated questions skip the whole pipeline
 
 <details>
 <summary>Answer</summary>
@@ -247,10 +247,10 @@ A team answers one-line FAQ questions from a two-page policy with a six-subagent
 
 A payments service's error rate spiked. The cause could be in code, configuration, infrastructure or a third-party API, and what to check next depends on what each check finds. How should the coordinator decompose the investigation?
 
-- **A.** One prompt asking Claude for the root cause
-- **B.** A fixed pipeline that runs the four checks in a set order
-- **C.** Dynamic decomposition: plan the next subtasks from each finding, with a token budget and iteration cap enforced in code as safety nets
-- **D.** Run every conceivable check in parallel with no coordinator
+- **A.** One prompt asking Claude for the root cause, with the error-rate graph attached
+- **B.** A fixed pipeline that runs the four checks in a set order, from the code through to the third-party API at the end
+- **C.** Dynamic decomposition: plan next steps from each finding, with a token budget and iteration cap in code
+- **D.** Run every conceivable check in parallel, with no coordinator, so that nothing is missed
 
 <details>
 <summary>Answer</summary>
@@ -267,9 +267,9 @@ Long research tasks sometimes use ten times the expected tokens. Which TWO belon
 
 - **A.** Setting `max_tokens` to 50 on every call
 - **B.** Asking Claude each turn how many tokens it has used so far
-- **C.** A system-prompt instruction asking Claude to stay under 50,000 tokens
+- **C.** A system-prompt instruction asking Claude to keep each research task under 50,000 tokens in total
 - **D.** Track cumulative input and output tokens from each response's usage field inside the loop
-- **E.** Stop the loop in code when the budget is reached, with a wrap-up instruction injected at about 80% of the budget
+- **E.** Stop the loop in code when the budget is reached, with a wrap-up instruction at about 80% of it
 
 <details>
 <summary>Answer</summary>
@@ -303,9 +303,9 @@ A team's MCP server should (1) let Claude create Jira tickets, (2) expose the te
 Every developer on a team should get the same internal MCP server in Claude Code, and the server needs an API token. Which TWO choices are correct? (Select TWO)
 
 - **A.** Put the token in `CLAUDE.md` so Claude can pass it to the server
-- **B.** Paste the raw token into `.mcp.json` so setup is a single step
+- **B.** Paste the raw token into `.mcp.json`, so that setup is a single step for every developer on the team
 - **C.** Define the server in the project's `.mcp.json` and commit it to the repository
-- **D.** Reference the token in `.mcp.json` as `${INTERNAL_API_TOKEN}` and have each developer set that environment variable
+- **D.** Reference the token as `${INTERNAL_API_TOKEN}` in `.mcp.json`, set by each developer in their environment
 - **E.** Have each developer add the server with local scope by following a wiki page
 
 <details>
@@ -321,10 +321,10 @@ Every developer on a team should get the same internal MCP server in Claude Code
 
 When users ask to change their email address, Claude often calls `get_customer` instead of `update_customer`, then tells the user the change is done. Both tools exist. What is the first fix?
 
-- **A.** Add a system-prompt line telling Claude to use `update_customer` for updates
-- **B.** Rewrite both descriptions: what each tool does, when to use it, and when to use the other one instead, with `get_customer` described as read-only
-- **C.** Rename `get_customer` to `fetch_customer`
-- **D.** Remove `get_customer` from the agent
+- **A.** Add a system-prompt line telling Claude to use `update_customer` whenever a user asks for an update
+- **B.** Rewrite both descriptions: what each does, when to use it, when to use the other, with `get_customer` read-only
+- **C.** Rename `get_customer` to `fetch_customer`, so that its name no longer sounds like it could change a customer record
+- **D.** Remove `get_customer` from the agent, so that `update_customer` is the only customer tool left
 
 <details>
 <summary>Answer</summary>
@@ -339,10 +339,10 @@ When users ask to change their email address, Claude often calls `get_customer` 
 
 Your team wants every file Claude edits to be formatted with Prettier immediately after each edit, for everyone working in the repository. Which configuration does that?
 
-- **A.** A hook in each developer's `~/.claude/settings.json`
-- **B.** A `CLAUDE.md` line: 'Run Prettier after every edit'
-- **C.** A `PostToolUse` hook in the committed `.claude/settings.json`, matching `Edit|Write`, that runs Prettier on the edited file
-- **D.** A `PreToolUse` hook on `Edit` that runs Prettier
+- **A.** A `PostToolUse` hook in each developer's own `~/.claude/settings.json` that runs Prettier
+- **B.** A `CLAUDE.md` line, 'Run Prettier after every edit', committed so the whole team gets it
+- **C.** A `PostToolUse` hook matching `Edit|Write` in the committed `.claude/settings.json`, running Prettier
+- **D.** A `PreToolUse` hook on `Edit` in the committed `.claude/settings.json` that runs Prettier on the file
 
 <details>
 <summary>Answer</summary>
@@ -357,10 +357,10 @@ Your team wants every file Claude edits to be formatted with Prettier immediatel
 
 A team requires that Claude never ends its work while the test suite is failing. Which hook enforces this?
 
-- **A.** A `SessionEnd` hook that runs the tests
-- **B.** A `Stop` hook that runs the tests and exits with code 2, printing the failures to stderr, when any test fails
-- **C.** A `PostToolUse` hook that runs the tests after every file read
-- **D.** A `UserPromptSubmit` hook that runs the tests before each prompt
+- **A.** A `SessionEnd` hook that runs the test suite and prints any failures to stderr as the session is closing
+- **B.** A `Stop` hook that runs the tests and, when any fail, exits with code 2 and prints them to stderr
+- **C.** A `PostToolUse` hook that runs the whole test suite after every file that Claude reads
+- **D.** A `UserPromptSubmit` hook that runs the tests before each prompt reaches Claude
 
 <details>
 <summary>Answer</summary>
@@ -375,10 +375,10 @@ A team requires that Claude never ends its work while the test suite is failing.
 
 A `PostToolUse` hook on `Write` scans each file Claude writes. It finds an API key in a file Claude just wrote and exits with code 2. What happens?
 
-- **A.** The file has already been written; Claude receives the hook's stderr message and can act on it, for example by removing the key
-- **B.** Claude Code shuts down the session
-- **C.** Nothing happens, because exit code 2 is ignored for `PostToolUse`
-- **D.** The write is cancelled and the file is never created
+- **A.** The file is already written; Claude receives the hook's stderr message and can act on it
+- **B.** Claude Code shuts down the session, because a secret was written to the repository
+- **C.** Nothing happens, because exit code 2 is ignored for `PostToolUse` hooks on `Write`
+- **D.** The write is cancelled and the file is never created, and Claude receives the hook's message
 
 <details>
 <summary>Answer</summary>
@@ -393,10 +393,10 @@ A `PostToolUse` hook on `Write` scans each file Claude writes. It finds an API k
 
 A developer asks Claude Code to migrate 40 files from a callback-based API client to async/await. The change touches shared types, and there are two reasonable migration strategies. What is the best way to start?
 
-- **A.** One prompt for the whole change, then review the final diff
-- **B.** Direct execution, file by file, fixing problems as they appear
-- **C.** A `CLAUDE.md` rule saying 'use async/await'
-- **D.** Plan Mode: let Claude explore the codebase and propose a migration plan to review before any file changes
+- **A.** One prompt for the whole change, then a careful review of the final diff across all 40 files
+- **B.** Direct execution, file by file, fixing each problem as it appears and running the tests as it goes
+- **C.** A `CLAUDE.md` rule saying 'use async/await', so Claude converts each file it touches
+- **D.** Plan Mode: Claude explores the codebase and proposes a migration plan to review before any change
 
 <details>
 <summary>Answer</summary>
@@ -412,9 +412,9 @@ A developer asks Claude Code to migrate 40 files from a callback-based API clien
 A team's dependency-audit skill prints thousands of lines of output, and teammates complain it floods the main conversation. Which frontmatter change fixes this?
 
 - **A.** `context: fork`, so the skill runs in an isolated subagent and returns its result
-- **B.** `disable-model-invocation: true`
-- **C.** `allowed-tools: Read`
-- **D.** `model: haiku`
+- **B.** `disable-model-invocation: true`, so the skill only runs when someone calls it
+- **C.** `allowed-tools: Read`, so the skill can only read files while it runs
+- **D.** `model: haiku`, so the skill's work is done by a faster, cheaper model
 
 <details>
 <summary>Answer</summary>
@@ -448,10 +448,10 @@ In a monorepo, files under `services/payments/` follow strict rules (all amounts
 
 A code-review prompt says 'Be thorough but avoid nitpicks.' Reviews flag style issues inconsistently and miss SQL injection. Which rewrite fixes the cause?
 
-- **A.** 'You are a world-class senior security engineer.'
-- **B.** 'Be extremely thorough and never miss anything.'
-- **C.** 'Be conservative with your comments.'
-- **D.** 'Report only these issues: SQL injection, XSS, authentication bypass and secrets in code. Report high or critical severity only. Do not comment on formatting or naming.'
+- **A.** 'You are a world-class senior security engineer reviewing production code for a large bank.'
+- **B.** 'Be extremely thorough, never miss anything, and comment on every issue you see, however small it seems.'
+- **C.** 'Be conservative with your comments, and only raise issues that a senior reviewer would raise.'
+- **D.** 'Report only SQL injection, XSS, authentication bypass and secrets in code, at high or critical severity; skip formatting and naming.'
 
 <details>
 <summary>Answer</summary>
@@ -466,15 +466,15 @@ A code-review prompt says 'Be thorough but avoid nitpicks.' Reviews flag style i
 
 A classifier should flag support tickets that mention a physical safety risk. In testing it flags every ticket containing the word 'fire', including 'firewall rules reset after update.' What is the best few-shot improvement?
 
-- **A.** An instruction: 'Don't be fooled by keywords.'
-- **B.** Two to four examples that include the firewall ticket labeled not-safety with a one-line reason, a genuine safety ticket, and an ambiguous case
-- **C.** Twenty examples of genuine safety tickets
-- **D.** A lower temperature
+- **A.** An instruction in the prompt: 'Don't be fooled by keywords; read the whole ticket and judge the actual risk first.'
+- **B.** Two to four examples: the firewall ticket labeled not-safety with a reason, a real safety ticket, an ambiguous one
+- **C.** Twenty examples of genuine safety tickets, so the model sees many cases of what to flag
+- **D.** A higher effort level, so the model thinks harder about each ticket before labeling it
 
 <details>
 <summary>Answer</summary>
 
-**B.** Few-shot examples teach reasoning and edge cases best when they include something the model should leave alone, so the tricky negative in B is the example that matters. C piles on positives and teaches nothing about the false positives. A is vague guidance. Temperature (D) changes randomness and leaves the misunderstanding in place.
+**B.** Few-shot examples teach reasoning and edge cases best when they include something the model should leave alone, so the tricky negative in B is the example that matters. C piles on positives and teaches nothing about the false positives. A is vague guidance. More effort (D) leaves the misunderstanding in place, because nothing shows the model where the boundary is.
 
 </details>
 
@@ -484,9 +484,9 @@ A classifier should flag support tickets that mention a physical safety risk. In
 
 Your team plans to use structured outputs (a JSON schema in `output_config.format`) for invoice extraction. Which TWO statements about this feature are true? (Select TWO)
 
-- **A.** It guarantees the extracted values are correct for the source document
+- **A.** It also guarantees that every extracted value is correct for the source document it came from
 - **B.** It works only when `tool_choice` forces a specific tool
-- **C.** It removes the need to validate business rules, such as totals matching line items
+- **C.** It removes the need to validate business rules in your own code, such as totals matching the line items
 - **D.** Constrained decoding makes the response valid JSON that matches the schema's structure and types
 - **E.** A refusal or a `max_tokens` cutoff can still produce output that doesn't match the schema, so check `stop_reason`
 
@@ -503,15 +503,15 @@ Your team plans to use structured outputs (a JSON schema in `output_config.forma
 
 An extraction fails validation because `invoice_date` came back as 2026-04-31, a date that doesn't exist. What should the retry request contain?
 
-- **A.** The failed output and the words 'try again'
-- **B.** The original document again with no other changes
-- **C.** The original document, the failed output, and the specific error ('`invoice_date` 2026-04-31 is not a valid date'), with an instruction to correct only that field
-- **D.** The same request sent to a more capable model
+- **A.** The failed output and the words 'try again', so the model knows its first answer was rejected
+- **B.** The original document again with no other changes, since the model gets the date right on most of its other attempts
+- **C.** The original document, the failed output, and the specific error, with an instruction to correct only that field
+- **D.** The same request sent to a more capable model, which is less likely to produce an invalid date
 
 <details>
 <summary>Answer</summary>
 
-**C.** A useful retry tells the model exactly what failed and gives it the source to fix it against (C). B repeats the conditions that produced the error. A removes the source the model needs to correct the date. D changes the model without telling it what went wrong.
+**C.** A useful retry tells the model exactly what failed ('`invoice_date` 2026-04-31 is not a valid date') and gives it the source to fix it against (C). B repeats the conditions that produced the error. A removes the source the model needs to correct the date. D changes the model without telling it what went wrong.
 
 </details>
 
@@ -521,15 +521,15 @@ An extraction fails validation because `invoice_date` came back as 2026-04-31, a
 
 A product team wants to move its live chat assistant to the Message Batches API to cut costs in half. What is the right assessment?
 
-- **A.** Reject it, because batch requests can't include a system prompt
-- **B.** Approve it: the same quality at half the price
-- **C.** Approve it, provided the app polls for results every second
-- **D.** Reject it: batches carry no latency guarantee (most finish within an hour, some take up to 24), so a waiting user can't be served; cut costs with prompt caching or by routing routine messages to a cheaper tier
+- **A.** Reject it, because batch requests can't include a system prompt or the conversation history
+- **B.** Approve it: users get the same quality at half the price, and the savings fund other features
+- **C.** Approve it, provided the app polls for results every second so replies appear without delay
+- **D.** Reject it: batches have no latency guarantee (up to 24 hours), so cut costs with caching or a cheaper tier
 
 <details>
 <summary>Answer</summary>
 
-**D.** The batch discount comes with asynchronous processing and no latency guarantee, which rules it out for anyone waiting on an answer (D). B ignores the latency. Polling (C) doesn't speed up processing. A is false: batch requests take the same parameters as regular Messages requests.
+**D.** The batch discount comes with asynchronous processing and no latency guarantee, which rules it out for anyone waiting on an answer: most batches finish within an hour, but some take up to 24 (D). B ignores the latency. Polling (C) doesn't speed up processing. A is false: batch requests take the same parameters as regular Messages requests.
 
 </details>
 
@@ -539,10 +539,10 @@ A product team wants to move its live chat assistant to the Message Batches API 
 
 One prompt asks Claude to extract 30 fields from a contract, normalize every currency, classify the risk clauses and write an executive summary. Results vary from run to run, and errors are hard to trace. What is the best restructuring?
 
-- **A.** A chain of focused prompts (extract, validate, normalize, classify, summarize), each with its own instructions and checks
-- **B.** The same single prompt on a more capable model
-- **C.** Ask for the executive summary first, then the fields
-- **D.** The same single prompt with each requirement marked IMPORTANT
+- **A.** A chain of focused prompts (extract, validate, normalize, classify, summarize), each with its own checks
+- **B.** The same single prompt on a more capable model, which can hold all four jobs in mind at once
+- **C.** Ask for the executive summary first, then the fields, so the summary frames the extraction
+- **D.** The same single prompt with each requirement marked IMPORTANT in capitals, so that none of the four jobs is skipped
 
 <details>
 <summary>Answer</summary>
@@ -557,16 +557,16 @@ One prompt asks Claude to extract 30 fields from a contract, normalize every cur
 
 A knowledge-base Q&A agent receives 40 retrieved passages per question. The passage with the answer usually lands near the middle, and answers often miss it. Which TWO changes address this? (Select TWO)
 
-- **A.** Retrieve 80 passages instead of 40
+- **A.** Retrieve 80 passages instead of 40, so the answer is never left out
 - **B.** Re-rank the passages and pass only the most relevant few
-- **C.** Raise the temperature
-- **D.** Put the passages first and the question and instructions at the end of the prompt
-- **E.** Switch to a model with a larger context window
+- **C.** Raise the effort level so the model reads each passage more carefully
+- **D.** Put the passages first and the question and instructions at the end
+- **E.** Switch to a model with a larger context window for the passages
 
 <details>
 <summary>Answer</summary>
 
-**B and D.** Attention is weakest in the middle of long contexts, so the fixes shrink the middle and move what matters to the edges: fewer, better passages (B), and long material first with the question last, which Anthropic's long-context guidance recommends (D). A bigger window (E) and more passages (A) make the middle longer. Temperature (C) affects randomness and does nothing for attention.
+**B and D.** Attention is weakest in the middle of long contexts, so the fixes shrink the middle and move what matters to the edges: fewer, better passages (B), and long material first with the question last, which Anthropic's long-context guidance recommends (D). A bigger window (E) and more passages (A) make the middle longer. More effort (C) changes how much the model reasons and does nothing about where the answer sits.
 
 </details>
 
@@ -576,15 +576,15 @@ A knowledge-base Q&A agent receives 40 retrieved passages per question. The pass
 
 Two internal documents disagree about the warranty period: a 2024 policy says 12 months and a 2026 update says 24 months. What should the agent's answer do?
 
-- **A.** Decline to answer until someone fixes the documents
-- **B.** State 24 months without mentioning the conflict, because the newer document wins
-- **C.** Give the answer with attribution: both values, their documents and dates, the newer one identified as likely current, and the conflict flagged for review
-- **D.** Average the two and state 18 months
+- **A.** Decline to answer until someone in the policy team fixes the conflicting documents
+- **B.** State 24 months without mentioning the conflict, because the newer document always takes precedence over the older one
+- **C.** Answer with attribution: both values, their documents and dates, the newer one as likely current, and a flag
+- **D.** Average the two values and state 18 months, so the answer reflects both of the documents
 
 <details>
 <summary>Answer</summary>
 
-**C.** Provenance keeps each claim tied to its source and surfaces conflicts instead of settling them silently (C). Silently picking one value (B) is the tested anti-pattern even when the choice happens to be right, because nobody learns that the documents disagree. D produces a number neither source supports. A withholds an answer the agent can give with a caveat.
+**C.** Provenance keeps each claim tied to its source and flags the conflict for review instead of settling it silently (C). Silently picking one value (B) is the tested anti-pattern even when the choice happens to be right, because nobody learns that the documents disagree. D produces a number neither source supports. A withholds an answer the agent can give with a caveat.
 
 </details>
 
@@ -598,7 +598,7 @@ Two internal documents disagree about the warranty period: a 2024 policy says 12
   - [Claude Code Configuration & Workflows](./guide.md#domain-3-claude-code-configuration--workflows-20)
   - [Prompt Engineering & Structured Output](./guide.md#domain-4-prompt-engineering--structured-output-20)
   - [Context Management & Reliability](./guide.md#domain-5-context-management--reliability-15)
-- **Practice at full length.** The [CCA-F page on Preporato](https://preporato.com/certificates/claude-certified-architect) has free sample questions and six full-length timed practice tests (paid) in the exam's format, with a score for every domain.
+- **Practice at full length.** The [CCA-F page on Preporato](https://preporato.com/certificates/claude-certified-architect) has free sample questions and full-length timed practice tests (paid) in the exam's format, with a score for every domain.
 
 Found a mistake in a question? [Open an issue](https://github.com/preporato/claude-certification-guide/issues/new?template=outdated-fact.yml) and we'll fix it.
 

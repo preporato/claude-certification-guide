@@ -38,12 +38,12 @@
   "scenarios": [
     {
       "id": "support",
-      "title": "Customer Support Escalation System",
+      "title": "Retail support coordinator",
       "text": "A retailer's support system uses a coordinator agent that receives each customer conversation and delegates to three subagents: an order-lookup agent with read-only order tools, a refund agent that can issue refunds, and a policy agent that searches the returns-policy knowledge base. Company policy: refunds above $250 need a human's approval, and customers can come back to an open conversation within 7 days."
     },
     {
       "id": "audit",
-      "title": "Multi-Repository Security Audit",
+      "title": "Nightly multi-repository audit",
       "text": "A security team runs a nightly audit across 40 repositories. A coordinator spawns one scanner subagent per repository. Each scanner has `Read`, `Grep` and `Glob` plus a dependency-check tool. The coordinator merges the findings into one report for the morning stand-up and opens tickets for new critical issues."
     }
   ],
@@ -53,10 +53,10 @@
       "scenario": "support",
       "stem": "The refund agent needs the order total, the purchase date and the customer's stated reason to decide eligibility. What should the coordinator include when it delegates the task?",
       "options": {
-        "a": "The specific facts the refund agent needs, written into the delegation prompt: order id, total, purchase date and the customer's stated reason",
-        "b": "Nothing extra, because subagents can read the coordinator's conversation history",
-        "c": "The full raw transcript plus every prior tool output, so the refund agent misses nothing",
-        "d": "An instruction for the refund agent to ask the customer to repeat the details"
+        "a": "The specific facts it needs, written into the delegation prompt: order id, total, purchase date, stated reason",
+        "b": "Nothing extra, because subagents can read the coordinator's conversation history directly",
+        "c": "The full raw transcript plus every earlier tool output, so that the refund agent misses nothing at all in its decision",
+        "d": "An instruction for the refund agent to ask the customer to repeat the details of the order"
       },
       "answer": [
         "a"
@@ -85,10 +85,10 @@
       "scenario": "support",
       "stem": "The policy agent's knowledge-base search sometimes fails because the search service times out, and sometimes finds nothing because no policy covers the case. Both situations currently return an empty list. How should the tool respond instead?",
       "options": {
-        "a": "Return a structured error for the timeout (error type, retryable: true, what was attempted) and a successful empty result for the no-match case",
-        "b": "Keep returning an empty list in both cases and let the agent retry",
-        "c": "Raise an exception in both cases so the coordinator ends the conversation",
-        "d": "Return the closest-matching policy in both cases so the agent always has something to cite"
+        "a": "A structured error for the timeout (type, retryable: true, what was tried), and a successful empty result for no match",
+        "b": "Keep returning an empty list in both cases, and let the agent keep retrying the search until a result finally comes back",
+        "c": "Raise an exception in both cases, so that the coordinator ends the conversation and a person follows up",
+        "d": "Return the closest-matching policy in both cases, so that the agent always has something it can cite"
       },
       "answer": [
         "a"
@@ -100,10 +100,10 @@
       "scenario": "support",
       "stem": "A customer returns four days later to continue a conversation about a pending refund. Separately, a supervisor wants to test a different resolution on a copy of that conversation without changing what the customer sees. Which pairing fits?",
       "options": {
-        "a": "Resume the customer's session so the full history is restored, and fork a separate copy for the supervisor",
-        "b": "Fork the session for the customer and resume it for the supervisor",
-        "c": "Resume the same session for both",
-        "d": "Start fresh sessions for both and paste the last assistant message into each system prompt"
+        "a": "Resume the customer's session to restore the full history, and fork a separate copy for the supervisor",
+        "b": "Fork the session for the customer, and resume the original session for the supervisor's experiment",
+        "c": "Resume the same session for both, so that the customer and the supervisor see the same history",
+        "d": "Start fresh sessions for both, and paste the last assistant message into each one's system prompt to carry the context"
       },
       "answer": [
         "a"
@@ -115,10 +115,10 @@
       "scenario": "audit",
       "stem": "Which execution pattern fits the scanning stage and the report stage?",
       "options": {
-        "a": "Fan out the 40 scans in parallel, because they are independent, then run one merge step that builds the report from normalized results",
+        "a": "Fan out the 40 independent scans in parallel, then one merge step builds the report from normalized results",
         "b": "Scan sequentially so each scanner can learn from the previous one's findings, then write the report in parallel sections",
         "c": "Use one agent that scans all 40 repositories in a single context so it can spot cross-repository patterns",
-        "d": "Run several report writers in parallel and concatenate their outputs"
+        "d": "Run the scans in parallel, then several report writers in parallel, and concatenate their outputs"
       },
       "answer": [
         "a"
@@ -130,10 +130,10 @@
       "scenario": "audit",
       "stem": "Last night the audit crashed at repository 27. The rerun started again from repository 1 and opened duplicate tickets for findings already reported. Which TWO changes fix this? (Select TWO)",
       "options": {
-        "a": "Checkpoint progress to a manifest file (completed repositories, pending repositories, results so far) and resume from it after a crash",
-        "b": "Make ticket creation idempotent, for example keyed by repository and finding id, so a replay can't create duplicates",
-        "c": "Give the scanners larger context windows so they remember the previous run",
-        "d": "Ask the coordinator at startup which repositories it already finished",
+        "a": "Checkpoint progress to a manifest (repositories done, pending, results so far) and resume from it after a crash",
+        "b": "Make ticket creation idempotent, keyed by repository and finding id, so a replay can't create duplicates",
+        "c": "Give the scanners larger context windows, so that they remember everything that happened in the previous night's run",
+        "d": "Ask the coordinator at startup which repositories it had already finished before the crash last night",
         "e": "Run the audit weekly instead of nightly"
       },
       "answer": [
@@ -147,9 +147,9 @@
       "scenario": "audit",
       "stem": "An engineer proposes giving every scanner the full tool set, including `Write`, `Bash` and the ticketing tool, 'in case they need it.' What is the best response?",
       "options": {
-        "a": "Keep each scanner on the read-only tools its job needs, and let only the coordinator open tickets from the merged findings",
-        "b": "Accept the proposal, because more tools make the scanners more capable",
-        "c": "Give the scanners every tool and add a system-prompt rule forbidding writes",
+        "a": "Keep each scanner on the read-only tools its job needs, and let only the coordinator open tickets",
+        "b": "Accept the proposal, because more tools make the scanners more capable of handling unusual repositories",
+        "c": "Give the scanners every tool, and add a system-prompt rule that forbids them from writing anything",
         "d": "Replace the scanner tools with Bash alone, since Bash can do everything the other tools do"
       },
       "answer": [
@@ -162,10 +162,10 @@
       "scenario": "audit",
       "stem": "The morning report said 'No critical issues found across all repositories.' The team later learns that six scanners hit their token budgets and skipped their largest files. What should the report format have required?",
       "options": {
-        "a": "A coverage annotation from every scanner (files reviewed, files skipped with reasons, coverage counts) carried into the merged report",
-        "b": "A confidence score from each scanner",
-        "c": "A longer narrative summary from each scanner",
-        "d": "Nothing; the scanners needed a more capable model"
+        "a": "A coverage annotation from every scanner (files reviewed, files skipped and why) carried into the report",
+        "b": "A confidence score from each scanner, shown next to its findings in the merged report",
+        "c": "A longer narrative summary from each scanner, describing in detail what it looked at and what it concluded",
+        "d": "Nothing in the report; the scanners needed a more capable model to finish within their budgets"
       },
       "answer": [
         "a"
@@ -180,10 +180,10 @@
         "text": "response = client.messages.create(model=MODEL, max_tokens=1024,\n                                  tools=tools, messages=messages)\nif response.stop_reason == \"tool_use\":\n    call = next(b for b in response.content if b.type == \"tool_use\")\n    result = run_tool(call.name, call.input)\n    messages.append({\"role\": \"user\", \"content\": [{\n        \"type\": \"tool_result\",\n        \"tool_use_id\": call.id,\n        \"content\": result,\n    }]})"
       },
       "options": {
-        "a": "The assistant turn containing the `tool_use` block is never appended, so the `tool_result` refers to a call the next request doesn't contain",
-        "b": "`tool_result` blocks belong in the system prompt",
-        "c": "`max_tokens` is too low for a tool loop",
-        "d": "The loop should set `tool_choice` to `any` after the first call"
+        "a": "The assistant turn with the `tool_use` block is never appended, so the `tool_result` has no matching call",
+        "b": "`tool_result` blocks belong in the system prompt, where the model reads them before it reads any of the messages",
+        "c": "`max_tokens` is too low for a tool loop, so the second request runs out of room for its result",
+        "d": "The loop should set `tool_choice` to `any` after the first call, so the model keeps using tools"
       },
       "answer": [
         "a"
@@ -194,10 +194,10 @@
       "domain": "d1",
       "stem": "Your research agent uses the server-side web search tool. Some responses come back with `stop_reason` `pause_turn`, and the loop treats them as finished, returning half-done research. What is the correct handling?",
       "options": {
-        "a": "Send a follow-up request with the paused assistant response appended as-is, so Claude can continue the server-side work",
-        "b": "Treat `pause_turn` the same as `end_turn`",
-        "c": "Run the web search locally and return a `tool_result` for it",
-        "d": "Raise `max_tokens` and send the original request again"
+        "a": "Send a follow-up request with the paused response appended as-is, so Claude continues the server-side work",
+        "b": "Treat `pause_turn` the same as `end_turn`, since the paused response already contains the search results it found",
+        "c": "Run the web search locally and return a `tool_result` for it, so the loop can move to the next step",
+        "d": "Raise `max_tokens` and send the original request again, so the search finishes in one response"
       },
       "answer": [
         "a"
@@ -208,10 +208,10 @@
       "domain": "d1",
       "stem": "A team answers one-line FAQ questions from a two-page policy with a six-subagent pipeline: retriever, reader, drafter, tone checker, fact checker and formatter. Answers take 25 seconds and cost far more than expected. What is the best change?",
       "options": {
-        "a": "Collapse it to a single model call with the policy in context, plus a lightweight validation step if needed",
-        "b": "Run the six subagents in parallel under a coordinator",
-        "c": "Move every subagent to the most capable model to cut retries",
-        "d": "Cache each subagent's output"
+        "a": "Collapse it to one model call with the policy in context, plus a light validation step if needed",
+        "b": "Run the six subagents in parallel under a coordinator, so that the steps no longer wait on each other",
+        "c": "Move every subagent to the most capable model, to cut the retries that slow the pipeline down",
+        "d": "Cache each subagent's output, so that repeated questions skip the whole pipeline"
       },
       "answer": [
         "a"
@@ -222,10 +222,10 @@
       "domain": "d1",
       "stem": "A payments service's error rate spiked. The cause could be in code, configuration, infrastructure or a third-party API, and what to check next depends on what each check finds. How should the coordinator decompose the investigation?",
       "options": {
-        "a": "Dynamic decomposition: plan the next subtasks from each finding, with a token budget and iteration cap enforced in code as safety nets",
-        "b": "A fixed pipeline that runs the four checks in a set order",
-        "c": "Run every conceivable check in parallel with no coordinator",
-        "d": "One prompt asking Claude for the root cause"
+        "a": "Dynamic decomposition: plan next steps from each finding, with a token budget and iteration cap in code",
+        "b": "A fixed pipeline that runs the four checks in a set order, from the code through to the third-party API at the end",
+        "c": "Run every conceivable check in parallel, with no coordinator, so that nothing is missed",
+        "d": "One prompt asking Claude for the root cause, with the error-rate graph attached"
       },
       "answer": [
         "a"
@@ -237,8 +237,8 @@
       "stem": "Long research tasks sometimes use ten times the expected tokens. Which TWO belong in a reliable token-budget design? (Select TWO)",
       "options": {
         "a": "Track cumulative input and output tokens from each response's usage field inside the loop",
-        "b": "Stop the loop in code when the budget is reached, with a wrap-up instruction injected at about 80% of the budget",
-        "c": "A system-prompt instruction asking Claude to stay under 50,000 tokens",
+        "b": "Stop the loop in code when the budget is reached, with a wrap-up instruction at about 80% of it",
+        "c": "A system-prompt instruction asking Claude to keep each research task under 50,000 tokens in total",
         "d": "Asking Claude each turn how many tokens it has used so far",
         "e": "Setting `max_tokens` to 50 on every call"
       },
@@ -267,8 +267,8 @@
       "stem": "Every developer on a team should get the same internal MCP server in Claude Code, and the server needs an API token. Which TWO choices are correct? (Select TWO)",
       "options": {
         "a": "Define the server in the project's `.mcp.json` and commit it to the repository",
-        "b": "Reference the token in `.mcp.json` as `${INTERNAL_API_TOKEN}` and have each developer set that environment variable",
-        "c": "Paste the raw token into `.mcp.json` so setup is a single step",
+        "b": "Reference the token as `${INTERNAL_API_TOKEN}` in `.mcp.json`, set by each developer in their environment",
+        "c": "Paste the raw token into `.mcp.json`, so that setup is a single step for every developer on the team",
         "d": "Have each developer add the server with local scope by following a wiki page",
         "e": "Put the token in `CLAUDE.md` so Claude can pass it to the server"
       },
@@ -282,10 +282,10 @@
       "domain": "d2",
       "stem": "When users ask to change their email address, Claude often calls `get_customer` instead of `update_customer`, then tells the user the change is done. Both tools exist. What is the first fix?",
       "options": {
-        "a": "Rewrite both descriptions: what each tool does, when to use it, and when to use the other one instead, with `get_customer` described as read-only",
-        "b": "Rename `get_customer` to `fetch_customer`",
-        "c": "Add a system-prompt line telling Claude to use `update_customer` for updates",
-        "d": "Remove `get_customer` from the agent"
+        "a": "Rewrite both descriptions: what each does, when to use it, when to use the other, with `get_customer` read-only",
+        "b": "Rename `get_customer` to `fetch_customer`, so that its name no longer sounds like it could change a customer record",
+        "c": "Add a system-prompt line telling Claude to use `update_customer` whenever a user asks for an update",
+        "d": "Remove `get_customer` from the agent, so that `update_customer` is the only customer tool left"
       },
       "answer": [
         "a"
@@ -296,10 +296,10 @@
       "domain": "d3",
       "stem": "Your team wants every file Claude edits to be formatted with Prettier immediately after each edit, for everyone working in the repository. Which configuration does that?",
       "options": {
-        "a": "A `PostToolUse` hook in the committed `.claude/settings.json`, matching `Edit|Write`, that runs Prettier on the edited file",
-        "b": "A `PreToolUse` hook on `Edit` that runs Prettier",
-        "c": "A `CLAUDE.md` line: 'Run Prettier after every edit'",
-        "d": "A hook in each developer's `~/.claude/settings.json`"
+        "a": "A `PostToolUse` hook matching `Edit|Write` in the committed `.claude/settings.json`, running Prettier",
+        "b": "A `PreToolUse` hook on `Edit` in the committed `.claude/settings.json` that runs Prettier on the file",
+        "c": "A `CLAUDE.md` line, 'Run Prettier after every edit', committed so the whole team gets it",
+        "d": "A `PostToolUse` hook in each developer's own `~/.claude/settings.json` that runs Prettier"
       },
       "answer": [
         "a"
@@ -310,10 +310,10 @@
       "domain": "d3",
       "stem": "A team requires that Claude never ends its work while the test suite is failing. Which hook enforces this?",
       "options": {
-        "a": "A `Stop` hook that runs the tests and exits with code 2, printing the failures to stderr, when any test fails",
-        "b": "A `SessionEnd` hook that runs the tests",
-        "c": "A `UserPromptSubmit` hook that runs the tests before each prompt",
-        "d": "A `PostToolUse` hook that runs the tests after every file read"
+        "a": "A `Stop` hook that runs the tests and, when any fail, exits with code 2 and prints them to stderr",
+        "b": "A `SessionEnd` hook that runs the test suite and prints any failures to stderr as the session is closing",
+        "c": "A `UserPromptSubmit` hook that runs the tests before each prompt reaches Claude",
+        "d": "A `PostToolUse` hook that runs the whole test suite after every file that Claude reads"
       },
       "answer": [
         "a"
@@ -324,10 +324,10 @@
       "domain": "d3",
       "stem": "A `PostToolUse` hook on `Write` scans each file Claude writes. It finds an API key in a file Claude just wrote and exits with code 2. What happens?",
       "options": {
-        "a": "The file has already been written; Claude receives the hook's stderr message and can act on it, for example by removing the key",
-        "b": "The write is cancelled and the file is never created",
-        "c": "Claude Code shuts down the session",
-        "d": "Nothing happens, because exit code 2 is ignored for `PostToolUse`"
+        "a": "The file is already written; Claude receives the hook's stderr message and can act on it",
+        "b": "The write is cancelled and the file is never created, and Claude receives the hook's message",
+        "c": "Claude Code shuts down the session, because a secret was written to the repository",
+        "d": "Nothing happens, because exit code 2 is ignored for `PostToolUse` hooks on `Write`"
       },
       "answer": [
         "a"
@@ -338,10 +338,10 @@
       "domain": "d3",
       "stem": "A developer asks Claude Code to migrate 40 files from a callback-based API client to async/await. The change touches shared types, and there are two reasonable migration strategies. What is the best way to start?",
       "options": {
-        "a": "Plan Mode: let Claude explore the codebase and propose a migration plan to review before any file changes",
-        "b": "Direct execution, file by file, fixing problems as they appear",
-        "c": "One prompt for the whole change, then review the final diff",
-        "d": "A `CLAUDE.md` rule saying 'use async/await'"
+        "a": "Plan Mode: Claude explores the codebase and proposes a migration plan to review before any change",
+        "b": "Direct execution, file by file, fixing each problem as it appears and running the tests as it goes",
+        "c": "One prompt for the whole change, then a careful review of the final diff across all 40 files",
+        "d": "A `CLAUDE.md` rule saying 'use async/await', so Claude converts each file it touches"
       },
       "answer": [
         "a"
@@ -353,9 +353,9 @@
       "stem": "A team's dependency-audit skill prints thousands of lines of output, and teammates complain it floods the main conversation. Which frontmatter change fixes this?",
       "options": {
         "a": "`context: fork`, so the skill runs in an isolated subagent and returns its result",
-        "b": "`disable-model-invocation: true`",
-        "c": "`allowed-tools: Read`",
-        "d": "`model: haiku`"
+        "b": "`disable-model-invocation: true`, so the skill only runs when someone calls it",
+        "c": "`allowed-tools: Read`, so the skill can only read files while it runs",
+        "d": "`model: haiku`, so the skill's work is done by a faster, cheaper model"
       },
       "answer": [
         "a"
@@ -382,10 +382,10 @@
       "domain": "d4",
       "stem": "A code-review prompt says 'Be thorough but avoid nitpicks.' Reviews flag style issues inconsistently and miss SQL injection. Which rewrite fixes the cause?",
       "options": {
-        "a": "'Report only these issues: SQL injection, XSS, authentication bypass and secrets in code. Report high or critical severity only. Do not comment on formatting or naming.'",
-        "b": "'Be extremely thorough and never miss anything.'",
-        "c": "'Be conservative with your comments.'",
-        "d": "'You are a world-class senior security engineer.'"
+        "a": "'Report only SQL injection, XSS, authentication bypass and secrets in code, at high or critical severity; skip formatting and naming.'",
+        "b": "'Be extremely thorough, never miss anything, and comment on every issue you see, however small it seems.'",
+        "c": "'Be conservative with your comments, and only raise issues that a senior reviewer would raise.'",
+        "d": "'You are a world-class senior security engineer reviewing production code for a large bank.'"
       },
       "answer": [
         "a"
@@ -396,15 +396,15 @@
       "domain": "d4",
       "stem": "A classifier should flag support tickets that mention a physical safety risk. In testing it flags every ticket containing the word 'fire', including 'firewall rules reset after update.' What is the best few-shot improvement?",
       "options": {
-        "a": "Two to four examples that include the firewall ticket labeled not-safety with a one-line reason, a genuine safety ticket, and an ambiguous case",
-        "b": "Twenty examples of genuine safety tickets",
-        "c": "An instruction: 'Don't be fooled by keywords.'",
-        "d": "A lower temperature"
+        "a": "Two to four examples: the firewall ticket labeled not-safety with a reason, a real safety ticket, an ambiguous one",
+        "b": "Twenty examples of genuine safety tickets, so the model sees many cases of what to flag",
+        "c": "An instruction in the prompt: 'Don't be fooled by keywords; read the whole ticket and judge the actual risk first.'",
+        "d": "A higher effort level, so the model thinks harder about each ticket before labeling it"
       },
       "answer": [
         "a"
       ],
-      "explanation": "Few-shot examples teach reasoning and edge cases best when they include something the model should leave alone, so the tricky negative in {a} is the example that matters. {b} piles on positives and teaches nothing about the false positives. {c} is vague guidance. Temperature ({d}) changes randomness and leaves the misunderstanding in place."
+      "explanation": "Few-shot examples teach reasoning and edge cases best when they include something the model should leave alone, so the tricky negative in {a} is the example that matters. {b} piles on positives and teaches nothing about the false positives. {c} is vague guidance. More effort ({d}) leaves the misunderstanding in place, because nothing shows the model where the boundary is."
     },
     {
       "domain": "d4",
@@ -412,8 +412,8 @@
       "options": {
         "a": "Constrained decoding makes the response valid JSON that matches the schema's structure and types",
         "b": "A refusal or a `max_tokens` cutoff can still produce output that doesn't match the schema, so check `stop_reason`",
-        "c": "It guarantees the extracted values are correct for the source document",
-        "d": "It removes the need to validate business rules, such as totals matching line items",
+        "c": "It also guarantees that every extracted value is correct for the source document it came from",
+        "d": "It removes the need to validate business rules in your own code, such as totals matching the line items",
         "e": "It works only when `tool_choice` forces a specific tool"
       },
       "answer": [
@@ -426,38 +426,38 @@
       "domain": "d4",
       "stem": "An extraction fails validation because `invoice_date` came back as 2026-04-31, a date that doesn't exist. What should the retry request contain?",
       "options": {
-        "a": "The original document, the failed output, and the specific error ('`invoice_date` 2026-04-31 is not a valid date'), with an instruction to correct only that field",
-        "b": "The original document again with no other changes",
-        "c": "The failed output and the words 'try again'",
-        "d": "The same request sent to a more capable model"
+        "a": "The original document, the failed output, and the specific error, with an instruction to correct only that field",
+        "b": "The original document again with no other changes, since the model gets the date right on most of its other attempts",
+        "c": "The failed output and the words 'try again', so the model knows its first answer was rejected",
+        "d": "The same request sent to a more capable model, which is less likely to produce an invalid date"
       },
       "answer": [
         "a"
       ],
-      "explanation": "A useful retry tells the model exactly what failed and gives it the source to fix it against ({a}). {b} repeats the conditions that produced the error. {c} removes the source the model needs to correct the date. {d} changes the model without telling it what went wrong."
+      "explanation": "A useful retry tells the model exactly what failed ('`invoice_date` 2026-04-31 is not a valid date') and gives it the source to fix it against ({a}). {b} repeats the conditions that produced the error. {c} removes the source the model needs to correct the date. {d} changes the model without telling it what went wrong."
     },
     {
       "domain": "d4",
       "stem": "A product team wants to move its live chat assistant to the Message Batches API to cut costs in half. What is the right assessment?",
       "options": {
-        "a": "Reject it: batches carry no latency guarantee (most finish within an hour, some take up to 24), so a waiting user can't be served; cut costs with prompt caching or by routing routine messages to a cheaper tier",
-        "b": "Approve it: the same quality at half the price",
-        "c": "Approve it, provided the app polls for results every second",
-        "d": "Reject it, because batch requests can't include a system prompt"
+        "a": "Reject it: batches have no latency guarantee (up to 24 hours), so cut costs with caching or a cheaper tier",
+        "b": "Approve it: users get the same quality at half the price, and the savings fund other features",
+        "c": "Approve it, provided the app polls for results every second so replies appear without delay",
+        "d": "Reject it, because batch requests can't include a system prompt or the conversation history"
       },
       "answer": [
         "a"
       ],
-      "explanation": "The batch discount comes with asynchronous processing and no latency guarantee, which rules it out for anyone waiting on an answer ({a}). {b} ignores the latency. Polling ({c}) doesn't speed up processing. {d} is false: batch requests take the same parameters as regular Messages requests."
+      "explanation": "The batch discount comes with asynchronous processing and no latency guarantee, which rules it out for anyone waiting on an answer: most batches finish within an hour, but some take up to 24 ({a}). {b} ignores the latency. Polling ({c}) doesn't speed up processing. {d} is false: batch requests take the same parameters as regular Messages requests."
     },
     {
       "domain": "d4",
       "stem": "One prompt asks Claude to extract 30 fields from a contract, normalize every currency, classify the risk clauses and write an executive summary. Results vary from run to run, and errors are hard to trace. What is the best restructuring?",
       "options": {
-        "a": "A chain of focused prompts (extract, validate, normalize, classify, summarize), each with its own instructions and checks",
-        "b": "The same single prompt with each requirement marked IMPORTANT",
-        "c": "The same single prompt on a more capable model",
-        "d": "Ask for the executive summary first, then the fields"
+        "a": "A chain of focused prompts (extract, validate, normalize, classify, summarize), each with its own checks",
+        "b": "The same single prompt with each requirement marked IMPORTANT in capitals, so that none of the four jobs is skipped",
+        "c": "The same single prompt on a more capable model, which can hold all four jobs in mind at once",
+        "d": "Ask for the executive summary first, then the fields, so the summary frames the extraction"
       },
       "answer": [
         "a"
@@ -469,30 +469,30 @@
       "stem": "A knowledge-base Q&A agent receives 40 retrieved passages per question. The passage with the answer usually lands near the middle, and answers often miss it. Which TWO changes address this? (Select TWO)",
       "options": {
         "a": "Re-rank the passages and pass only the most relevant few",
-        "b": "Put the passages first and the question and instructions at the end of the prompt",
-        "c": "Switch to a model with a larger context window",
-        "d": "Retrieve 80 passages instead of 40",
-        "e": "Raise the temperature"
+        "b": "Put the passages first and the question and instructions at the end",
+        "c": "Switch to a model with a larger context window for the passages",
+        "d": "Retrieve 80 passages instead of 40, so the answer is never left out",
+        "e": "Raise the effort level so the model reads each passage more carefully"
       },
       "answer": [
         "a",
         "b"
       ],
-      "explanation": "Attention is weakest in the middle of long contexts, so the fixes shrink the middle and move what matters to the edges: fewer, better passages ({a}), and long material first with the question last, which Anthropic's long-context guidance recommends ({b}). A bigger window ({c}) and more passages ({d}) make the middle longer. Temperature ({e}) affects randomness and does nothing for attention."
+      "explanation": "Attention is weakest in the middle of long contexts, so the fixes shrink the middle and move what matters to the edges: fewer, better passages ({a}), and long material first with the question last, which Anthropic's long-context guidance recommends ({b}). A bigger window ({c}) and more passages ({d}) make the middle longer. More effort ({e}) changes how much the model reasons and does nothing about where the answer sits."
     },
     {
       "domain": "d5",
       "stem": "Two internal documents disagree about the warranty period: a 2024 policy says 12 months and a 2026 update says 24 months. What should the agent's answer do?",
       "options": {
-        "a": "Give the answer with attribution: both values, their documents and dates, the newer one identified as likely current, and the conflict flagged for review",
-        "b": "State 24 months without mentioning the conflict, because the newer document wins",
-        "c": "Average the two and state 18 months",
-        "d": "Decline to answer until someone fixes the documents"
+        "a": "Answer with attribution: both values, their documents and dates, the newer one as likely current, and a flag",
+        "b": "State 24 months without mentioning the conflict, because the newer document always takes precedence over the older one",
+        "c": "Average the two values and state 18 months, so the answer reflects both of the documents",
+        "d": "Decline to answer until someone in the policy team fixes the conflicting documents"
       },
       "answer": [
         "a"
       ],
-      "explanation": "Provenance keeps each claim tied to its source and surfaces conflicts instead of settling them silently ({a}). Silently picking one value ({b}) is the tested anti-pattern even when the choice happens to be right, because nobody learns that the documents disagree. {c} produces a number neither source supports. {d} withholds an answer the agent can give with a caveat."
+      "explanation": "Provenance keeps each claim tied to its source and flags the conflict for review instead of settling it silently ({a}). Silently picking one value ({b}) is the tested anti-pattern even when the choice happens to be right, because nobody learns that the documents disagree. {c} produces a number neither source supports. {d} withholds an answer the agent can give with a caveat."
     }
   ]
 }

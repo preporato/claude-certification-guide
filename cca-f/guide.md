@@ -2,7 +2,7 @@
 
 A full preparation guide for Anthropic's CCA-F exam. Part I teaches the technology the exam draws from, organized by topic. Part II re-indexes the same material by exam domain for revision. Part III covers exam strategy, worked questions, and a pre-exam checklist.
 
-Maintained by [preporato.com](https://preporato.com). Facts checked against the official exam guide and Anthropic's program pages in October 2026.
+Maintained by [preporato.com](https://preporato.com). Facts checked in November 2026 against the official exam guide (version 1.1, November 2026), Anthropic's program pages, and the current Claude API and Claude Code documentation.
 
 ---
 
@@ -41,7 +41,7 @@ Maintained by [preporato.com](https://preporato.com). Facts checked against the 
 
 ## Introduction
 
-CCA-F (Claude Certified Architect - Foundations) is Anthropic's certification for people who build production-grade Claude systems end to end: agentic architectures, multi-agent orchestration, prompt and context engineering for reliability, and the tools and MCP servers agents depend on. It launched on March 12, 2026 as the program's first exam and now sits inside a four-certification program (see the [repo root](../README.md) for the full comparison).
+CCA-F (Claude Certified Architect - Foundations) is Anthropic's certification for people who build production-grade Claude systems end to end: agentic architectures, multi-agent orchestration, prompt and context engineering for reliability, and the tools and MCP servers agents depend on. It launched on March 12, 2026 as the program's first exam and now sits inside a five-certification program (see the [repo root](../README.md) for the full comparison). Anthropic's current exam guide (version 1.1, November 2026) gives the exam code as **CCAR-F**; this guide keeps CCA-F, the name most candidates know it by.
 
 The exam is written from production judgment. Questions describe running systems with logs, failures, and constraints, and ask what a competent architect would do. Memorizing definitions is necessary but never sufficient; the exam repeatedly asks you to choose between two plausible approaches, and the difference is always an engineering principle this guide teaches explicitly.
 
@@ -51,17 +51,20 @@ The exam is written from production judgment. Questions describe running systems
 
 | | |
 |---|---|
-| Questions | 60 multiple-choice, all scored |
+| Exam code | CCAR-F in the official guide (version 1.1); widely known as CCA-F |
+| Questions | 60 |
 | Duration | 120 minutes to answer, about 135 minutes of seat time |
-| Passing score | 720 on a 100-1000 scaled score |
-| Question style | Single-answer plus multiple-response ("Select TWO/THREE", roughly a quarter of questions) |
-| Structure | Scenario-anchored: 4 of 6 production scenarios per sitting, plus standalone questions |
+| Passing score | 720 on a 100-1000 scaled score, with percent correct per domain on the report |
+| Question style | Multiple choice and multiple response; each item states how many responses to select |
+| Structure | Scenario-based: 4 of the 6 scenarios below, picked at random for each sitting |
 | Delivery | Pearson VUE, test center or online proctored. No Claude, no docs, no browser during the exam |
 | Price | $125 per attempt |
-| Registration | Anthropic Partner Academy, open to people who work at Claude Partner Network organizations (sign in with a company email) |
+| Registration | Anthropic Partner Academy, open to people who work at Claude Partner Network organizations (sign in with a company email); you pay at Pearson's checkout |
+| Rescheduling | Free up to 1 hour before an OnVUE appointment, 48 hours before a test center one |
 | Languages | English or Japanese |
 | Retakes | Full fee for every attempt; waits of 14, 30 and 90 days after the first, second and third failed attempts; at most 4 attempts in any 12 months |
-| Validity | 1 year; free non-proctored renewal assessment before expiration, full-price proctored retake after it lapses |
+| Validity | 12 months; free non-proctored renewal assessment before expiration, full-price proctored exam after it lapses |
+| Partner tier | Counts toward Claude Partner Network tier eligibility |
 
 ### Exam domains
 
@@ -75,14 +78,14 @@ The exam is written from production judgment. Questions describe running systems
 
 ## The six production scenarios
 
-The question pool is organized around six production scenarios; each sitting draws four. Questions arrive attached to these running systems, so you reason inside a concrete architecture rather than answering isolated definitions. Knowing the six shapes in advance is a large advantage:
+The exam is scenario-based: each scenario sets up a production context and frames a set of questions. Every sitting presents 4 of the 6 scenarios below, picked at random, so prepare for all six. The names and primary domains are from the official exam guide (version 1.1); the "expect" lines are this guide's reading of where each scenario's questions tend to go.
 
-1. **Automated Code Review Pipeline.** Agentic loop design with `stop_reason` termination, CI/CD headless mode (`-p` flag), independent review sessions instead of self-review, structured output schemas for review comments, Plan Mode versus direct execution.
-2. **Customer Support Escalation System.** Escalation rules (ambiguity escalates, sentiment alone does not), hub-and-spoke orchestration, session management with `--resume`, programmatic human-handoff triggers, why self-reported confidence is unreliable.
-3. **Document Extraction at Scale.** Structured output schemas with nullable fields, `"unclear"` enums for ambiguous data, Batch API for overnight bulk work, validation-retry loops, stratified human review sampling.
-4. **Multi-Repository Security Audit.** Parallel subagent execution, tool scoping per subagent, error propagation with structured partial results, crash recovery via manifest files, token budgets across parallel loops.
-5. **Knowledge Base Q&A System.** Information provenance with claim-source mappings, conflicting-source handling, lost-in-the-middle mitigation, context degradation detection, progressive summarization.
-6. **CI/CD Compliance Enforcement.** Hooks in `settings.json`, CLAUDE.md hierarchy for team standards, path-specific rules with glob patterns, headless mode flags.
+1. **Customer Support Resolution Agent.** An Agent SDK agent handling returns, billing disputes, and account issues through custom MCP tools (`get_customer`, `lookup_order`, `process_refund`, `escalate_to_human`), aiming for 80%+ first-contact resolution. *Primary domains:* agentic architecture, tool design and MCP, context management and reliability. *Expect:* escalation rules (ambiguity escalates, sentiment alone does not), programmatic gates before refunds, structured tool errors, structured handoffs.
+2. **Code Generation with Claude Code.** A team using Claude Code for generation, refactoring, debugging, and documentation, with custom slash commands and CLAUDE.md configuration. *Primary domains:* Claude Code configuration and workflows, context management. *Expect:* the CLAUDE.md hierarchy, path-scoped rules, Skills and commands, Plan Mode versus direct execution, `--resume` and `fork_session`.
+3. **Multi-Agent Research System.** A coordinator delegating to subagents that search the web, analyze documents, synthesize findings, and write cited reports. *Primary domains:* agentic architecture, tool design and MCP, context management. *Expect:* hub-and-spoke rules, explicit context passing, parallel `Task` calls, partial-failure handling, provenance and conflicting sources.
+4. **Developer Productivity with Claude.** An Agent SDK tool that explores unfamiliar codebases, explains legacy systems, generates boilerplate, and automates chores with the built-in tools (Read, Write, Bash, Grep, Glob) and MCP servers. *Primary domains:* tool design and MCP, Claude Code configuration, agentic architecture. *Expect:* built-in tool choice, incremental investigation, MCP scopes and secrets, tool scoping.
+5. **Claude Code for Continuous Integration.** Claude Code in a CI/CD pipeline running code reviews, generating tests, and commenting on pull requests, with feedback that must be actionable and low in false positives. *Primary domains:* Claude Code configuration, prompt engineering and structured output. *Expect:* `-p` and output flags, hooks, explicit review criteria, independent review sessions, batch versus real-time for pipeline jobs.
+6. **Structured Data Extraction.** A system that extracts data from unstructured documents, validates it against JSON schemas, and feeds downstream systems. *Primary domains:* prompt engineering and structured output, context management and reliability. *Expect:* schema design with nullable and "unclear" values, `tool_use` with schemas and `tool_choice`, validation-retry loops, the Batch API, stratified sampling.
 
 ---
 
@@ -109,7 +112,8 @@ The canonical agentic loop:
 ```python
 while True:
     response = client.messages.create(
-        model="claude-sonnet-4-6",
+        model="claude-sonnet-5-5",
+        max_tokens=4096,
         messages=messages,
         tools=tools,
     )
@@ -150,25 +154,28 @@ Two `stop_reason` values break naive response handling, and both appear in exam 
 
 ```python
 response = client.messages.create(
-    model="claude-sonnet-4-6",
+    model="claude-sonnet-5-5",
     max_tokens=2048,
     messages=messages,
 )
 
 match response.stop_reason:
     case "end_turn":
-        result = response.content[0].text          # complete answer
+        # complete answer; find the text block (a thinking block can come first)
+        result = next(b.text for b in response.content if b.type == "text")
     case "max_tokens":
         # Truncated: never parse as complete. Retry with a higher cap,
         # stream, or split the task.
         handle_truncation(response)
     case "tool_use":
         run_tool_loop(response)                     # continue the loop
+    case "refusal":
+        handle_refusal(response)                    # a decline, not an answer
     case _:
-        log_and_escalate(response)                  # refusal and anything new
+        log_and_escalate(response)                  # anything new
 ```
 
-**Anti-pattern:** `text = response.content[0].text` with no `stop_reason` check. It works in every demo and fails in production the first time an output hits the cap.
+**Anti-pattern:** `text = response.content[0].text` with no `stop_reason` check. It works in every demo and fails in production the first time an output hits the cap, a request is declined, or thinking puts another block first.
 
 ### 1.5 Model selection
 
@@ -178,7 +185,7 @@ Reason by tier, and anchor production answers to the mid tier:
 |-------|------|--------------|
 | Claude Haiku | Fastest, cheapest | Simple, high-volume, latency-sensitive tasks (classification, routing) |
 | Claude Sonnet | Balance of speed and intelligence | The default production workhorse; the safe exam answer for standard workloads |
-| Claude Opus tier | Most capable | The hardest reasoning and long-horizon agentic work where capability beats cost |
+| Claude Opus | Most capable | The hardest reasoning and long-horizon agentic work where capability beats cost |
 
 When a question describes a routine production workload and offers a top-tier model as an answer, cost discipline usually makes the mid-tier model correct. When it describes genuinely hard multi-step reasoning, capability wins.
 
@@ -609,7 +616,7 @@ The boundary that gets tested: **retries fix execution errors, never information
 | Cost | 50% cheaper | Standard |
 | Processing | Up to 24 hours | Seconds |
 | Latency SLA | None | Yes |
-| Multi-turn | No, single request | Yes |
+| Tool loops | No: a request can't run tools and continue mid-request | Yes |
 | Correlation | `custom_id` per request | Conversation/session |
 | Fits | Overnight reports, weekly audits, bulk extraction | User-facing, interactive |
 
@@ -791,10 +798,10 @@ Five layers, in order. Each builds on the previous, and the free layers take you
 | Step | Resource | Cost |
 |------|----------|------|
 | 1. Learn the vocabulary | [Anthropic Partner Academy courses](https://claude.com/partners), the official exam guide, and the [Anthropic Academy courses](https://www.anthropic.com/learn) mapped in Resources | Free |
-| 2. Go to the source | [docs.anthropic.com](https://docs.anthropic.com): agents, tool use, MCP, Claude Code | Free |
-| 3. First calibration | [30 practice questions with explanations](./practice-questions.md) in this repo, also as a timed [practice test](https://preporato.github.io/claude-certification-guide/#cca-f) | Free |
+| 2. Go to the source | [The Claude Developer Platform docs](https://platform.claude.com/docs) (API, tool use, Agent SDK, MCP) and [the Claude Code docs](https://code.claude.com/docs) | Free |
+| 3. First calibration | [30 practice questions with explanations](./practice-questions.md) in this repo | Free |
 | 4. Full calibration | [Six full-length scenario-format practice tests and a 500-card flashcard deck](https://preporato.com/certificates/claude-certified-architect) on Preporato, built on the exact domain weights; the page has free sample questions to try first | Paid |
-| 5. Prove it hands-on | [11 auto-graded build-and-submit projects](https://preporato.com/certificates/claude-certified-architect): agentic loops, hub-and-spoke systems, MCP servers, extraction pipelines | Paid |
+| 5. Prove it hands-on | [12 auto-graded build-and-submit projects](https://preporato.com/certificates/claude-certified-architect): agentic loops, hub-and-spoke systems, MCP servers, extraction pipelines | Paid |
 
 Steps 1-3 cost nothing and tell you honestly where you stand. Steps 4-5 are how you close the gap they reveal.
 
@@ -842,9 +849,9 @@ Five mental models for evaluating answer choices:
 
 ## Exam-day strategy
 
-**Time.** 120 minutes, 60 questions, so 2 minutes average, and scenario sections run long. First ~10 minutes: read all six scenario introductions and choose your four strongest. Minutes 10-90: the four scenarios, capped at ~20 minutes each. Minutes 90-110: standalone questions. Final 10: review flags; change answers only on certain error.
+**Time.** 120 minutes, 60 questions, so 2 minutes average. The four scenarios are picked for you at random, so there is nothing to choose: give each about 25 minutes, read the scenario introduction once properly before its first question, and keep the last 15 minutes for flagged items. Change an answer only on a definite error.
 
-**Per question**, identify three things before reading the choices: which domain is being tested, whether it asks for the right approach or the anti-pattern, and whether the Golden Rule applies.
+**Per question**, check how many responses it asks for, then identify three things before reading the choices: which domain is being tested, whether it asks for the right approach or the anti-pattern, and whether the Golden Rule applies.
 
 **Named trap patterns.** "Update the system prompt to always..." when a mechanism exists. "Increase the context window" for attention problems. "Use Claude's confidence score" for escalation. "Add more few-shot examples" for ordering compliance. "97% accuracy proves it works" without stratification.
 
@@ -854,117 +861,117 @@ Twelve fresh questions in the exam's style, with reasoning. (These are written f
 
 **Q1.** Your agentic loop sometimes runs forever on ambiguous tasks. A teammate proposes `max_iterations = 15` as the fix. What is the strongest objection?
 
-- A) 15 is too low for complex tasks
-- B) Iteration caps address the symptom; termination should be driven by `stop_reason` semantics, with the cap kept only as a safety net
-- C) The loop should instead check whether Claude's text says the task is finished
-- D) Token budgets make iteration caps redundant
+- A) 15 iterations is too low for complex tasks, so the cap should be set a lot higher
+- B) The loop should check whether Claude's reply text says the task is finished
+- C) Token budgets already make iteration caps redundant in any production loop like this
+- D) A cap treats the symptom; `stop_reason` should end the loop, with the cap as a net
 
-**Answer: B.** The loop's primary contract is `stop_reason`. A cap is a legitimate backstop but a poor primary mechanism (A argues about the number, missing the principle; C is the prose-parsing anti-pattern; D confuses two complementary safety nets).
+**Answer: D.** The loop's primary contract is `stop_reason`. An iteration cap is a legitimate backstop but a poor primary mechanism. Option A argues about the number and misses the principle, B is the prose-parsing anti-pattern, and C confuses two complementary safety nets.
 
 **Q2.** A support agent must hand off to a human whenever a refund exceeds $500. Where does this rule live?
 
-- A) In the system prompt: "Always escalate refunds above $500"
-- B) In a few-shot example showing a $600 refund being escalated
-- C) In a programmatic gate that checks the refund amount before the refund tool executes
-- D) In the tool description for the refund tool
+- A) In a programmatic gate that checks the amount before the refund tool runs
+- B) In the system prompt: "Always escalate any refund above $500 to a human agent"
+- C) In a few-shot example that shows a $600 refund being escalated correctly
+- D) In the refund tool's description, next to the parameters it accepts
 
-**Answer: C.** "Whenever" means compliance, and compliance is enforced by mechanism (a check in code before the refund tool runs, the same idea as a `PreToolUse` hook). A and B are probabilistic; D improves selection but cannot enforce a threshold.
+**Answer: A.** "Whenever" means compliance, and compliance is enforced by mechanism (a check in code before the refund tool runs, the same idea as a `PreToolUse` hook). Options B and C are probabilistic, and D improves selection but cannot enforce a threshold.
 
 **Q3.** Claude must return valid JSON matching a strict schema for every extraction. Which combination guarantees the format?
 
 - A) A system prompt with the schema pasted in and an instruction to follow it exactly
-- B) Schema-enforced output (structured outputs, or an extraction tool defined with the JSON schema and forced on models that allow it), plus validation of the values
-- C) Few-shot examples of correctly formatted output
-- D) Lowering temperature to 0
+- B) Few-shot examples of correctly formatted output, one for each type of document
+- C) Schema-enforced output, such as structured outputs, plus validation of the values
+- D) A higher effort level, so that the model checks its JSON before it answers
 
-**Answer: B.** Schema enforcement eliminates syntax errors, and validation catches what a schema can't, such as wrong values. A and C are probabilistic; D reduces variance without guaranteeing structure.
+**Answer: C.** Schema enforcement (structured outputs, or an extraction tool defined with the JSON schema and forced on models that allow it) eliminates syntax errors, and validation catches what a schema can't, such as wrong values. Options A, B, and D are probabilistic.
 
 **Q4.** A document-extraction pipeline keeps failing validation on the `revenue` field for a minority of documents. Investigation shows those documents genuinely contain no revenue figure. The fix?
 
-- A) Retry failed documents up to five times
-- B) Add few-shot examples with revenue correctly extracted
-- C) Make `revenue` nullable in the schema and let downstream logic handle its absence
-- D) Route those documents to a more capable model
+- A) Retry the failed documents up to five times before marking them as failed
+- B) Make `revenue` nullable, and let downstream logic handle its absence
+- C) Add few-shot examples that show revenue being extracted correctly
+- D) Route those documents to a more capable model that can find the figure
 
-**Answer: C.** This is an information gap. Retries (A) and examples (B) cannot create data absent from the source, and a stronger model (D) cannot either. The schema must absorb reality.
+**Answer: B.** This is an information gap. Retries (A) and examples (C) cannot create data absent from the source, and a stronger model (D) cannot either. The schema must absorb reality.
 
 **Q5.** Your coordinator spawns four repository scanners in parallel. One times out. Which return value from the failed scanner best serves the system?
 
-- A) An empty findings list, so the merge step is not disrupted
-- B) A structured error naming the timeout, what was attempted, the 47 of 120 files it did scan, and retry alternatives
-- C) A raised exception that halts the audit for investigation
-- D) "Scan failed" with a null result
+- A) An empty findings list, so that the merge step is not disrupted by the failure
+- B) A raised exception that halts the whole audit so someone can investigate it
+- C) The message "Scan failed" with a null result in place of the findings
+- D) A structured error: the timeout, what was tried, the files done, retry options
 
-**Answer: B.** Partial results plus context enable an informed recovery decision. A is empty-as-success, D is context-free failure, and C throws away three successful scans.
+**Answer: D.** Partial results plus context (say, the 47 of 120 files it did scan) enable an informed recovery decision. Option A is empty-as-success, C is context-free failure, and B throws away three successful scans.
 
 **Q6. (Select TWO)** Which placements make a team-wide "always run tests before commit" requirement actually binding for everyone?
 
-- A) `~/.claude/CLAUDE.md`
-- B) The project's committed `.claude/CLAUDE.md`
-- C) A `PreToolUse` hook in the project's committed settings that runs the tests whenever Claude runs `git commit`
-- D) A note in the repository README
-- E) A few-shot example in each developer's personal config
+- A) The project's committed `.claude/CLAUDE.md`
+- B) Each developer's own `~/.claude/CLAUDE.md`
+- C) A note about testing in the repository README
+- D) A few-shot example in each developer's personal config
+- E) A `PreToolUse` hook in committed project settings, on `git commit`
 
-**Answer: B and C.** Project-level, version-controlled placement reaches the team (B), and the hook makes it enforcement rather than guidance (C). C is the stronger of the two; B alone is probabilistic but at least correctly scoped. A and E are personal-scope, D is invisible to Claude in most workflows.
+**Answer: A and E.** Project-level, version-controlled placement reaches the team (A), and the hook makes it enforcement rather than guidance (E). The hook is the stronger of the two; the CLAUDE.md line alone is probabilistic but at least correctly scoped. Options B and D are personal scope, and C is invisible to Claude in most workflows.
 
 **Q7.** A nightly compliance job summarizes 40,000 support transcripts. Cost is the concern; nobody reads results before morning. Which delivery mechanism?
 
-- A) Real-time API with prompt caching
-- B) Real-time API with streaming
-- C) Batch API with `custom_id` correlating each transcript
-- D) An agentic loop processing transcripts sequentially
+- A) The Batch API, with a `custom_id` for each transcript
+- B) The real-time API with prompt caching on the instructions
+- C) The real-time API with streaming, to finish sooner overnight
+- D) An agentic loop that works through the transcripts in order
 
-**Answer: C.** Overnight, bulk, no one waiting: Batch's 50% saving with no SLA fits exactly, and `custom_id` maps results back. A and B pay real-time prices for latency nobody uses; D adds orchestration where none is needed.
+**Answer: A.** Overnight, bulk, no one waiting: Batch's 50% saving with no SLA fits exactly, and `custom_id` maps results back. Options B and C pay real-time prices for latency nobody uses, and D adds orchestration where none is needed.
 
 **Q8.** After 30 minutes of a long code investigation, Claude begins re-running searches it already ran and describing "common patterns in codebases like this" instead of citing files it read. What is happening, and what is the right response?
 
-- A) The model is hallucinating; switch to a larger model
-- B) Context degradation; persist key findings to a scratchpad, compact the history, and offload remaining subtasks to focused subagents
-- C) The context window is too small; raise it
-- D) Tool misconfiguration; re-register the search tools
+- A) The model is hallucinating, so the session should move to a larger model
+- B) The context window is too small, so it should be raised for this session
+- C) Context degradation: use a scratchpad, compact the history, and offload work
+- D) The tools are misconfigured, so the search tools should be registered again from scratch
 
-**Answer: B.** Repeated tool calls and generic-pattern language are the named degradation signals. C is the bigger-context trap; A and D misread the signals.
+**Answer: C.** Repeated tool calls and generic-pattern language are the named degradation signals; persist key findings to a scratchpad and offload the remaining subtasks to focused subagents. Option B is the bigger-context trap, and A and D misread the signals.
 
 **Q9.** Your extraction system reports 97% accuracy overall, but a customer complains that purchase orders in one regional format are consistently wrong. What does the QA process need?
 
-- A) A higher overall accuracy target, such as 99%
-- B) Stratified sampling by document type and field, with per-stratum thresholds
-- C) A second model voting on every extraction
-- D) Larger random samples
+- A) A higher overall accuracy target for the whole system, such as 99% from now on
+- B) A second model that votes on every extraction before it is accepted
+- C) Larger random samples, so the regional errors show up more often
+- D) Stratified sampling by document type and field, with thresholds per stratum
 
-**Answer: B.** The aggregate hides a per-type failure; only stratification exposes it. A and D keep measuring the same masked average; C adds cost without changing what is measured.
+**Answer: D.** The aggregate hides a per-type failure; only stratification exposes it. Options A and C keep measuring the same masked average, and B adds cost without changing what is measured.
 
 **Q10.** A reviewer agent should evaluate code that a generator agent just produced. Which setup yields the most trustworthy review?
 
-- A) Ask the generator to review its own output in the same session, since it has full context
-- B) A fresh, independent session that receives only the code, running per-file passes plus one cross-file integration pass
-- C) The generator reviews in the same session but with a system prompt instructing it to be objective
-- D) An independent session that receives the code plus the generator's full reasoning transcript
+- A) A fresh session that sees only the code, with per-file passes and a cross-file pass
+- B) The generator reviews its own output in the same session, since it has the context
+- C) The generator reviews in the same session, with a prompt telling it to be fully objective
+- D) An independent session that receives the code and the generator's full reasoning
 
-**Answer: B.** Independence requires not inheriting the generation reasoning; per-file plus integration passes catch both local and systemic issues. A and C keep the bias, and D reintroduces it through the transcript.
+**Answer: A.** Independence requires not inheriting the generation reasoning, and per-file plus integration passes catch both local and systemic issues. Options B and C keep the bias, and D reintroduces it through the transcript.
 
 **Q11.** A compliance team requires that Claude Code can never execute a shell command containing `curl` against production hosts, for any developer, with no exceptions. Which implementation meets the requirement?
 
 - A) A rule in the committed project CLAUDE.md: "Never run curl against production hosts"
-- B) A `PreToolUse` hook in the committed project settings, matching the Bash tool, whose script inspects the command and exits 2 (or returns a deny decision) on violations
-- C) A `PostToolUse` hook that reports violations to the security channel
-- D) A note in each developer's `~/.claude/CLAUDE.md`
+- B) A `PostToolUse` hook that reports each violation to the security channel afterwards
+- C) A `PreToolUse` hook on Bash in committed project settings that blocks violations
+- D) A note in each developer's own `~/.claude/CLAUDE.md`, set up during onboarding
 
-**Answer: B.** "Never, for any developer, no exceptions" is enforcement, and only a blocking `PreToolUse` hook in *committed project* settings delivers it: deterministic, team-wide, and evaluated before execution. A is probabilistic guidance, C fires after the damage, and D is personal scope that reaches nobody else.
+**Answer: C.** "Never, for any developer, no exceptions" is enforcement, and only a blocking `PreToolUse` hook in *committed project* settings delivers it: its script inspects the command and exits 2 (or returns a deny decision), deterministically and before execution. Option A is probabilistic guidance, B fires after the damage, and D is personal scope that reaches nobody else.
 
 **Q12.** A developer keeps personal sandbox URLs and test credentials paths in the project's committed CLAUDE.md "so Claude remembers them", and teammates complain about the noise. Where does that content belong?
 
-- A) A subdirectory CLAUDE.md
-- B) The system prompt of each session
-- C) `CLAUDE.local.md` at the project root, listed in `.gitignore`
-- D) An `@import` from the committed CLAUDE.md to the developer's home directory
+- A) A CLAUDE.md in a subdirectory of the project, near the code it concerns
+- B) `CLAUDE.local.md` at the project root, listed in `.gitignore`
+- C) The system prompt of each session, typed in when the session starts
+- D) An `@import` from the committed CLAUDE.md to the developer's home folder
 
-**Answer: C.** Personal, project-specific content has a dedicated home: `CLAUDE.local.md`, loaded alongside the project file and kept out of version control. A still ships to the team, B does not persist, and D commits a reference to one person's home directory into the shared file, which breaks for everyone else.
+**Answer: B.** Personal, project-specific content has a dedicated home: `CLAUDE.local.md`, loaded alongside the project file and kept out of version control. Option A still ships to the team, C does not persist, and D commits a reference to one person's home directory into the shared file, which breaks for everyone else.
 
 ## 30-day study plan
 
 - **Days 1-7: official baseline.** Check that your employer is in the [Claude Partner Network](https://claude.com/partners) (registration needs your company email), complete the Partner Academy architect courses, read the official exam guide, and map your experience against the five domains.
-- **Days 8-21: build.** Work through [docs.anthropic.com](https://docs.anthropic.com) with a project open: an agent with tools and a real loop, an MCP server, a Claude Code setup with CLAUDE.md hierarchy, one hook, one skill, and a headless CI invocation. Part I of this guide is your reading companion; the exam rewards people who have hit these failure modes personally. If you want these builds checked, the [hands-on projects](https://preporato.com/certificates/claude-certified-architect) (paid) cover the same ground with automatic rubric grading.
+- **Days 8-21: build.** Work through [the Claude Developer Platform docs](https://platform.claude.com/docs) and [the Claude Code docs](https://code.claude.com/docs) with a project open: an agent with tools and a real loop, an MCP server, a Claude Code setup with CLAUDE.md hierarchy, one hook, one skill, and a headless CI invocation. Part I of this guide is your reading companion; the exam rewards people who have hit these failure modes personally. If you want these builds checked, the [hands-on projects](https://preporato.com/certificates/claude-certified-architect) (paid) cover the same ground with automatic rubric grading.
 - **Days 22-30: calibrate.** Start with the [30 practice questions](./practice-questions.md) in this repo to see the format, then take [full-length, timed, scenario-format practice tests](https://preporato.com/certificates/claude-certified-architect). Review per-domain results, re-read the matching Part II notes, and spend the final days on your two weakest domains. The night before, review Part III's tables and the [cheat sheet](https://preporato.com/blog/claude-certified-architect-cheat-sheet-2026).
 
 The expanded week-by-week version: [30-day CCA-F study plan](https://preporato.com/blog/cca-f-study-plan-30-day-preparation).
@@ -1003,8 +1010,8 @@ You are ready when every line is true:
 ## Resources
 
 **Official (free):**
-- [Anthropic Partner Academy](https://claude.com/partners): the exam guide, prep courses, and registration
-- [docs.anthropic.com](https://docs.anthropic.com): API, agents, tool use, MCP, Claude Code
+- [Claude Certified Architect - Foundations](https://anthropic-partners.skilljar.com/claude-certified-architect-foundations-certification) on the Anthropic Partner Academy: the exam guide, prep courses, and registration
+- [Claude Developer Platform docs](https://platform.claude.com/docs) (API, agents, tool use, MCP) and [Claude Code docs](https://code.claude.com/docs)
 - Anthropic Academy courses, mapped to this exam's domains:
   - [Claude Code 101](https://anthropic.skilljar.com/claude-code-101) and [Claude Code in Action](https://anthropic.skilljar.com/claude-code-in-action): the 20% Claude Code domain
   - [Introduction to Model Context Protocol](https://anthropic.skilljar.com/introduction-to-model-context-protocol) and [MCP: Advanced Topics](https://anthropic.skilljar.com/model-context-protocol-advanced-topics): the 18% tool design and MCP domain
@@ -1016,11 +1023,11 @@ You are ready when every line is true:
 - Technical guides: [hooks](https://preporato.com/blog/claude-code-hooks-explained-cca-f-guide) · [subagent orchestration](https://preporato.com/blog/claude-code-subagents-orchestration-patterns-cca-f) · [MCP tool design](https://preporato.com/blog/mcp-tool-design-best-practices-cca-f) · [MCP architecture](https://preporato.com/blog/model-context-protocol-mcp-architecture-guide-2026) · [structured output](https://preporato.com/blog/structured-output-prompt-engineering-claude-cca-f) · [CLAUDE.md context management](https://preporato.com/blog/claude-md-context-management-best-practices-2026) · [permissions precedence](https://preporato.com/blog/claude-code-permissions-settings-precedence-guide)
 
 **Practice:**
-- [30 practice questions with explanations](./practice-questions.md) in this repo, also as a timed [practice test](https://preporato.github.io/claude-certification-guide/#cca-f) (free)
+- [30 practice questions with explanations](./practice-questions.md) in this repo (free)
 - [The CCA-F page on Preporato](https://preporato.com/certificates/claude-certified-architect): free sample questions to start, then the full tests below
 - (Paid) [Six full-length scenario-format practice tests and a 500-card flashcard deck](https://preporato.com/certificates/claude-certified-architect) built on the exact domain weights
-- (Paid) [11 hands-on projects](https://preporato.com/certificates/claude-certified-architect): build-and-submit work (agentic loops, hub-and-spoke systems, MCP servers, extraction pipelines) graded automatically against a rubric
+- (Paid) [12 hands-on projects](https://preporato.com/certificates/claude-certified-architect): build-and-submit work (agentic loops, hub-and-spoke systems, MCP servers, extraction pipelines) graded automatically against a rubric
 
 ---
 
-*Not affiliated with Anthropic. Exam details reflect the program as of October 2026; the Partner Academy is authoritative. Found an error? [Open an issue](https://github.com/preporato/claude-certification-guide/issues).*
+*Not affiliated with Anthropic. Exam details reflect the program as of November 2026; the Partner Academy is authoritative. Found an error? [Open an issue](https://github.com/preporato/claude-certification-guide/issues).*

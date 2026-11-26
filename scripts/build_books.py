@@ -22,7 +22,7 @@ ROOT = build.ROOT
 REPO = build.REPO
 PANDOC = os.environ.get("PANDOC", "pandoc")
 CHROME = os.environ.get("CHROME", "chromium")
-EDITION = "October 2026 edition"
+EDITION = "November 2026 edition"
 OUT = ROOT / "downloads"
 HERE = Path(__file__).resolve().parent
 
@@ -58,7 +58,7 @@ def appendix(bank, questions):
         f"{len(questions)} questions for {bank['code']}, written for this guide in the exam's style and spread across its domains by the official weights. "
         "Questions that ask for more than one answer say how many. The answers and explanations follow in the next section.",
         "",
-        f"The same questions run as a timed test with a score for every domain: [practice test]({build.PAGES}#{bank['id']}).",
+        f"For timed, full-length practice with a score for every domain, see [the {bank['code']} page on Preporato]({bank['cert_page']}).",
         "",
     ]
     seen = None
@@ -83,8 +83,8 @@ def appendix(bank, questions):
     lines += [
         "# Keep going",
         "",
-        f"- **Full-length practice.** [The {bank['code']} page on Preporato]({bank['cert_page']}) has free sample questions and six full-length timed practice tests (paid) in the exam's format, with a score for every domain.",
-        f"- **Updates and corrections.** The latest edition, the practice test and the other three guides are at [github.com/preporato/claude-certification-guide]({REPO}).",
+        f"- **Full-length practice.** [The {bank['code']} page on Preporato]({bank['cert_page']}) has free sample questions and full-length timed practice tests (paid) in the exam's format, with a score for every domain.",
+        f"- **Updates and corrections.** The latest edition and the guides for the other four exams are at [github.com/preporato/claude-certification-guide]({REPO}).",
         "",
     ]
     return "\n".join(lines)
@@ -99,10 +99,10 @@ def front_page(bank):
         '<p class="what">The complete study guide, with 30 practice questions and an answer key</p>\n'
         '<div class="facts">\n'
         f'<p>Full-length timed practice tests: <a href="{bank["cert_page"]}">{bank["cert_page"].replace("https://", "")}</a></p>\n'
-        f'<p>Updates, the practice test and the other three guides: <a href="{REPO}">{REPO.replace("https://", "")}</a></p>\n'
+        f'<p>Updates and the guides for the other four exams: <a href="{REPO}">{REPO.replace("https://", "")}</a></p>\n'
         '</div>\n'
         '<p class="legal">MIT license. Maintained by Preporato. Not affiliated with, endorsed by, or sponsored by Anthropic; Claude is a trademark of Anthropic, PBC. '
-        'Exam facts reflect the program in October 2026; the Anthropic Partner Academy is authoritative.</p>\n'
+        'Exam facts reflect the program in November 2026; the Anthropic Partner Academy is authoritative.</p>\n'
         '</section>\n\n'
     )
 

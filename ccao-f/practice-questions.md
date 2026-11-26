@@ -1,507 +1,433 @@
 # CCAO-F practice questions
 
-30 practice questions for **Claude Certified Associate - Foundations** (CCAO-F), written for this repo and spread across the exam's seven domains by their official weights. 6 of them ask for more than one answer, as about a quarter of the real exam's questions do; those count only when every choice is right.
+30 practice questions for **Claude Certified Associate - Foundations** (CCAO-F), written for this repo and spread across the exam's six domains by their official weights. 6 of them ask for more than one answer, as some of the real exam's questions do (each item says how many to pick); those count only when every choice is right.
 
 Choose your answer before you open the explanation.
 
-**Prefer a timed run?** The [practice test](https://preporato.github.io/claude-certification-guide/#ccao-f) has the same questions, scores every domain, and runs in your browser.
+**Want a timed run?** The [CCAO-F page on Preporato](https://preporato.com/certificates/claude-certified-associate-foundations) has free sample questions and full-length timed practice tests in the exam's format, with a score for every domain.
 
 | Domain | Exam weight | Questions here |
 |---|---|---|
-| Output Evaluation and Validation | 21% | 6 |
-| Workflow Integration and Solution Design | 16% | 5 |
-| Governance, Risk, and Responsible Use | 15% | 5 |
-| Prompting and Task Execution | 14% | 4 |
-| Product and Model Selection | 12% | 4 |
-| Configuration and Knowledge Management | 12% | 3 |
-| Troubleshooting and Optimization | 10% | 3 |
+| Task Definition and Prompting | 15% | 5 |
+| Output Evaluation and Quality Control | 20% | 6 |
+| Capability, Model, and Context Selection | 15% | 4 |
+| Workflow Design and Integration | 18% | 5 |
+| Configuration and Knowledge Management | 15% | 5 |
+| Responsible Use, Data Protection, and Governance | 17% | 5 |
 
 ---
 
 ### Question 1
 
-*Output Evaluation and Validation*
+*Task Definition and Prompting*
 
-Claude summarized a 30-page vendor contract you attached and wrote: 'The contract auto-renews for 24 months unless cancelled 90 days before expiry.' This line is going into an email to your director. What is the most efficient way to check it?
+Your prompt 'Write an email about the new expense tool' produced something generic. Which TWO additions would improve it most? (Select TWO)
 
-- **A.** Ask Claude to quote the exact clause and give its section number, then read that clause in the contract yourself
-- **B.** Ask Claude whether it's sure
-- **C.** Regenerate the summary and see whether the line comes back the same
-- **D.** Send it as is, because the contract was attached
+- **A.** A switch to the most capable model at the highest effort level
+- **B.** A request for ten versions so that you can pick the best one of them
+- **C.** The tool's key facts, pasted in: launch date, how to get access, where to get help
+- **D.** An instruction to 'make it amazing' and to be as creative and engaging as it can
+- **E.** Who the email is for and what it should get them to do
 
 <details>
 <summary>Answer</summary>
 
-**A.** A grounded claim can point to its evidence, so asking for the clause and reading it yourself is fast and conclusive (A). Asking for reassurance (B) gets a fluent answer either way. Consistency across regenerations (C) doesn't prove accuracy. An attached source (D) lowers the risk of errors without removing it, and this line describes a contract commitment.
+**C and E.** Generic output comes from missing context, and the audience and goal (E) and the source material (C) are two of the five parts of a complete business prompt. Enthusiasm (D) adds no information. More versions (B) of an underspecified email are more generic emails. A stronger model (A) still can't know facts you didn't give it.
 
 </details>
 
 ### Question 2
 
-*Output Evaluation and Validation*
+*Task Definition and Prompting*
 
-Claude drafted a job ad for a software engineer that uses phrases like 'young, energetic team' and 'digital native.' What is the issue, and what should you do?
+You need a 20-page market analysis with competitor profiles, a pricing comparison and recommendations. One big prompt produced a shallow result. What is the best approach?
 
-- **A.** Nothing; these phrases are standard in job ads
-- **B.** The wording signals an age preference, which can discourage qualified applicants and create legal risk; ask for inclusive wording and check it against your hiring policy
-- **C.** The ad is too long; ask for a shorter version
-- **D.** The tone is too casual for a job ad; ask for a formal rewrite
+- **A.** Ask for 'much more detail' in every section of the same single prompt
+- **B.** Break it into steps: agree on an outline, draft each section from its sources, then do a final pass
+- **C.** Regenerate the same prompt until a deeper version of the analysis appears
+- **D.** Rewrite the single prompt with every requirement in capitals, so that Claude can't skip any of them
 
 <details>
 <summary>Answer</summary>
 
-**B.** Evaluating output covers bias as well as factual errors, and age-coded language in a job ad is a real fairness and compliance problem (B). D and C change the style and keep the biased phrases. A confuses a common phrase with an acceptable one.
+**B.** Multi-part deliverables work better as a sequence of smaller steps you can check (B). A and D keep the one-giant-prompt problem. C is regenerate-and-hope.
 
 </details>
 
 ### Question 3
 
-*Output Evaluation and Validation*
+*Task Definition and Prompting*
 
-Claude built a pricing comparison table with totals calculated from 40 line items you pasted in. The table is going into a client proposal. What validation is needed?
+Claude's first draft of a customer apology is too long and too formal. Which follow-up works best?
 
-- **A.** Round the totals so small differences don't matter
-- **B.** Nothing, because you supplied the numbers
-- **C.** Recompute the totals independently, for example in a spreadsheet, before the proposal goes out
-- **D.** Ask Claude to double-check its math in the same chat
+- **A.** 'Please improve this draft and make it much better than the first one you wrote.'
+- **B.** Start a new chat and paste in the same prompt you used the first time
+- **C.** Regenerate the response and pick whichever of the versions reads better
+- **D.** 'Cut this to about 120 words, warmer and more direct; keep the refund details and open with the apology.'
 
 <details>
 <summary>Answer</summary>
 
-**C.** Precise arithmetic over many figures is a weak fit to accept unchecked, and a client-facing proposal makes the numbers consequential, so they get verified independently (C). The same process checking itself (D) isn't an independent check. Correct inputs (B) don't guarantee correct sums. Rounding (A) hides errors.
+**D.** Specific feedback gives Claude concrete changes to make (D). A gives it nothing to act on, and C and B roll the dice again on an unchanged request.
 
 </details>
 
 ### Question 4
 
-*Output Evaluation and Validation*
+*Task Definition and Prompting*
 
-Claude wrote a market summary with no sources attached. Which TWO details are hallucination red flags? (Select TWO)
+You want campaign ideas for a product launch. Which prompting strategy fits brainstorming?
 
-- **A.** 'According to a 2025 McKinsey survey, 73% of retailers plan to...' with no link or attached source
-- **B.** A general explanation of what market share means
-- **C.** A precise figure for next quarter's market size, stated as fact
-- **D.** A note that Claude can't see your internal sales data
-- **E.** A suggestion to verify the figures before publishing
+- **A.** Ask for many varied ideas first (say, 20), then narrow them with your criteria in a follow-up
+- **B.** Ask for the single best idea, so you don't have to sort through a long list of them
+- **C.** Give no context at all, so Claude is unconstrained and free to surprise you
+- **D.** Ask for a short list of ideas with final budgets and timelines already attached to each one of them
 
 <details>
 <summary>Answer</summary>
 
-**A and C.** A named study with a precise statistic and no source (A), and a confident, specific figure about the future (C), fit the red-flag profile: precision and authority without grounding. A general definition (B) is low risk, and E and D are signs of honest, calibrated output.
+**A.** Brainstorming works best as volume and variety first, then judgment (A). Asking for one best idea (B) skips the exploration. Budgets (D) belong to a later planning step. With no context (C), the ideas won't fit your product or audience.
 
 </details>
 
 ### Question 5
 
-*Output Evaluation and Validation*
+*Task Definition and Prompting*
 
-Claude summarized a customer interview and wrote: 'The customer is frustrated with onboarding and plans to cancel.' The transcript mentions onboarding friction but says nothing about cancelling. What is the problem?
+You asked for 'a table comparing vendors,' and each time the columns come out different. What is the most effective fix?
 
-- **A.** Nothing; it's a reasonable reading of the frustration
-- **B.** The summary is too short
-- **C.** The summary needs a more formal tone
-- **D.** An unsupported inference is presented as fact; edit the line to what the transcript supports, or label it clearly as an interpretation
+- **A.** Regenerate until the columns happen to come out the way you want them
+- **B.** Ask for 'a better, more professional table' with clearer columns
+- **C.** Show the exact structure: list the columns in order or paste a sample row to follow
+- **D.** Switch to Opus, which keeps its formatting far more consistent from one run to the next
 
 <details>
 <summary>Answer</summary>
 
-**D.** Details beyond the source are a hallucination red flag, and a cancellation claim could trigger real business decisions, so the output has to match its evidence (D). A plausible reading (A) still isn't supported by the transcript. B and C are style issues.
+**C.** A wrong format every time means the format was described vaguely, and a concrete example fixes that (C). A is regenerate-and-hope, D changes the model without clarifying the request, and B is still vague.
 
 </details>
 
 ### Question 6
 
-*Output Evaluation and Validation*
+*Output Evaluation and Quality Control*
 
-Research mode returns a summary of a new data regulation with eight cited sources. Your compliance team will base a plan on it. Which TWO steps are needed before anyone uses it? (Select TWO)
+Claude summarized a 30-page vendor contract you attached and wrote: 'The contract auto-renews for 24 months unless cancelled 90 days before expiry.' This line is going into an email to your director. What is the most efficient way to check it?
 
-- **A.** Ask Claude to rate the reliability of each source
-- **B.** Have the compliance owner review the conclusions before the plan is built on them
-- **C.** Open the cited sources and confirm that each key claim matches what the source says, and that the sources are current and authoritative
-- **D.** Run research mode again and keep the claims that appear twice
-- **E.** Nothing; the citations prove the summary is accurate
+- **A.** Regenerate the summary and check whether the same line comes back a second time
+- **B.** Ask Claude to quote the exact clause with its section number, then read that clause yourself
+- **C.** Send it as is, because the contract was attached, so Claude worked from the actual contract text
+- **D.** Ask Claude whether it's sure, and send the summary if it confirms the line
 
 <details>
 <summary>Answer</summary>
 
-**B and C.** Citations make claims checkable, which helps only if someone checks them (C), and regulatory content goes through a qualified reviewer (B). Citations alone (E) don't prove the summary represents its sources correctly. Repeated claims (D) show consistency, which isn't accuracy. Claude grading its own sources (A) is no independent check.
+**B.** A grounded claim can point to its evidence, so asking for the clause and reading it yourself is fast and conclusive (B). Asking for reassurance (D) gets a fluent answer either way. Consistency across regenerations (A) doesn't prove accuracy. An attached source (C) lowers the risk of errors without removing it, and this line describes a contract commitment.
 
 </details>
 
 ### Question 7
 
-*Workflow Integration and Solution Design*
+*Output Evaluation and Quality Control*
 
-Your manager wants to roll Claude out to all 200 employees next week for every kind of task. What do you recommend?
+Claude drafted a job ad for a software engineer that uses phrases like 'young, energetic team' and 'digital native.' What is the issue, and what should you do?
 
-- **A.** Let each employee figure it out without guidance
-- **B.** Roll it out to everyone at once to build momentum
-- **C.** Pilot one or two well-defined workflows with a small group, measure before and after (time spent, error rate), then expand
-- **D.** Wait until AI tools stop making mistakes
+- **A.** Nothing; phrases like these are standard in technology job ads and help the company attract a good cultural fit
+- **B.** The tone is too casual for a technical role; ask for a formal rewrite that sounds more professional
+- **C.** The ad is too long for job boards; ask for a shorter version that keeps the key requirements
+- **D.** It signals an age preference, which can deter qualified applicants and create legal risk; ask for inclusive wording
 
 <details>
 <summary>Answer</summary>
 
-**C.** A measured pilot shows the real value and the limits on a small scale before the whole company depends on it (C). A big-bang rollout (B) spreads untested habits everywhere at once. D waits for something that won't happen. A produces uneven quality and no evidence.
+**D.** Evaluating output covers bias as well as factual errors, and age-coded language in a job ad is a real fairness and compliance problem (D). B and C change the style and keep the biased phrases. A confuses a common phrase with an acceptable one.
 
 </details>
 
 ### Question 8
 
-*Workflow Integration and Solution Design*
+*Output Evaluation and Quality Control*
 
-Which TWO tasks are strong fits for Claude in a marketing team's workflow? (Select TWO)
+Claude built a pricing comparison table with totals calculated from 40 line items you pasted in. The table is going into a client proposal. What validation is needed?
 
-- **A.** Turning a webinar transcript into a blog draft and three social posts
-- **B.** Deciding which agency gets a \$200,000 contract
-- **C.** Reconciling 5,000 ad-spend transactions with no independent check
-- **D.** Reporting a competitor's announcement from yesterday, from memory
-- **E.** Drafting five subject-line variants for an A/B test
+- **A.** Nothing, because you supplied the numbers and Claude only added them up
+- **B.** Round the totals so that any small differences in the arithmetic won't matter to the client
+- **C.** Recompute the totals independently, for example in a spreadsheet, before it goes out
+- **D.** Ask Claude to double-check its own math in the same chat, and fix anything it finds
 
 <details>
 <summary>Answer</summary>
 
-**A and E.** Drafting variants (E) and repurposing content across channels (A) are classic strong fits, with a person reviewing the output. A spending decision (B) needs human accountability, precise reconciliation at volume (C) belongs in a spreadsheet or finance system, and yesterday's news (D) is beyond the model's knowledge unless research mode grounds it.
+**C.** Precise arithmetic over many figures is a weak fit to accept unchecked, and a client-facing proposal makes the numbers consequential, so they get verified independently (C). Next time, have Claude compute totals with code execution on the line items rather than in prose. The same process checking itself (D) isn't an independent check. Correct inputs (A) don't guarantee correct sums. Rounding (B) hides errors.
 
 </details>
 
 ### Question 9
 
-*Workflow Integration and Solution Design*
+*Output Evaluation and Quality Control*
 
-You're presenting a Claude pilot to leadership. Which framing is most appropriate?
+Claude wrote a market summary with no sources attached. Which TWO details are hallucination red flags? (Select TWO)
 
-- **A.** 'Meeting summaries now take 10 minutes instead of 45. The meeting owner still reviews each one, because outputs can contain errors.'
-- **B.** 'Claude eliminates errors from our summaries.'
-- **C.** 'Claude will replace the operations team.'
-- **D.** 'The benefits can't really be measured.'
+- **A.** 'According to a 2025 McKinsey survey, 73% of retailers...' with no source attached
+- **B.** A suggestion to verify the figures with the original sources before publishing
+- **C.** A general explanation of what market share means and how analysts measure it
+- **D.** A note that Claude can't see your internal sales data
+- **E.** A precise figure for next quarter's market size, stated as fact
 
 <details>
 <summary>Answer</summary>
 
-**A.** Good stakeholder communication pairs a concrete, measured benefit with an honest limitation (A). B promises something no probabilistic system delivers. C overstates the role and invites resistance. D gives leadership nothing to decide with.
+**A and E.** A named study with a precise statistic and no source (A), and a confident, specific figure about the future (E), fit the red-flag profile: precision and authority without grounding. A general definition (C) is low risk, and B and D are signs of honest, calibrated output.
 
 </details>
 
 ### Question 10
 
-*Workflow Integration and Solution Design*
+*Output Evaluation and Quality Control*
 
-A colleague opens Claude and types 'help me with the Q3 board deck.' The results are unfocused. What should be defined before prompting?
+Claude summarized a customer interview and wrote: 'The customer is frustrated with onboarding and plans to cancel.' The transcript mentions onboarding friction but says nothing about cancelling. What is the problem?
 
-- **A.** The slide color scheme
-- **B.** Nothing; Claude should infer it
-- **C.** Which model to use
-- **D.** The deliverable, the audience, the source material and what a good result looks like
+- **A.** It presents an inference as fact; edit it to what the transcript supports, or label it as interpretation
+- **B.** The summary needs a more formal, neutral tone before it is shared with the product team
+- **C.** The summary is too short to capture everything the customer said about onboarding
+- **D.** Nothing; it's a reasonable reading of the frustration that the customer described at length in the interview
 
 <details>
 <summary>Answer</summary>
 
-**D.** Solution design starts from the task: what you need, for whom, from which sources, and how you'll judge it (D). Model choice (C) comes later and won't rescue an undefined task. Claude can't infer goals nobody has stated (B). Colors (A) are a detail of the deliverable.
+**A.** Details beyond the source are a hallucination red flag, and a cancellation claim could trigger real business decisions, so the output has to match its evidence (A). A plausible reading (D) still isn't supported by the transcript. C and B are style issues.
 
 </details>
 
 ### Question 11
 
-*Workflow Integration and Solution Design*
+*Output Evaluation and Quality Control*
 
-A legal team handles NDAs in five steps: intake, first-pass review against the team's playbook, negotiation, approval and signature. Where does Claude add the most value with the right safeguards?
+Research mode returns a summary of a new data regulation with eight cited sources. Your compliance team will base a plan on it. Which TWO steps are needed before anyone uses it? (Select TWO)
 
-- **A.** Signing on the company's behalf
-- **B.** First-pass review: compare each NDA to the playbook and flag deviations for a lawyer to decide on
-- **C.** Final approval
-- **D.** Negotiating directly with the other party, unsupervised
+- **A.** Nothing; eight citations from different sources prove that the summary is accurate
+- **B.** Have the compliance owner review the conclusions before the plan is built on them
+- **C.** Ask Claude to rate the reliability of each source
+- **D.** Run research mode again and keep only the claims that appear in both of the summaries
+- **E.** Open the cited sources and confirm each key claim matches them, and that they're current and authoritative
 
 <details>
 <summary>Answer</summary>
 
-**B.** Claude fits the draft-and-analyze stage, with a qualified person keeping the decision (B). Approval (C), signature (A) and unsupervised negotiation (D) would put legal accountability on a tool.
+**B and E.** Citations make claims checkable, which helps only if someone checks them (E), and regulatory content goes through a qualified reviewer (B). Citations alone (A) don't prove the summary represents its sources correctly. Repeated claims (D) show consistency, which isn't accuracy. Claude grading its own sources (C) is no independent check.
 
 </details>
 
 ### Question 12
 
-*Governance, Risk, and Responsible Use*
+*Capability, Model, and Context Selection*
 
-You want Claude to summarize an internal incident report that contains customers' names and email addresses. Your company's AI policy allows internal documents and prohibits customer personal data. What do you do?
+Every month you turn a 9,000-row sales export into a two-page summary for regional managers, with exact totals by region and a short commentary. Which setup fits?
 
-- **A.** Paste it in and ask Claude to ignore the names
-- **B.** Paste it in, because it's an internal document
-- **C.** Use the most capable model so the data stays safe
-- **D.** Remove or anonymize the customer details first (the summary doesn't need them), then summarize
+- **A.** Research mode, so that every figure in the summary comes with a citation you can check
+- **B.** The most capable model at the highest effort, so the arithmetic in the prose is accurate every month
+- **C.** Paste all 9,000 rows into a chat and ask Claude to add up each region and then write the short commentary
+- **D.** Code execution on the uploaded export for exact totals, with the summary as an Artifact you can revise
 
 <details>
 <summary>Answer</summary>
 
-**D.** Check the policy before pasting: the report is allowed, the customer data isn't, and the task works without it (D). Being internal (B) doesn't change the personal-data rule. Model choice (C) has nothing to do with data handling. Asking Claude to ignore data (A) comes after you've already shared it.
+**D.** Exact figures from a data file are the code-execution trigger, and a document you will revise and share is the Artifact trigger (D). Totals written out in prose (C) are estimates. Research (A) searches outside sources and has nothing to do with your export. A stronger setting (B) still produces arithmetic in prose; computation that must be exact belongs in code.
 
 </details>
 
 ### Question 13
 
-*Governance, Risk, and Responsible Use*
+*Capability, Model, and Context Selection*
 
-A sales rep wants to upload a prospect's RFP, marked confidential, so Claude can help draft the response. Your AI policy says nothing about third-party confidential documents. What is the best action?
+Which TWO tasks justify Opus over Sonnet? (Select TWO)
 
-- **A.** Ask the policy owner or legal before uploading, and treat the document as sensitive until there's an answer
-- **B.** Upload only the pages that look less sensitive
-- **C.** Upload it, since the policy doesn't forbid it
-- **D.** Rewrite the RFP from memory and upload that
+- **A.** Writing a two-line reply to a colleague who asked whether the quarterly report will be ready on time
+- **B.** A strategy recommendation synthesizing six long reports, where an error would be expensive
+- **C.** Reformatting a list of 30 names and email addresses into a sortable table
+- **D.** Working out how obligations interact across five related contracts before a negotiation
+- **E.** Summarizing the notes from a short weekly team meeting
 
 <details>
 <summary>Answer</summary>
 
-**A.** When the policy doesn't cover a case, escalate to the policy owner and stay on the cautious side in the meantime (A). Silence in the policy (C) doesn't amount to approval. Partial uploads (B) and paraphrasing from memory (D) still share confidential content, and the rewrite adds errors.
+**B and D.** Opus is for complex, high-stakes reasoning across a lot of material (B, D). Sonnet is the everyday default, and quick, simple tasks like C, A and E suit Sonnet or Haiku.
 
 </details>
 
 ### Question 14
 
-*Governance, Risk, and Responsible Use*
+*Capability, Model, and Context Selection*
 
-Your organization requires disclosure when AI helps produce external content. You drafted a customer newsletter with Claude and then edited it heavily. What applies?
+You need to sort 400 short customer comments into five well-defined themes today. Speed matters more than nuance. Which approach fits?
 
-- **A.** Disclose only if a customer asks
-- **B.** Follow the disclosure rule as written, because your edits don't change how the draft was produced
-- **C.** Describe the newsletter as written and fact-checked without AI
-- **D.** Skip disclosure, because your edits make it your own work
+- **A.** Haiku with the five themes clearly defined, then a spot-check of a sample
+- **B.** Opus at the highest effort, for maximum quality on every one of the comments
+- **C.** Research mode, so each theme is backed by sources from outside the company
+- **D.** One comment per chat, so each of the 400 comments gets Claude's full attention
 
 <details>
 <summary>Answer</summary>
 
-**B.** Transparency rules apply as written (B). Editing (D) doesn't remove the requirement, disclosure on request (A) isn't what the policy says, and C misrepresents how the work was made.
+**A.** Quick, well-defined tasks at volume are Haiku's case, and a sample check keeps the quality honest (A). Opus (B) spends time and cost on a task that doesn't need deep reasoning. Research mode (C) searches for current sources, which this task doesn't need. D wastes hours.
 
 </details>
 
 ### Question 15
 
-*Governance, Risk, and Responsible Use*
+*Capability, Model, and Context Selection*
 
-Which TWO uses make Claude the decision-maker in a situation where a qualified person must own the call? (Select TWO)
+A long chat about a proposal has become slow, and Claude has started mixing up details from early drafts with the current version. What is the best move?
 
-- **A.** Brainstorming names for a team offsite
-- **B.** Using Claude's ranking alone to decide which employees are laid off
-- **C.** Drafting three versions of an internal FAQ for a manager to choose from
-- **D.** Sending Claude's answer about a customer's legal rights to the customer without legal review
-- **E.** Summarizing your own meeting notes
+- **A.** Keep going in the same chat and correct each mistake as soon as it appears in a draft
+- **B.** Paste the entire chat history into a new chat, so that nothing from any of the earlier drafts is lost along the way
+- **C.** Start fresh with a summary of current decisions and the latest draft, and keep references in Project knowledge
+- **D.** Switch to Haiku for speed, since the slowdown is the main problem with the long chat
 
 <details>
 <summary>Answer</summary>
 
-**B and D.** Decisions that affect people's livelihoods (B) or legal standing (D) need a qualified human to own them, however good the draft looks. C, A and E are drafting and organizing work where a person still chooses what to use.
+**C.** Restart, summarize and persist is the fix for an overloaded chat: a fresh context with only what matters (C). A keeps the overload, B moves it to a new chat, and D changes speed without fixing the mix-ups.
 
 </details>
 
 ### Question 16
 
-*Governance, Risk, and Responsible Use*
+*Workflow Design and Integration*
 
-A financial advisory firm uses Claude to draft client emails that explain investment options. Which control is essential?
+Your manager wants to roll Claude out to all 200 employees next week for every kind of task. What do you recommend?
 
-- **A.** Using the most capable model
-- **B.** A disclaimer at the bottom of every email, with no review
-- **C.** Compliance review of client-facing investment content before it's sent, including a check of every figure
-- **D.** Sending the drafts faster to improve service
+- **A.** Wait until AI tools stop making mistakes, so no one has to check the outputs they produce
+- **B.** Pilot one or two well-defined workflows with a small group, measure time and errors before and after, then expand
+- **C.** Let each employee figure out their own uses without guidance, since everyone's work is different
+- **D.** Roll it out to all 200 employees at once next week, to build momentum and show that leadership supports it
 
 <details>
 <summary>Answer</summary>
 
-**C.** Investment explanations are regulated advice, so qualified review comes before sending (C). A stronger model (A) doesn't change who is accountable. A disclaimer (B) can't replace the review that regulation requires. Speed (D) is beside the point.
+**B.** A measured pilot shows the real value and the limits on a small scale before the whole company depends on it (B). A big-bang rollout (D) spreads untested habits everywhere at once. A waits for something that won't happen. C produces uneven quality and no evidence.
 
 </details>
 
 ### Question 17
 
-*Prompting and Task Execution*
+*Workflow Design and Integration*
 
-Your prompt 'Write an email about the new expense tool' produced something generic. Which TWO additions would improve it most? (Select TWO)
+Which TWO tasks are strong fits for Claude in a marketing team's workflow? (Select TWO)
 
-- **A.** The tool's key facts, attached or pasted in: launch date, how to get access, where to get help
-- **B.** A switch to the most capable model
-- **C.** A request for ten versions
-- **D.** Who the email is for and what it should get them to do
-- **E.** 'Make it amazing'
+- **A.** Turning a webinar transcript into a blog draft and three social posts
+- **B.** Reconciling 5,000 ad-spend transactions with no independent check
+- **C.** Deciding which agency gets a \$200,000 contract
+- **D.** Drafting five subject-line variants for an A/B test
+- **E.** Reporting a competitor's announcement from yesterday, from memory
 
 <details>
 <summary>Answer</summary>
 
-**A and D.** Generic output comes from missing context, and the audience and goal (D) and the source material (A) are two of the five parts of a complete business prompt. Enthusiasm (E) adds no information. More versions (C) of an underspecified email are more generic emails. A stronger model (B) still can't know facts you didn't give it.
+**A and D.** Drafting variants (D) and repurposing content across channels (A) are classic strong fits, with a person reviewing the output. A spending decision (C) needs human accountability, precise reconciliation at volume (B) belongs in a spreadsheet or finance system, and yesterday's news (E) is beyond the model's knowledge unless research mode grounds it.
 
 </details>
 
 ### Question 18
 
-*Prompting and Task Execution*
+*Workflow Design and Integration*
 
-You need a 20-page market analysis with competitor profiles, a pricing comparison and recommendations. One big prompt produced a shallow result. What is the best approach?
+You're presenting a Claude pilot to leadership. Which framing is most appropriate?
 
-- **A.** Rewrite the single prompt with every requirement in capitals
-- **B.** Break it into steps: agree on an outline, draft each section from its sources, then do a final pass for consistency and tone
-- **C.** Regenerate until a deeper version appears
-- **D.** Ask for 'much more detail'
+- **A.** 'Claude will replace the operations team by next year, which will save the company its entire annual salary budget.'
+- **B.** 'The benefits are real, but they can't really be measured in time or in quality.'
+- **C.** 'Summaries take 10 minutes instead of 45; the owner still reviews each one, since outputs can contain errors.'
+- **D.** 'Claude eliminates errors from our summaries, so they no longer need anyone to review them.'
 
 <details>
 <summary>Answer</summary>
 
-**B.** Multi-part deliverables work better as a sequence of smaller steps you can check (B). D and A keep the one-giant-prompt problem. C is regenerate-and-hope.
+**C.** Good stakeholder communication pairs a concrete, measured benefit with an honest limitation (C). D promises something no probabilistic system delivers. A overstates the role and invites resistance. B gives leadership nothing to decide with.
 
 </details>
 
 ### Question 19
 
-*Prompting and Task Execution*
+*Workflow Design and Integration*
 
-Claude's first draft of a customer apology is too long and too formal. Which follow-up works best?
+A colleague opens Claude and types 'help me with the Q3 board deck.' The results are unfocused. What should be defined before prompting?
 
-- **A.** Regenerate the response
-- **B.** Start a new chat with the same prompt
-- **C.** 'Cut this to about 120 words, make the tone warmer and more direct, keep the refund details, and apologize in the first sentence.'
-- **D.** 'Make it better.'
+- **A.** The deliverable, its audience, the source material, and what a good result looks like
+- **B.** The slide color scheme, the fonts, the template, and how many slides the deck should have
+- **C.** Nothing; Claude should infer it from the name of the deck and the quarter
+- **D.** Which model to use, and whether to turn on extended thinking for it
 
 <details>
 <summary>Answer</summary>
 
-**C.** Specific feedback gives Claude concrete changes to make (C). D gives it nothing to act on, and A and B roll the dice again on an unchanged request.
+**A.** Solution design starts from the task: what you need, for whom, from which sources, and how you'll judge it (A). Model choice (D) comes later and won't rescue an undefined task. Claude can't infer goals nobody has stated (C). Colors (B) are a detail of the deliverable.
 
 </details>
 
 ### Question 20
 
-*Prompting and Task Execution*
+*Workflow Design and Integration*
 
-You want campaign ideas for a product launch. Which prompting strategy fits brainstorming?
+A legal team handles NDAs in five steps: intake, first-pass review against the team's playbook, negotiation, approval and signature. Where does Claude add the most value with the right safeguards?
 
-- **A.** Give no context, so Claude is unconstrained
-- **B.** Ask for ideas with final budgets attached
-- **C.** Ask for the single best idea
-- **D.** Ask for many varied ideas first (say, 20 across different angles), then evaluate and narrow them with your criteria in a follow-up
+- **A.** Negotiating directly with the other party, unsupervised, so that each deal closes faster
+- **B.** Signing on the company's behalf once the NDA has been reviewed and approved
+- **C.** Final approval, since Claude can check the whole NDA faster than a lawyer can
+- **D.** First-pass review: compare each NDA with the playbook and flag deviations for a lawyer
 
 <details>
 <summary>Answer</summary>
 
-**D.** Brainstorming works best as volume and variety first, then judgment (D). Asking for one best idea (C) skips the exploration. Budgets (B) belong to a later planning step. With no context (A), the ideas won't fit your product or audience.
+**D.** First-pass review is a good human-reviewed step: Claude compares and flags, and a lawyer decides on each deviation (D). Approval (C), signature (B) and negotiation with the other party (A) are human-retained steps that carry legal accountability, and handing them to Claude is over-delegation.
 
 </details>
 
 ### Question 21
 
-*Product and Model Selection*
+*Configuration and Knowledge Management*
 
-You need a project timeline that you'll revise with Claude over several rounds and then share with your team. Which output format fits?
+In a team Project, where should each of these go: (1) 'Always write in British English and use our headline format'; (2) the 40-page brand guidelines PDF; (3) the team's seven-step procedure for turning a brief into a campaign one-pager in the standard template; (4) the brief for this week's campaign?
 
-- **A.** An Artifact: a standalone deliverable in its own panel that you can refine and share
-- **B.** A screenshot of the chat
-- **C.** Research mode
-- **D.** A plain chat reply you copy out each time
+- **A.** (1) Project instructions, (2) a Skill, (3) Project instructions, (4) Project knowledge
+- **B.** (1) Project instructions, (2) Project knowledge, (3) a Skill, (4) the chat prompt
+- **C.** (1) Project knowledge, (2) Project instructions, (3) the chat prompt, (4) a Skill
+- **D.** (1) The chat prompt, (2) the chat prompt, (3) Project knowledge, (4) Project instructions
 
 <details>
 <summary>Answer</summary>
 
-**A.** Artifacts are made for standalone deliverables you'll iterate on and share (A). Chat replies (D) suit quick answers. Research mode (C) finds current sources. A screenshot (B) can't be edited.
+**B.** Standing rules go in instructions, reference documents in knowledge, a repeatable procedure with a template in a Skill, and details for one task in the chat (B). C swaps rules and documents, retypes the procedure every time and makes a one-week brief permanent. D retypes standing rules in every chat and stores a temporary brief as a permanent rule. A packages a reference PDF as a procedure and stores the temporary brief permanently.
 
 </details>
 
 ### Question 22
 
-*Product and Model Selection*
+*Configuration and Knowledge Management*
 
-Which TWO tasks justify Opus over Sonnet? (Select TWO)
+Your weekly report draws on a Google Doc of sales notes that the team updates daily. You've been uploading a copy every Monday, and sometimes it's out of date. What is the better setup?
 
-- **A.** Summarizing a short meeting
-- **B.** A strategy recommendation that synthesizes six long reports, where an error would be expensive
-- **C.** Writing a two-line reply to a colleague
-- **D.** Working out how obligations interact across five related contracts before a high-stakes negotiation
-- **E.** Reformatting a list of 30 names into a table
+- **A.** Paste the notes in from memory at the start of each week's report
+- **B.** Upload a fresh copy twice a week instead of once, on Mondays and Thursdays
+- **C.** Copy the notes into the Project instructions, which Claude reads in every chat
+- **D.** Connect Google Drive so Claude reads the current version of the document
 
 <details>
 <summary>Answer</summary>
 
-**B and D.** Opus is for complex, high-stakes reasoning across a lot of material (B, D). Sonnet is the everyday default, and quick, simple tasks like E, C and A suit Sonnet or Haiku.
+**D.** Connectors suit material that lives in another tool and changes often, so Claude reads the current version (D). More frequent uploads (B) shrink the gap without closing it. Memory (A) adds errors. Instructions (C) hold standing rules, and pasted notes there go stale just as fast.
 
 </details>
 
 ### Question 23
 
-*Product and Model Selection*
-
-You need to sort 400 short customer comments into five well-defined themes today. Speed matters more than nuance. Which approach fits?
-
-- **A.** Haiku with the five themes clearly defined, followed by a spot-check of a sample
-- **B.** One comment per chat, so each gets full attention
-- **C.** Opus for maximum quality on every comment
-- **D.** Research mode
-
-<details>
-<summary>Answer</summary>
-
-**A.** Quick, well-defined tasks at volume are Haiku's case, and a sample check keeps the quality honest (A). Opus (C) spends time and cost on a task that doesn't need deep reasoning. Research mode (D) searches for current sources, which this task doesn't need. B wastes hours.
-
-</details>
-
-### Question 24
-
-*Product and Model Selection*
-
-A long chat about a proposal has become slow, and Claude has started mixing up details from early drafts with the current version. What is the best move?
-
-- **A.** Switch to Haiku for speed
-- **B.** Paste the entire chat history into a new chat
-- **C.** Start a new chat with a short summary of the current decisions and the latest draft, and keep reference documents in Project knowledge
-- **D.** Keep going and correct each mistake as it appears
-
-<details>
-<summary>Answer</summary>
-
-**C.** Restart, summarize and persist is the fix for an overloaded chat: a fresh context with only what matters (C). D keeps the overload, B moves it to a new chat, and A changes speed without fixing the mix-ups.
-
-</details>
-
-### Question 25
-
-*Configuration and Knowledge Management*
-
-In a team Project, where should each of these go: (1) 'Always write in British English and use our headline format'; (2) the 40-page brand guidelines PDF; (3) the brief for this week's campaign?
-
-- **A.** (1) The chat prompt, (2) the chat prompt, (3) Project knowledge
-- **B.** (1) Project instructions, (2) the chat prompt, (3) Project knowledge
-- **C.** (1) Project knowledge, (2) Project instructions, (3) Project instructions
-- **D.** (1) Project instructions, (2) Project knowledge, (3) the chat prompt
-
-<details>
-<summary>Answer</summary>
-
-**D.** Standing rules go in instructions, reference documents go in knowledge, and details for one task go in the chat (D). C swaps rules and documents and makes a one-week brief permanent. A retypes standing rules every time. B re-uploads the guidelines in every chat and stores a temporary brief permanently.
-
-</details>
-
-### Question 26
-
-*Configuration and Knowledge Management*
-
-Your weekly report draws on a Google Doc of sales notes that the team updates daily. You've been uploading a copy every Monday, and sometimes it's out of date. What is the better setup?
-
-- **A.** Copy the notes into the Project instructions
-- **B.** Connect Google Drive so Claude reads the current version of the document
-- **C.** Upload a copy twice a week
-- **D.** Paste the notes from memory
-
-<details>
-<summary>Answer</summary>
-
-**B.** Connectors suit material that lives in another tool and changes often, so Claude reads the current version (B). More frequent uploads (C) shrink the gap without closing it. Memory (D) adds errors. Instructions (A) hold standing rules, and pasted notes there go stale just as fast.
-
-</details>
-
-### Question 27
-
 *Configuration and Knowledge Management*
 
 A Project keeps quoting last year's prices. Both the 2025 and the 2026 price sheets are in Project knowledge. What fixes this?
 
-- **A.** Remove or replace the outdated price sheet, and if both must stay, state in the instructions which one is current
-- **B.** Use research mode for prices
-- **C.** Correct Claude in every chat
-- **D.** Switch to Opus
+- **A.** Remove or replace the outdated sheet; if both must stay, say in the instructions which one is current
+- **B.** Use research mode for prices, so that Claude searches the web for the current figures each time it needs one
+- **C.** Correct Claude in every chat whenever it quotes one of last year's prices
+- **D.** Switch to Opus, which is better at telling which of two documents is newer
 
 <details>
 <summary>Answer</summary>
@@ -510,57 +436,130 @@ A Project keeps quoting last year's prices. Both the 2025 and the 2026 price she
 
 </details>
 
-### Question 28
+### Question 24
 
-*Troubleshooting and Optimization*
+*Configuration and Knowledge Management*
 
-You asked for 'a table comparing vendors,' and each time the columns come out different. What is the most effective fix?
+A consultant runs all client work in one Project with memory on. This week, a draft for Client A mentioned the internal codename of Client B's project. The instructions and knowledge files haven't changed. What is the right fix?
 
-- **A.** Ask for 'a better table'
-- **B.** Show the exact structure: list the columns in order, or paste a sample row, and ask Claude to follow it
-- **C.** Regenerate until the columns match
-- **D.** Switch to Opus
+- **A.** Remove Client B's files from Project knowledge, so that Claude can no longer read them
+- **B.** Switch to a more capable model that keeps different clients' details apart more reliably
+- **C.** Delete the memories about Client B, and give each client its own Project so memory stays scoped to one client
+- **D.** Add an instruction telling Claude never to mention other clients' names, codenames, or projects in any of its drafts
 
 <details>
 <summary>Answer</summary>
 
-**B.** A wrong format every time means the format was described vaguely, and a concrete example fixes that (B). C is regenerate-and-hope, D changes the model without clarifying the request, and A is still vague.
+**C.** Details from another work stream are the signature of memory accumulated across clients, so the fix is to clean that memory and separate the work streams (C). An instruction (D) papers over context that shouldn't be shared at all. A stronger model (B) doesn't change what Claude remembers. The knowledge files (A) haven't changed, so they can't explain the new behavior.
+
+</details>
+
+### Question 25
+
+*Configuration and Knowledge Management*
+
+On Monday you changed a Project's instructions, switched the model and uploaded new knowledge files. Since then, the outputs are worse. What should you do?
+
+- **A.** Ask Claude what went wrong, since it can see its own instructions and knowledge
+- **B.** Roll back, then reapply one change at a time, comparing results on the same test inputs
+- **C.** Delete the Project and start over with a fresh setup built from scratch this week
+- **D.** Change everything again until the outputs are as good as they were before Monday
+
+<details>
+<summary>Answer</summary>
+
+**B.** With three changes at once, you can't tell which one hurt quality, so change one variable at a time against the same inputs (B). D adds more confusion, A asks Claude to explain configuration changes it can't observe, and C throws away a setup that worked before Monday.
+
+</details>
+
+### Question 26
+
+*Responsible Use, Data Protection, and Governance*
+
+You want Claude to summarize an internal incident report that contains customers' names and email addresses. Your company's AI policy allows internal documents and prohibits customer personal data. What do you do?
+
+- **A.** Paste it in, because the policy allows internal documents and this report is an internal one
+- **B.** Paste it in and ask Claude to ignore the names
+- **C.** De-identify the customer details first, since the summary doesn't need them, then summarize
+- **D.** Paste it into an incognito chat, since incognito chats aren't saved to history or memory
+
+<details>
+<summary>Answer</summary>
+
+**C.** Check the policy before pasting: the report is allowed, the customer data isn't, and the task works without it (C). Being internal (A) doesn't change the personal-data rule. Incognito (D) controls what is kept afterwards, but the data has still been shared. Asking Claude to ignore data (B) comes after you've already shared it.
+
+</details>
+
+### Question 27
+
+*Responsible Use, Data Protection, and Governance*
+
+A sales rep wants to upload a prospect's RFP, marked confidential, so Claude can help draft the response. Your AI policy says nothing about third-party confidential documents. What is the best action?
+
+- **A.** Ask the policy owner or legal before uploading, and treat the RFP as sensitive until they answer
+- **B.** Rewrite the RFP from memory in your own words and upload that version instead of the file
+- **C.** Upload it, since the policy doesn't forbid it and the prospect wants a fast response
+- **D.** Upload only the pages that look less sensitive, and keep the pricing pages out of it
+
+<details>
+<summary>Answer</summary>
+
+**A.** When the policy doesn't cover a case, escalate to the policy owner and stay on the cautious side in the meantime (A). Silence in the policy (C) doesn't amount to approval. Partial uploads (D) and paraphrasing from memory (B) still share confidential content, and the rewrite adds errors.
+
+</details>
+
+### Question 28
+
+*Responsible Use, Data Protection, and Governance*
+
+Your organization requires disclosure when AI helps produce external content. You drafted a customer newsletter with Claude and then edited it heavily. What applies?
+
+- **A.** Describe the newsletter as written and fact-checked by the team without help from AI
+- **B.** Skip disclosure, because your heavy edits have made the newsletter substantially your own original work
+- **C.** Disclose AI involvement only if a customer asks how the newsletter was written
+- **D.** Follow the disclosure rule as written, since your edits don't change how the draft was produced
+
+<details>
+<summary>Answer</summary>
+
+**D.** Transparency rules apply as written (D). Editing (B) doesn't remove the requirement, disclosure on request (C) isn't what the policy says, and A misrepresents how the work was made.
 
 </details>
 
 ### Question 29
 
-*Troubleshooting and Optimization*
+*Responsible Use, Data Protection, and Governance*
 
-Claude answered a question about your company's travel reimbursement limits using general industry norms. The real policy is a PDF on the shared drive. What is the best fix?
+Which TWO uses make Claude the decision-maker in a situation where a qualified person must own the call? (Select TWO)
 
-- **A.** Tell Claude its answer is wrong and ask it to try again
-- **B.** Switch to Opus
-- **C.** Attach the policy (or add it to Project knowledge) and ask Claude to answer from it, quoting the relevant section
-- **D.** Ask the same question again with more emphasis
+- **A.** Using Claude's ranking alone to decide which employees are laid off
+- **B.** Brainstorming names for a team offsite
+- **C.** Summarizing your own meeting notes
+- **D.** Drafting three versions of an internal FAQ for a manager to choose from
+- **E.** Sending Claude's answer about a customer's legal rights to the customer without legal review
 
 <details>
 <summary>Answer</summary>
 
-**C.** Confident but wrong claims about your own business come from missing source material, so give Claude the policy and ask for the quote (C). Emphasis (D) and a stronger model (B) can't produce a policy Claude hasn't seen. Telling Claude it's wrong (A) without the policy gets you a different guess.
+**A and E.** Decisions that affect people's livelihoods (A) or legal standing (E) need a qualified human to own them, however good the draft looks. D, B and C are drafting and organizing work where a person still chooses what to use.
 
 </details>
 
 ### Question 30
 
-*Troubleshooting and Optimization*
+*Responsible Use, Data Protection, and Governance*
 
-On Monday you changed a Project's instructions, switched the model and uploaded new knowledge files. Since then, the outputs are worse. What should you do?
+A colleague found a free third-party Skill online that promises to summarize any contract, and wants to add it to the legal team's Project, which has the Google Drive connector enabled. What should happen first?
 
-- **A.** Change everything again
-- **B.** Delete the Project and start over
-- **C.** Ask Claude what went wrong
-- **D.** Roll back, then reapply one change at a time and compare the results on the same test inputs
+- **A.** Install it, but turn off the Google Drive connector while the team is testing it on a few contracts
+- **B.** Vet it like any software touching company data: publisher, what it does with files, policy; then get approval
+- **C.** Install it if its reviews are good and other legal teams have used it without any problems
+- **D.** Install it, since Skills only change how Claude formats output and can't reach the connected files
 
 <details>
 <summary>Answer</summary>
 
-**D.** With three changes at once, you can't tell which one hurt quality, so change one variable at a time against the same inputs (D). A adds more confusion, C asks Claude to explain configuration changes it can't observe, and B throws away a setup that worked before Monday.
+**B.** Trust in third-party Skills and connectors is part of judging whether a use is appropriate, so it gets vetted and approved before it touches legal files (B). Skills can carry instructions and code, so they do more than format output (D). Turning the connector off for a test (A) skips the question of what happens when it is on. Reviews (C) say nothing about your organization's policy or data.
 
 </details>
 
@@ -569,14 +568,13 @@ On Monday you changed a Project's instructions, switched the model and uploaded 
 ## Where to go next
 
 - **Review by domain.** If your misses cluster, re-read those domains in Part II of the [CCAO-F study guide](./guide.md):
-  - [Output Evaluation and Validation](./guide.md#domain-1-output-evaluation--validation-21)
-  - [Workflow Integration and Solution Design](./guide.md#domain-2-workflow-integration--solution-design-16)
-  - [Governance, Risk, and Responsible Use](./guide.md#domain-3-governance-risk--responsible-use-15)
-  - [Prompting and Task Execution](./guide.md#domain-4-prompting--task-execution-14)
-  - [Product and Model Selection](./guide.md#domain-5-product--model-selection-12)
-  - [Configuration and Knowledge Management](./guide.md#domain-6-configuration--knowledge-management-12)
-  - [Troubleshooting and Optimization](./guide.md#domain-7-troubleshooting--optimization-10)
-- **Practice at full length.** The [CCAO-F page on Preporato](https://preporato.com/certificates/claude-certified-associate-foundations) has free sample questions and six full-length timed practice tests (paid) in the exam's format, with a score for every domain.
+  - [Task Definition and Prompting](./guide.md#domain-1-task-definition-and-prompting-15)
+  - [Output Evaluation and Quality Control](./guide.md#domain-2-output-evaluation-and-quality-control-20)
+  - [Capability, Model, and Context Selection](./guide.md#domain-3-capability-model-and-context-selection-15)
+  - [Workflow Design and Integration](./guide.md#domain-4-workflow-design-and-integration-18)
+  - [Configuration and Knowledge Management](./guide.md#domain-5-configuration-and-knowledge-management-15)
+  - [Responsible Use, Data Protection, and Governance](./guide.md#domain-6-responsible-use-data-protection-and-governance-17)
+- **Practice at full length.** The [CCAO-F page on Preporato](https://preporato.com/certificates/claude-certified-associate-foundations) has free sample questions and full-length timed practice tests (paid) in the exam's format, with a score for every domain.
 
 Found a mistake in a question? [Open an issue](https://github.com/preporato/claude-certification-guide/issues/new?template=outdated-fact.yml) and we'll fix it.
 

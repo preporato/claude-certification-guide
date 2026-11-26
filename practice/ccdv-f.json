@@ -4,62 +4,135 @@
   "name": "Claude Certified Developer - Foundations",
   "cert_page": "https://preporato.com/certificates/claude-certified-developer-foundations",
   "exam": {
-    "questions": 53,
+    "questions": 70,
+    "scored": 60,
     "minutes": 120
   },
-  "minutes": 60,
+  "minutes": 51,
   "domains": [
     {
       "id": "d1",
-      "name": "Applications and Integration",
-      "weight": 33
-    },
-    {
-      "id": "d2",
-      "name": "Model Selection and Optimization",
+      "name": "Agents and Workflows",
       "weight": 17
     },
     {
+      "id": "d2",
+      "name": "Applications and Integration",
+      "weight": 20
+    },
+    {
       "id": "d3",
-      "name": "Agents and Workflows",
-      "weight": 15
+      "name": "Claude Code",
+      "weight": 8
     },
     {
       "id": "d4",
-      "name": "Prompt and Context Engineering",
-      "weight": 11
-    },
-    {
-      "id": "d5",
-      "name": "Tools and MCPs",
+      "name": "Eval, Testing, and Debugging",
       "weight": 10
     },
     {
+      "id": "d5",
+      "name": "Model Selection and Optimization",
+      "weight": 12
+    },
+    {
       "id": "d6",
+      "name": "Prompt and Context Engineering",
+      "weight": 15
+    },
+    {
+      "id": "d7",
       "name": "Security and Safety",
       "weight": 8
     },
     {
-      "id": "d7",
-      "name": "Claude Code",
-      "weight": 3
-    },
-    {
       "id": "d8",
-      "name": "Eval, Testing, and Debugging",
-      "weight": 3
+      "name": "Tools and MCP",
+      "weight": 10
     }
   ],
   "scenarios": [],
   "questions": [
     {
       "domain": "d1",
+      "stem": "A team wants an autonomous agent to convert CSV exports into a fixed JSON layout. The column mapping never changes. What is the best approach?",
+      "options": {
+        "a": "A deterministic script, or one model call with a schema where a field needs interpretation",
+        "b": "An Agent SDK agent with file tools, so that it can read each export and write out the JSON",
+        "c": "A manager agent with three subagents that each convert a third of the columns",
+        "d": "An orchestration framework with a state graph that tracks each file's progress"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "Apply the four-question test: the task isn't complex, its path is fully known, and code can avoid errors cheaply, so autonomy only adds cost and unpredictability ({a}). {b}, {c} and {d} each add machinery the problem doesn't need."
+    },
+    {
+      "domain": "d1",
+      "stem": "Which TWO things does the Claude Agent SDK give you that you would otherwise build yourself in a custom loop? (Select TWO)",
+      "options": {
+        "a": "The agent loop with built-in tools for files, shell commands and search",
+        "b": "Context management, plus hooks and permissions for deterministic control",
+        "c": "A hosted vector database for retrieval over your project's own documents",
+        "d": "Automatic fine-tuning of the model on your agent's traces",
+        "e": "A visual drag-and-drop designer for building the agent's workflow"
+      },
+      "answer": [
+        "a",
+        "b"
+      ],
+      "explanation": "The Agent SDK packages the same harness Claude Code runs on: the loop and built-in tools ({a}), plus context management, hooks, permissions and subagents ({b}). It doesn't host a vector database ({c}), fine-tune models ({d}) or provide a visual designer ({e})."
+    },
+    {
+      "domain": "d1",
+      "stem": "A bank's agent must keep all code execution and data inside its own network for data-residency rules. A startup wants the fastest path to production. Which deployment fits each?",
+      "options": {
+        "a": "Self-hosted for the bank, managed for the startup",
+        "b": "Managed for both",
+        "c": "Self-hosted for both",
+        "d": "Managed for the bank, self-hosted for the startup"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "Residency and custom-runtime requirements point to self-hosted execution, and speed to production points to a managed deployment where the provider runs the loop and the sandbox ({a}). {b} puts the bank's data outside its network. {c} slows the startup down for a requirement it doesn't have. {d} reverses both."
+    },
+    {
+      "domain": "d1",
+      "stem": "An agent must summarize 12 long PDFs independently, then write a comparison across them. The single-agent version runs out of context. What is the best design?",
+      "options": {
+        "a": "Give each PDF to a parallel subagent with its own context, and compare their summaries in an orchestrator",
+        "b": "One agent reads all 12 PDFs in sequence in a single context, summarizing each one before moving to the next",
+        "c": "Raise `max_tokens` on the single agent so it has room for all twelve summaries and the comparison",
+        "d": "Twelve agents, one per PDF, that send their findings to each other directly and agree on the comparison"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "The summaries are independent subtasks, so isolated subagent contexts fit, and only compact reports return to the orchestrator ({a}). {b} is the design that already failed. `max_tokens` ({c}) limits output, and the problem is input. Agents talking to each other directly ({d}) remove the coordinator that merges results and isolates failures."
+    },
+    {
+      "stem": "A coding agent built on the Claude Agent SDK must run the project's linter after every file edit. The system prompt says 'Always run the linter after you edit a file.' Traces show it skips the linter in about one run in ten, mostly late in long sessions. Which change makes the requirement hold?",
+      "options": {
+        "a": "A hook that runs the linter after every edit tool call, so it runs as code, not at the model's discretion",
+        "b": "Repeat the instruction in capitals at the end of the system prompt, which is where the model reads it last",
+        "c": "Add few-shot examples to the prompt that show the agent running the linter after each edit",
+        "d": "Raise the effort level so the agent plans more carefully and follows its instructions more closely"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "A required action shouldn't depend on the model remembering it; a post-edit hook runs every time ({a}). Emphasis ({b}), examples ({c}) and more reasoning ({d}) all make the step more likely, and none makes it certain, which is what the requirement asks for.",
+      "domain": "d1"
+    },
+    {
+      "domain": "d2",
       "stem": "A chatbot sends only the newest user message to the API on each turn. Users complain that it forgets what they said two messages earlier. What fixes this?",
       "options": {
         "a": "Send the conversation history, alternating user and assistant turns, with every request",
-        "b": "Enable prompt caching so earlier turns are remembered",
-        "c": "Raise `max_tokens`",
-        "d": "Switch to a model with a larger context window"
+        "b": "Enable prompt caching, so the earlier turns of the conversation are remembered between requests",
+        "c": "Raise `max_tokens` so there is room in each response to refer back to earlier messages",
+        "d": "Switch to a model with a larger context window that can hold more of the conversation"
       },
       "answer": [
         "a"
@@ -67,7 +140,7 @@
       "explanation": "The Messages API is stateless: the history you send is the model's entire memory of the conversation ({a}). Caching ({b}) makes repeated prefixes cheaper and faster, and it only applies to content you actually send. `max_tokens` ({c}) limits output length. A larger window ({d}) is useless when the earlier turns are never included."
     },
     {
-      "domain": "d1",
+      "domain": "d2",
       "stem": "Which `stop_reason` tells you the response ended because it filled the model's context window, as opposed to hitting the `max_tokens` value you set?",
       "options": {
         "a": "`model_context_window_exceeded`",
@@ -81,12 +154,12 @@
       "explanation": "{a} means the response ran into the model's context window limit. {b} means it hit your own `max_tokens` cap. {c} means a server-side tool loop paused and should be continued, and {d} means Claude finished naturally. The first two both mean the output may be incomplete and shouldn't be parsed as a finished answer."
     },
     {
-      "domain": "d1",
+      "domain": "d2",
       "stem": "Which TWO problems does streaming solve? (Select TWO)",
       "options": {
         "a": "Users waiting several seconds for the first words of a chat reply",
         "b": "HTTP timeouts on requests with very large `max_tokens` values",
-        "c": "High token prices on long outputs",
+        "c": "High token prices on long outputs, since streamed tokens are billed at a lower rate",
         "d": "Answers that contain factual errors",
         "e": "Rate-limit errors during traffic peaks"
       },
@@ -97,13 +170,13 @@
       "explanation": "Streaming sends tokens as they're generated, which shortens perceived latency ({a}) and keeps long-running requests alive instead of waiting on one large response ({b}). It doesn't change token pricing ({c}), accuracy ({d}) or rate limits ({e})."
     },
     {
-      "domain": "d1",
+      "domain": "d2",
       "stem": "Your app sends a different subset of 30 tools on each request depending on the user's plan, and the order of the tool list varies between requests. The system prompt is identical every time, yet the cache hit rate is near zero. Why?",
       "options": {
-        "a": "Tools come first in the cache prefix, so any change to the tool list or its order invalidates everything after it, including the system prompt; send a stable, consistently ordered tool list per plan",
-        "b": "The system prompt must be placed before the tools to be cached",
-        "c": "Requests that include tools can't be cached",
-        "d": "The 5-minute cache lifetime is too short and needs the 1-hour option"
+        "a": "Tools lead the cache prefix, so a changing tool list or order breaks it; send one stable, ordered list per plan",
+        "b": "The system prompt must be placed before the tools in the request, or the system prompt can't be cached at all",
+        "c": "Requests that include tool definitions can't be cached, so only the messages after them are stored",
+        "d": "The 5-minute cache lifetime is too short for this traffic and needs to move to the 1-hour option"
       },
       "answer": [
         "a"
@@ -111,41 +184,13 @@
       "explanation": "The cache is a prefix match in a fixed order (tools, then system, then messages), so a changing tool list breaks the prefix at its very start ({a}). The order of those sections isn't yours to choose ({b}), tools are cacheable ({c}), and a longer lifetime ({d}) doesn't help a prefix that never repeats."
     },
     {
-      "domain": "d1",
-      "stem": "You add `cache_control` to a 600-token system prompt on a model whose minimum cacheable length is 1,024 tokens. Both `cache_creation_input_tokens` and `cache_read_input_tokens` stay at 0, and the API returns no error. What is happening?",
-      "options": {
-        "a": "The prefix is below the model's minimum cacheable length, so the request is processed without caching and no error is raised",
-        "b": "`cache_control` only works in batch requests",
-        "c": "The cache expired between requests",
-        "d": "The API needs a beta header to enable caching"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "Prompts shorter than the model's minimum cacheable length are processed normally without caching, and the API doesn't report an error, which is why checking the usage fields matters ({a}). Caching works for regular requests ({b}). An expired cache ({c}) would still show cache_creation tokens when the entry is written again. No beta header is needed ({d})."
-    },
-    {
-      "domain": "d1",
-      "stem": "A nightly batch of 5,000 requests shares a 20,000-token system prompt. Batches can take longer than five minutes to process. How should prompt caching be set up?",
-      "options": {
-        "a": "Mark the shared prefix with the 1-hour cache duration and accept its higher write price for better hit rates across the batch",
-        "b": "Keep the default 5-minute duration, since it's always the cheapest option",
-        "c": "Skip caching, because it can't be combined with batches",
-        "d": "Put the system prompt after the messages so it caches last"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "Anthropic's documentation recommends the 1-hour duration for batches because their requests can be processed over a longer window, and cache hits on batches are best-effort ({a}). With the 5-minute default ({b}), entries can expire between requests. Caching does work with batches ({c}). The system prompt's position in the request ({d}) is fixed."
-    },
-    {
-      "domain": "d1",
+      "domain": "d2",
       "stem": "Your batch job writes results to the database in the order they come back, pairing each with the input at the same position. Some records end up with another record's classification. Why?",
       "options": {
-        "a": "Batch results can come back in any order; match each result to its request by `custom_id`",
-        "b": "The batch expired before all requests finished",
-        "c": "Sampling makes the classifications non-deterministic",
-        "d": "Results are only kept for 29 days"
+        "a": "Results can come back in any order; match each one to its request by `custom_id`",
+        "b": "The batch expired before all of its requests finished, so later results shifted position",
+        "c": "Sampling makes the classifications non-deterministic, so some labels change between runs",
+        "d": "Results are only kept for 29 days, after which older records lose their labels"
       },
       "answer": [
         "a"
@@ -153,13 +198,13 @@
       "explanation": "Results aren't guaranteed to follow request order, which is why every request carries a `custom_id` ({a}). An expired batch ({b}) produces 'expired' results, which wouldn't swap labels between records. Non-determinism ({c}) can change a label but doesn't explain systematic mismatches. Retention ({d}) is unrelated."
     },
     {
-      "domain": "d1",
+      "domain": "d2",
       "stem": "A downstream parser broke after your model outputs changed format overnight. Nobody touched the code. Which TWO practices prevent this kind of silent change? (Select TWO)",
       "options": {
         "a": "Pin a specific model version in production and upgrade on purpose after running evals",
         "b": "Keep prompts under version control (or in a prompt registry) and run evals before changing them",
-        "c": "Always call the newest model alias to pick up improvements",
-        "d": "Edit prompts directly in production for speed",
+        "c": "Always call the newest model alias, so production picks up every improvement automatically",
+        "d": "Edit prompts directly in production for speed, so that fixes reach users the same day",
         "e": "Add retries around the parser"
       },
       "answer": [
@@ -169,35 +214,77 @@
       "explanation": "Pinning ({a}) keeps model behavior fixed until you choose to move, and versioned prompts ({b}) make every behavior change reviewable and revertible. A floating alias ({c}) and direct production edits ({d}) are how silent changes happen. Retries ({e}) repeat the same broken output."
     },
     {
-      "domain": "d1",
-      "stem": "A receipt-processing app sends 4,000 x 3,000-pixel phone photos. Latency is high, and tests show accuracy holds at lower resolution. What should change?",
+      "domain": "d3",
+      "stem": "Which files should hold a team's shared Claude Code permission rules (for example, allowing `Bash(npm run test *)`) and one developer's personal overrides for the same project?",
       "options": {
-        "a": "Resize the images in the app before upload; oversized images are scaled down on Anthropic's side anyway, which adds latency, and image tokens grow with pixel area up to the model's limit",
-        "b": "Convert the images to base64 text and paste them into the prompt",
-        "c": "Send the receipts through the Batch API",
-        "d": "Place the image after the question in the message"
+        "a": "Committed `.claude/settings.json` for the team; gitignored `.claude/settings.local.json` for the developer",
+        "b": "`~/.claude/settings.json` for the team; the project's `.claude/settings.json` for the developer's own overrides",
+        "c": "`CLAUDE.md` for both, with the developer's overrides in a section at the end",
+        "d": "`.mcp.json` for the team, and `CLAUDE.local.md` in the project root for the developer"
       },
       "answer": [
         "a"
       ],
-      "explanation": "Each model has a maximum native resolution, and larger images are downscaled before processing, so sending them full-size costs upload time and latency without adding detail ({a}). Base64 ({b}) is the normal transport for images and changes nothing about their size. Batch ({c}) trades latency for price, the wrong direction here. Placement ({d}) has a small effect on quality, and Anthropic recommends putting images before the text."
+      "explanation": "The project settings file is shared through version control, and the local settings file holds personal overrides for that project without being committed ({a}). User-level settings ({b}) apply to one person across all projects. `CLAUDE.md` files ({c}, {d}) hold instructions, while permissions are enforced from settings files, and `.mcp.json` configures MCP servers."
     },
     {
-      "domain": "d1",
-      "stem": "Before launch, you need to know whether a 180-page contract plus your instructions fits in the model's context window, and what each request will cost. What is the best approach?",
+      "stem": "A platform team has a proven Claude Code setup: a code-review Skill, a security-review subagent, a hook that blocks pushes to main, and an internal MCP server. Forty product teams in separate repositories should install it and receive updates. What is the best way to distribute it?",
       "options": {
-        "a": "Call the token counting endpoint with the exact request (system prompt, tools and messages)",
-        "b": "Estimate four characters per token",
-        "c": "Send the request and see whether it fails",
-        "d": "Ask Claude how many tokens the contract contains"
+        "a": "A versioned plugin in an internal marketplace, so teams install it once and receive updates",
+        "b": "Copy the files into each repository's `.claude/` folder, so every team has its own setup",
+        "c": "Document the setup on the wiki and let each team rebuild it to suit its own repository",
+        "d": "Put the files in each developer's user-level `~/.claude/` folder through an onboarding script"
       },
       "answer": [
         "a"
       ],
-      "explanation": "The token counting endpoint measures the request exactly as the model will receive it ({a}). A rule of thumb ({b}) can be far off, especially with tables, code or non-English text. Trial and error ({c}) costs money and tells you nothing until it fails. Claude can't reliably count its own input tokens ({d})."
+      "explanation": "A plugin bundles skills, subagents, hooks and MCP servers as one installable unit with versions, and a marketplace handles distribution and updates ({a}). Copies in forty repositories ({b}) drift apart with every change. A wiki ({c}) depends on forty teams rebuilding it correctly. User-level folders ({d}) reach one machine at a time and nothing in the repository.",
+      "domain": "d3"
     },
     {
-      "domain": "d2",
+      "domain": "d4",
+      "stem": "Your test suite checks that the model's summary exactly equals a stored 'golden' string, and the tests keep flaking. What is a better approach?",
+      "options": {
+        "a": "Assert on structure and key facts (valid schema, required fields, must-have figures) or grade with a rubric",
+        "b": "Set temperature to 0 and keep exact string matching, since that makes the model's outputs fully deterministic",
+        "c": "Retry each test until the output matches the golden string, then record a pass",
+        "d": "Delete the flaky tests and rely on manual review of a few outputs before each release"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "Sampled outputs vary between runs, so tests should check what matters about an output instead of its exact wording ({a}). Temperature 0 ({b}) is not a plan: the newest models reject sampling parameters with a 400, and where temperature 0 was accepted it reduced variation without guaranteeing identical text. Retrying until a pass ({c}) hides real regressions, and deleting tests ({d}) removes the safety net."
+    },
+    {
+      "domain": "d4",
+      "stem": "After you add a new tool named `get order status`, every request returns 400 `invalid_request_error`. What is the first move?",
+      "options": {
+        "a": "Fix the request: tool names can't contain spaces, so rename it (for example, `get_order_status`)",
+        "b": "Retry with exponential backoff, since a newly added tool can take a few minutes to register",
+        "c": "Switch to a different model that supports more flexible tool names in its requests",
+        "d": "Rewrite the system prompt to explain the new tool and when the agent should call it"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "A 400 is a client error caused by the request itself, and a tool name with spaces breaks the documented pattern `^[a-zA-Z0-9_-]{1,128}$` ({a}). Retries ({b}) repeat the same invalid request. The model ({c}) and the prompt ({d}) play no part in request validation."
+    },
+    {
+      "stem": "A team grades chatbot replies with an LLM judge on a 1-5 helpfulness rubric. Compared with 200 human-labeled replies, the judge agrees with people on short replies but rates long replies about a point higher than they do. What should the team do before trusting the scores?",
+      "options": {
+        "a": "Revise the rubric and judge prompt to score what matters regardless of length, then re-measure agreement",
+        "b": "Average the judge's scores with those of a second judge model, so that the length bias is diluted",
+        "c": "Switch the judge to a larger, more capable model and start using its scores in the release gate right away",
+        "d": "Replace the rubric with an exact-match comparison against stored reference answers"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "The human labels expose a length bias, so the fix is a calibrated judge: change the rubric, then check agreement again ({a}). Averaging two judges ({b}) can average the same bias. A larger model ({c}) may still be biased, and skipping the re-measure means nobody knows. Exact match ({d}) can't grade helpfulness, because good replies vary in wording.",
+      "domain": "d4"
+    },
+    {
+      "domain": "d5",
       "stem": "A team's monthly API bill doubled, and evals show quality is fine. Which TWO levers should they try before downgrading the model tier? (Select TWO)",
       "options": {
         "a": "Trim context: drop stale tool outputs and history the model no longer needs",
@@ -213,54 +300,40 @@
       "explanation": "Trimming ({a}) and caching ({b}) cut cost without touching the model, so they come before a tier change, which should only happen with eval evidence ({c}). Batch ({d}) fits only work nobody is waiting for. A higher `max_tokens` ({e}) can raise spend."
     },
     {
-      "domain": "d2",
+      "domain": "d5",
       "stem": "A coding agent on a model that supports the effort parameter works well but runs slowly and uses many tokens on routine refactors. Evals show quality holds at a lower effort level for those tasks. What should change?",
       "options": {
-        "a": "Lower `output_config.effort` for routine refactors and keep a higher level for hard tasks",
-        "b": "Switch to a smaller model without testing it",
-        "c": "Set `max_tokens` to 512 for every request",
-        "d": "Turn on extended thinking with a large budget"
+        "a": "Lower `output_config.effort` for routine refactors; keep a higher level for hard tasks",
+        "b": "Switch to a smaller model for every task without testing it, since refactors are simple",
+        "c": "Set `max_tokens` to 512 for every request so no response can run long",
+        "d": "Raise effort to `max` on every request so refactors finish in fewer turns"
       },
       "answer": [
         "a"
       ],
-      "explanation": "Effort controls how many tokens Claude spends across the whole response, thinking and tool calls included, without changing models, and the evals already show the lower level holds ({a}). {b} skips the evidence step. A hard cap ({c}) truncates work midway. More thinking ({d}) adds tokens and latency, the opposite of the goal."
+      "explanation": "Effort controls how many tokens Claude spends across the whole response, thinking and tool calls included, without changing models, and the evals already show the lower level holds ({a}). {b} skips the evidence step. A hard cap ({c}) truncates work midway. Maximum effort ({d}) adds tokens and latency, the opposite of the goal."
     },
     {
-      "domain": "d2",
-      "stem": "A team enabled extended thinking on every request, including one-line greetings in their chatbot. Latency and cost rose, with no measurable quality gain on those replies. What is the best response?",
+      "domain": "d5",
+      "stem": "A team runs its chatbot with adaptive thinking at high effort on every request, including one-line greetings. Latency and cost rose, with no measurable quality gain on those replies. What is the best response?",
       "options": {
-        "a": "Decide per workload: keep deeper reasoning where evals show gains on multi-step problems, and reduce it for simple turns",
-        "b": "Turn thinking off everywhere",
-        "c": "Raise the thinking budget further",
-        "d": "Move to the most capable model"
+        "a": "Decide per workload: keep deeper reasoning where evals show gains, and route simple turns at low effort",
+        "b": "Disable thinking for the whole application, since it adds latency and cost to every single reply it sends",
+        "c": "Raise effort to `max` everywhere, so every turn gets the most careful answer possible",
+        "d": "Move to the most capable model, which answers simple turns quickly even at high effort"
       },
       "answer": [
         "a"
       ],
-      "explanation": "Thinking buys accuracy on multi-step problems and costs output tokens and latency everywhere else, so it's a per-workload choice backed by evals ({a}). {b} gives up the gains where they exist. {c} and {d} spend more on replies that didn't need it."
+      "explanation": "Reasoning buys accuracy on multi-step problems and costs output tokens and latency everywhere else, so depth is a per-workload choice backed by evals ({a}). {b} gives up the gains where they exist (and on some current models thinking can't be disabled at all). {c} and {d} spend more on replies that didn't need it."
     },
     {
-      "domain": "d2",
-      "stem": "Your test suite checks that the model's summary exactly equals a stored 'golden' string, and the tests keep flaking. What is a better approach?",
-      "options": {
-        "a": "Assert on structure and key facts (schema validity, required fields, the figures that must appear) or grade against a rubric",
-        "b": "Set temperature to 0 and keep exact string matching, since that makes outputs fully deterministic",
-        "c": "Retry each test until it matches",
-        "d": "Delete the flaky tests"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "Sampled outputs vary between runs, so tests should check what matters about an output instead of its exact wording ({a}). A temperature of 0 ({b}) reduces variation and still doesn't guarantee identical text. Retrying until a pass ({c}) hides real regressions, and deleting tests ({d}) removes the safety net."
-    },
-    {
-      "domain": "d2",
+      "domain": "d5",
       "stem": "An autocomplete feature must return short suggestions within a few hundred milliseconds, and the quality bar is modest. Which setup fits?",
       "options": {
         "a": "A fast-tier (Haiku-class) model with streaming and a small `max_tokens`",
-        "b": "A top-tier model with extended thinking",
-        "c": "The Batch API",
+        "b": "A top-tier model with extended thinking, so the suggestions are as good as possible",
+        "c": "The Batch API, which halves the cost of each suggestion request",
         "d": "A balanced-tier model with `max_tokens` of 32,000"
       },
       "answer": [
@@ -269,88 +342,30 @@
       "explanation": "Latency-critical, high-volume, bounded tasks are the fast tier's case ({a}). {b} adds the most latency of all the options. Batch ({c}) is asynchronous. {d} misses the latency target, and a huge output budget is pointless for short suggestions."
     },
     {
-      "domain": "d3",
-      "stem": "A team wants an autonomous agent to convert CSV exports into a fixed JSON layout. The column mapping never changes. What is the best approach?",
-      "options": {
-        "a": "A deterministic script, or a single model call with a schema if some fields need interpretation, with no agent loop",
-        "b": "An Agent SDK agent with file tools",
-        "c": "A manager agent with three subagents",
-        "d": "An orchestration framework with a state graph"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "Apply the four-question test: the task isn't complex, its path is fully known, and code can avoid errors cheaply, so autonomy only adds cost and unpredictability ({a}). {b}, {c} and {d} each add machinery the problem doesn't need."
-    },
-    {
-      "domain": "d3",
-      "stem": "Which TWO things does the Claude Agent SDK give you that you would otherwise build yourself in a custom loop? (Select TWO)",
-      "options": {
-        "a": "The agent loop with built-in tools for files, shell commands and search",
-        "b": "Context management, plus hooks and permissions for deterministic control",
-        "c": "A hosted vector database for retrieval",
-        "d": "Automatic fine-tuning on your traces",
-        "e": "A visual drag-and-drop workflow designer"
-      },
-      "answer": [
-        "a",
-        "b"
-      ],
-      "explanation": "The Agent SDK packages the same harness Claude Code runs on: the loop and built-in tools ({a}), plus context management, hooks, permissions and subagents ({b}). It doesn't host a vector database ({c}), fine-tune models ({d}) or provide a visual designer ({e})."
-    },
-    {
-      "domain": "d3",
-      "stem": "A bank's agent must keep all code execution and data inside its own network for data-residency rules. A startup wants the fastest path to production. Which deployment fits each?",
-      "options": {
-        "a": "Self-hosted for the bank, managed for the startup",
-        "b": "Managed for both",
-        "c": "Self-hosted for both",
-        "d": "Managed for the bank, self-hosted for the startup"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "Residency and custom-runtime requirements point to self-hosted execution, and speed to production points to a managed deployment where the provider runs the loop and the sandbox ({a}). {b} puts the bank's data outside its network. {c} slows the startup down for a requirement it doesn't have. {d} reverses both."
-    },
-    {
-      "domain": "d3",
-      "stem": "An agent must summarize 12 long PDFs independently, then write a comparison across them. The single-agent version runs out of context. What is the best design?",
-      "options": {
-        "a": "An orchestrator gives each PDF to a subagent with its own context, runs them in parallel, and writes the comparison from their summaries",
-        "b": "One agent reads all 12 PDFs in sequence in a single context",
-        "c": "Raise `max_tokens` on the single agent",
-        "d": "Twelve agents that send their findings to each other directly"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "The summaries are independent subtasks, so isolated subagent contexts fit, and only compact reports return to the orchestrator ({a}). {b} is the design that already failed. `max_tokens` ({c}) limits output, and the problem is input. Agents talking to each other directly ({d}) remove the coordinator that merges results and isolates failures."
-    },
-    {
-      "domain": "d4",
+      "domain": "d6",
       "stem": "You pass a 50-page contract and ask detailed questions about it. Answers sometimes miss relevant clauses. Which prompt structure follows Anthropic's long-context guidance?",
       "options": {
-        "a": "The contract first, wrapped in tags such as `<contract>`, then the instructions and question at the end, optionally asking Claude to quote the relevant clauses before answering",
-        "b": "The question first, then the contract",
-        "c": "The question in the middle of the contract",
-        "d": "The contract twice, once before and once after the question"
+        "a": "The contract first, in tags such as `<contract>`, then the instructions and question at the end",
+        "b": "The question first, so Claude knows what to look for, then the contract",
+        "c": "The question in the middle of the contract, next to the clauses it is about",
+        "d": "The contract twice, once before and once after the question, so that no clause in it is missed"
       },
       "answer": [
         "a"
       ],
-      "explanation": "Anthropic recommends putting long documents at the top and the query at the end, and reports up to 30% better responses in tests with complex inputs; asking for supporting quotes first also helps Claude focus ({a}). {b} and {c} go against that guidance. {d} doubles the cost and the noise."
+      "explanation": "Anthropic recommends putting long documents at the top and the query at the end, and reports up to 30% better responses in tests with complex inputs; the tags keep the document separate from the instructions ({a}). {b} and {c} go against that guidance, and {d} doubles the cost and the noise. Asking Claude to quote the relevant clauses before answering also helps it focus."
     },
     {
-      "domain": "d4",
+      "domain": "d6",
       "stem": "Your code forced JSON output by prefilling the assistant turn with an opening brace. After moving to a newer model, requests with the prefilled last assistant turn return a 400 error. What is the recommended replacement?",
       "code": {
         "lang": "python",
         "text": "messages = [\n    {\"role\": \"user\", \"content\": f\"Extract the fields from: {doc}\"},\n    {\"role\": \"assistant\", \"content\": \"{\"},   # prefill\n]"
       },
       "options": {
-        "a": "Structured outputs: send the JSON schema in `output_config.format` and remove the prefill",
-        "b": "Prefill with an opening square bracket instead",
-        "c": "Add 'respond only in JSON' and extract the first {...} block with a regex",
+        "a": "Structured outputs: put the JSON schema in `output_config.format` and drop the prefill",
+        "b": "Prefill with an opening square bracket instead, which the newer models still accept",
+        "c": "Add 'respond only in JSON' to the prompt and extract the first {...} block with a regex",
         "d": "Stay on the older model permanently"
       },
       "answer": [
@@ -359,12 +374,12 @@
       "explanation": "Starting with the Claude 4.6 models, a prefilled last assistant turn is rejected, and Anthropic's migration guidance for format control points to structured outputs ({a}). {b} is still a prefill. {c} goes back to probabilistic formatting with fragile parsing. {d} blocks every future upgrade."
     },
     {
-      "domain": "d4",
+      "domain": "d6",
       "stem": "Which TWO practices make a few-shot prompt for a tricky classification more reliable? (Select TWO)",
       "options": {
         "a": "Two to four varied examples, including one the model should correctly reject",
         "b": "Examples wrapped in tags such as `<example>`, clearly separated from the input to classify",
-        "c": "Fifty near-identical examples",
+        "c": "Fifty near-identical examples, so that the model sees the same pattern many times over",
         "d": "Examples that all share the same label",
         "e": "Examples that contradict the instructions, to test robustness"
       },
@@ -375,72 +390,44 @@
       "explanation": "A small, varied set with a negative case teaches the boundary ({a}), and clear separation keeps the model from mixing examples with the real input ({b}). Near-identical examples ({c}) and single-label sets ({d}) teach a narrow pattern. Contradictory examples ({e}) teach the model to ignore your instructions."
     },
     {
-      "domain": "d5",
-      "stem": "Which statement about server-side tools such as web search is correct?",
+      "stem": "A benefits assistant receives three HR policy documents in every request. When employees ask about benefits the policies don't mention, it still answers with confident specifics. Which request design fixes this?",
       "options": {
-        "a": "They run on Anthropic's infrastructure, so your code doesn't execute them or send `tool_result` blocks for them",
-        "b": "Your application must implement and execute them",
-        "c": "They're available only through MCP",
-        "d": "They work only in the Batch API"
+        "a": "Use cited policy documents, require a cited passage per answer, and allow 'not covered in the policies'",
+        "b": "Add the whole company intranet to the context, so that far more of the employees' questions are covered",
+        "c": "Ask the model to add a confidence score to each answer, and show low-confidence answers with a warning",
+        "d": "Switch to structured outputs with a required `answer` field, so every reply has the same shape"
       },
       "answer": [
         "a"
       ],
-      "explanation": "Server tools execute on Anthropic's side, and their results come back inside the response ({a}). Client tools are the ones your code runs ({b}). Server tools are declared in the tools parameter like any other tool ({c}), and they work in regular requests ({d})."
+      "explanation": "Grounding needs a source to cite and permission to say the answer isn't there ({a}). More context ({b}) moves the boundary without teaching the model to stop at it. A self-reported confidence score ({c}) isn't verification. A required `answer` field ({d}) forces an answer even when there isn't one, and citations can't be combined with structured outputs in one request.",
+      "domain": "d6"
     },
     {
-      "domain": "d5",
-      "stem": "Your company's quarterly-report procedure is 12 steps with templates and formatting rules. Teams want Claude to follow it in claude.ai, Claude Code and the API. No new external system is involved. Which mechanism fits?",
-      "options": {
-        "a": "A Skill: packaged instructions and templates that load when the task matches",
-        "b": "A custom tool",
-        "c": "An MCP server",
-        "d": "A fine-tuned model"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "The need is know-how and workflow steps, which is what Skills package ({a}). Tools ({b}) and MCP servers ({c}) add actions or data access, and nothing here needs a new action or data source. Fine-tuning ({d}) is heavy machinery for a procedure that fits in a document."
-    },
-    {
-      "domain": "d5",
-      "stem": "An agent calls `create_shipment` with inputs that sometimes have the wrong type (weight as a string) or miss required fields, which breaks your handler. Which API feature addresses this at the source?",
-      "options": {
-        "a": "`strict: true` on the tool definition, so tool inputs follow the `input_schema`",
-        "b": "A longer tool description",
-        "c": "`tool_choice` set to `auto`",
-        "d": "A lower temperature"
-      },
-      "answer": [
-        "a"
-      ],
-      "explanation": "Strict tool use applies schema validation to the tool's inputs ({a}). A better description ({b}) helps the model pick and fill the tool and still guarantees nothing. `auto` ({c}) is the default and changes nothing. Temperature ({d}) affects variation and can't guarantee types."
-    },
-    {
-      "domain": "d6",
+      "domain": "d7",
       "stem": "A research agent reads web pages. One page hides text telling the agent to email the user's files to an outside address, and the agent has a `send_email` tool. Which TWO controls most directly reduce this risk? (Select TWO)",
       "options": {
-        "a": "Scope tools by least privilege: the research agent gets no `send_email` tool, or outbound email requires human approval",
+        "a": "Least-privilege tools: no `send_email` tool for the research agent, or human approval on outbound email",
         "b": "A deterministic gate in code that blocks or holds any action sending data to an external address",
-        "c": "A system-prompt line telling the agent to ignore malicious instructions, as the only defense",
-        "d": "A larger model",
-        "e": "A higher temperature"
+        "c": "A system-prompt line telling the agent to ignore malicious instructions, as the only defense it relies on",
+        "d": "A larger model, which is better at spotting hidden instructions in web pages",
+        "e": "A lower effort level, so the agent carries out fewer multi-step instructions"
       },
       "answer": [
         "a",
         "b"
       ],
-      "explanation": "Content the agent reads is an untrusted channel, so the strongest controls limit what an injected instruction can do: no dangerous capability ({a}) and a programmatic check on risky actions ({b}). A prompt instruction on its own ({c}) is probabilistic. Model size ({d}) and temperature ({e}) aren't security controls."
+      "explanation": "Content the agent reads is an untrusted channel, so the strongest controls limit what an injected instruction can do: no dangerous capability ({a}) and a programmatic check on risky actions ({b}). A prompt instruction on its own ({c}) is probabilistic. Model size ({d}) and effort ({e}) aren't security controls."
     },
     {
-      "domain": "d6",
+      "domain": "d7",
       "stem": "A developer put the production API key into a system-prompt template in the repository 'so the agent can call internal APIs.' Which TWO steps fix this? (Select TWO)",
       "options": {
         "a": "Rotate the key, and store secrets in environment variables or a secret manager",
         "b": "Have your tool code authenticate to the internal APIs, so the model never sees the credential",
-        "c": "Base64-encode the key in the template",
-        "d": "Tell the model never to reveal the key",
-        "e": "Move the key to the end of the prompt"
+        "c": "Base64-encode the key in the template so it isn't readable in plain text",
+        "d": "Tell the model in the system prompt never to reveal the key to anyone who asks for it",
+        "e": "Move the key to the end of the prompt, where users are less likely to see it"
       },
       "answer": [
         "a",
@@ -449,13 +436,13 @@
       "explanation": "A key in a repository and a prompt is already exposed, so it gets rotated and stored properly ({a}), and credentials belong in the code that executes tools, outside the model's context ({b}). Encoding ({c}) is trivially reversed, an instruction ({d}) is probabilistic, and moving the key ({e}) keeps it in the prompt."
     },
     {
-      "domain": "d6",
+      "domain": "d7",
       "stem": "An internal HR assistant answers every employee's questions using one service account that can read all employee records. A junior employee asked about a colleague's salary and got an answer. What is the root fix?",
       "options": {
-        "a": "Run lookups with the calling user's identity and permissions, and log each tool call against that user",
-        "b": "Add a system-prompt rule: 'Never reveal salaries'",
-        "c": "Remove salary data from the HR system",
-        "d": "Filter out responses that contain the word 'salary'"
+        "a": "Run lookups with the calling user's identity and permissions, and log each call against that user",
+        "b": "Add a system-prompt rule, 'Never reveal salaries', and repeat it to the model at the start of every turn",
+        "c": "Remove salary data from the HR system that the assistant's service account can read",
+        "d": "Filter out any response that contains the word 'salary' before it reaches the employee"
       },
       "answer": [
         "a"
@@ -463,32 +450,46 @@
       "explanation": "The shared over-privileged account erased per-user authorization and the audit trail, and acting as the caller restores both ({a}). {b} is a probabilistic patch. {c} breaks legitimate HR work. A keyword filter ({d}) is easy to get around and blocks legitimate answers."
     },
     {
-      "domain": "d7",
-      "stem": "Which files should hold a team's shared Claude Code permission rules (for example, allowing `Bash(npm run test *)`) and one developer's personal overrides for the same project?",
+      "domain": "d8",
+      "stem": "Which statement about server-side tools such as web search is correct?",
       "options": {
-        "a": "`.claude/settings.json`, committed, for the team; `.claude/settings.local.json`, gitignored, for the developer",
-        "b": "`~/.claude/settings.json` for the team; `.claude/settings.json` for the developer",
-        "c": "`CLAUDE.md` for both",
-        "d": "`.mcp.json` for the team; `CLAUDE.local.md` for the developer"
+        "a": "They run on Anthropic's infrastructure, so your code doesn't execute them or return `tool_result` blocks",
+        "b": "Your application must implement and execute them, then return their results as `tool_result` blocks",
+        "c": "They're available only through MCP, so each one needs an MCP server configured for it",
+        "d": "They work only in the Batch API, because their results take longer to produce than a normal request allows"
       },
       "answer": [
         "a"
       ],
-      "explanation": "The project settings file is shared through version control, and the local settings file holds personal overrides for that project without being committed ({a}). User-level settings ({b}) apply to one person across all projects. `CLAUDE.md` files ({c}, {d}) hold instructions, while permissions are enforced from settings files, and `.mcp.json` configures MCP servers."
+      "explanation": "Server tools execute on Anthropic's side, and their results come back inside the response ({a}). Client tools are the ones your code runs ({b}). Server tools are declared in the tools parameter like any other tool ({c}), and they work in regular requests ({d})."
     },
     {
       "domain": "d8",
-      "stem": "After you add a new tool named `get order status`, every request returns 400 `invalid_request_error`. What is the first move?",
+      "stem": "Your company's quarterly-report procedure is 12 steps with templates and formatting rules. Teams want Claude to follow it in claude.ai, Claude Code and the API. No new external system is involved. Which mechanism fits?",
       "options": {
-        "a": "Fix the request: tool names may contain only letters, digits, underscores and hyphens, so rename it (for example, `get_order_status`)",
-        "b": "Retry with exponential backoff",
-        "c": "Switch to a different model",
-        "d": "Rewrite the system prompt"
+        "a": "A Skill: packaged instructions and templates that load when the task matches",
+        "b": "A custom tool that returns the procedure's steps when Claude calls it",
+        "c": "An MCP server that serves the templates to Claude, claude.ai, and the API",
+        "d": "A fine-tuned model trained on the past quarterly reports and on their templates"
       },
       "answer": [
         "a"
       ],
-      "explanation": "A 400 is a client error caused by the request itself, and the tool name breaks the documented pattern `^[a-zA-Z0-9_-]{1,128}$` ({a}). Retries ({b}) repeat the same invalid request. The model ({c}) and the prompt ({d}) play no part in request validation."
+      "explanation": "The need is know-how and workflow steps, which is what Skills package ({a}). Tools ({b}) and MCP servers ({c}) add actions or data access, and nothing here needs a new action or data source. Fine-tuning ({d}) is heavy machinery for a procedure that fits in a document."
+    },
+    {
+      "domain": "d8",
+      "stem": "An agent calls `create_shipment` with inputs that sometimes have the wrong type (weight as a string) or miss required fields, which breaks your handler. Which API feature addresses this at the source?",
+      "options": {
+        "a": "`strict: true` on the tool definition, so tool inputs follow the `input_schema`",
+        "b": "A longer, more detailed tool description that explains each of the fields and its type",
+        "c": "`tool_choice` set to `auto`, so the model decides when to call the tool",
+        "d": "A higher effort level, so the model checks its tool inputs more carefully"
+      },
+      "answer": [
+        "a"
+      ],
+      "explanation": "Strict tool use applies schema validation to the tool's inputs ({a}). A better description ({b}) helps the model pick and fill the tool and still guarantees nothing. `auto` ({c}) is the default and changes nothing. More effort ({d}) changes how much the model reasons and still can't guarantee types."
     }
   ]
 }

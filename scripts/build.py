@@ -2,7 +2,7 @@
 """Build the generated files from the question banks in practice/*.json.
 
     <exam>/practice-questions.md   one page per exam, answers folded under each question
-    docs/index.html                the practice test (served by GitHub Pages from /docs)
+    docs/index.html                the practice test: one HTML file that runs offline in any browser
 
 Run from anywhere, no dependencies:  python3 scripts/build.py
 
@@ -17,10 +17,9 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-EXAMS = ["ccao-f", "ccdv-f", "cca-f", "ccar-p"]
+EXAMS = ["ccao-f", "ccdv-f", "ccdv-p", "cca-f", "ccar-p"]
 LETTERS = "ABCDE"
 REPO = "https://github.com/preporato/claude-certification-guide"
-PAGES = "https://preporato.github.io/claude-certification-guide/"
 WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight"}
 
 
@@ -112,18 +111,18 @@ def render_markdown(bank, questions):
         f"# {code} practice questions",
         "",
         f"{len(questions)} practice questions for **{bank['name']}** ({code}), written for this repo and spread across the exam's {WORDS.get(n_domains, n_domains)} domains by their official weights. "
-        f"{multi} of them ask for more than one answer, as about a quarter of the real exam's questions do; those count only when every choice is right.",
+        f"{multi} of them ask for more than one answer, as some of the real exam's questions do (each item says how many to pick); those count only when every choice is right.",
         "",
     ]
     if scenarios:
         lines += [
-            f"The first {sum(1 for q in questions if q['scenario'])} questions are attached to production scenarios, the way the real exam groups its questions (each sitting draws four of six scenarios).",
+            f"The first {sum(1 for q in questions if q['scenario'])} questions are grouped under two practice scenarios written for this repo, the way the real exam groups its questions; the exam itself presents four of the six scenarios in its official guide, picked at random.",
             "",
         ]
     lines += [
         "Choose your answer before you open the explanation.",
         "",
-        f"**Prefer a timed run?** The [practice test]({PAGES}#{exam}) has the same questions, scores every domain, and runs in your browser.",
+        f"**Want a timed run?** The [{code} page on Preporato]({bank['cert_page']}) has free sample questions and full-length timed practice tests in the exam's format, with a score for every domain.",
         "",
         "| Domain | Exam weight | Questions here |",
         "|---|---|---|",
@@ -179,7 +178,7 @@ def render_markdown(bank, questions):
         anchor = anchors[i] if i < len(anchors) else ""
         lines.append(f"  - [{d['name']}](./guide.md#{anchor})")
     lines += [
-        f"- **Practice at full length.** The [{code} page on Preporato]({bank['cert_page']}) has free sample questions and six full-length timed practice tests (paid) in the exam's format, with a score for every domain.",
+        f"- **Practice at full length.** The [{code} page on Preporato]({bank['cert_page']}) has free sample questions and full-length timed practice tests (paid) in the exam's format, with a score for every domain.",
         "",
         "Found a mistake in a question? [Open an issue](" + REPO + "/issues/new?template=outdated-fact.yml) and we'll fix it.",
         "",

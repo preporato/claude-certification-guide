@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Claude certification practice test: CCAO-F, CCDV-F, CCA-F, CCAR-P</title>
-<meta name="description" content="Practice questions for the four Anthropic Claude certifications, with explanations and a score for every exam domain. From the open-source Claude Certification Guide.">
+<title>Claude certification practice test: CCAO-F, CCDV-F, CCDV-P, CCA-F, CCAR-P</title>
+<meta name="description" content="Practice questions for the five Anthropic Claude certifications, with explanations and a score for every exam domain. From the open-source Claude Certification Guide.">
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -234,10 +234,10 @@ pre { background: #0B0B0C; color: #E9E9E9; font: 500 13px/1.55 var(--mono); padd
     stopTimer();
     S = null;
     setTop(null);
-    document.title = "Claude certification practice test: CCAO-F, CCDV-F, CCA-F, CCAR-P";
+    document.title = "Claude certification practice test: CCAO-F, CCDV-F, CCDV-P, CCA-F, CCAR-P";
     app.innerHTML =
       '<h1>Practice for your Claude certification</h1>' +
-      '<p class="lead">30 questions for each of Anthropic’s four certification exams, written in the exam’s style, with an explanation for every answer. ' +
+      '<p class="lead">30 questions for each of Anthropic’s five certification exams, written in the exam’s style, with an explanation for every answer. ' +
       'Practice at your own pace, or take a timed run and get a score for every domain.</p>' +
       '<div class="grid">' + BANKS.map(card).join("") + '</div>' +
       '<p class="note">Your results link each weak domain to its notes in the <a href="' + REPO + '">study guides</a>. Best scores are saved in this browser only.</p>';
@@ -275,8 +275,8 @@ pre { background: #0B0B0C; color: #E9E9E9; font: 500 13px/1.55 var(--mono); padd
         '<button class="btn btn-dark btn-grow" data-start="' + b.id + '" data-mode="timed">Timed test (' + b.minutes + ' minutes)</button>' +
         '<button class="btn btn-ghost btn-grow" data-start="' + b.id + '" data-mode="practice">Practice with explanations</button>' +
       '</div>' +
-      '<p class="note">The real exam has ' + b.exam.questions + ' questions in ' + b.exam.minutes + ' minutes, so the timed run keeps the same pace of two minutes a question. ' +
-      '<a href="./">All four exams</a></p>' +
+      '<p class="note">The real exam has ' + b.exam.questions + ' questions' + (b.exam.scored && b.exam.scored < b.exam.questions ? ' (' + b.exam.scored + ' scored)' : '') + ' in ' + b.exam.minutes + ' minutes, and the timed run keeps the same pace. ' +
+      '<a href="./">All ' + BANKS.length + ' exams</a></p>' +
     '</div>';
   }
 

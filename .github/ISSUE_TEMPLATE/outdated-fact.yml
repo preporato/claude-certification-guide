@@ -15,7 +15,8 @@ body:
       options:
         - CCAO-F (Associate - Foundations)
         - CCDV-F (Developer - Foundations)
-        - CCA-F (Architect - Foundations)
+        - CCDV-P (Developer - Professional)
+        - CCA-F / CCAR-F (Architect - Foundations)
         - CCAR-P (Architect - Professional)
         - All exams / root README
     validations:
